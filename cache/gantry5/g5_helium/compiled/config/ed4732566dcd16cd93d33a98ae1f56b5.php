@@ -301,7 +301,7 @@ return [
                     1 => [
                         'icon' => 'fa fa-facebook fa-fw',
                         'text' => '',
-                        'link' => 'https://www.facebook.com/airbag.srsairbag',
+                        'link' => 'https://www.facebook.com/airbagua.service',
                         'name' => 'Facebook'
                     ],
                     2 => [
