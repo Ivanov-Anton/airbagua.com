@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="file" version="2.0" method="upgrade" client="site">
+    <name>SP Page Builder 2.4- ru-RU</name>
+    <version>2.4</version>
+    <creationDate>2017-03-13</creationDate>
+    <description>Русский языковой пакет (administrator) для SP Page Builder 2.4</description>
+	<fileset>
+		<files folder="admin" target="administrator/language/ru-RU">
+			<filename>ru-RU.com_sppagebuilder.ini</filename>
+			<filename>ru-RU.com_sppagebuilder.sys.ini</filename>
+			<filename>ru-RU.mod_sppagebuilder_admin_menu.ini</filename>
+			<filename>ru-RU.mod_sppagebuilder_admin_menu.sys.ini</filename>
+			<filename>ru-RU.mod_sppagebuilder_icons.ini</filename>
+			<filename>ru-RU.mod_sppagebuilder_icons.sys.ini</filename>
+			</files>
+		<files folder="site" target="language/ru-RU">
+			<filename>ru-RU.com_sppagebuilder.ini</filename>
+		</files>
+	</fileset>
+</extension>

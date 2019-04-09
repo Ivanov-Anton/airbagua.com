@@ -1,0 +1,195 @@
+version: 2
+preset:
+  image: 'gantry-admin://images/layouts/default.png'
+  name: default
+  timestamp: 1522481244
+layout:
+  /navigation/:
+    -
+      - system-messages-7972
+    -
+      - 'date-6625 25'
+      - 'custom-9435 50'
+      - 'social-3171 25'
+    -
+      - 'logo-9608 25'
+      - 'custom-9307 50'
+      - 'position-position-7102 25'
+    -
+      - spacer-9274
+    -
+      - menu-3134
+    -
+      - spacer-3896
+  /header/: {  }
+  /intro/: {  }
+  /features/: {  }
+  /utility/: {  }
+  /above/: {  }
+  /testimonials/: {  }
+  /expanded/: {  }
+  /container-main/:
+    -
+      -
+        'aside 25':
+          -
+            - position-position-4734
+      -
+        'mainbar 50':
+          -
+            - system-content-1587
+      -
+        'sidebar 25': {  }
+  /footer/:
+    -
+      - 'logo-9571 10'
+      - 'copyright-1736 15'
+      - 'custom-9674 20'
+      - 'horizontalmenu-9034 45'
+      - 'totop-8670 10'
+  /offcanvas/:
+    -
+      - mobile-menu-5697
+structure:
+  navigation:
+    type: section
+    attributes:
+      boxed: ''
+      class: top-bg
+  header:
+    attributes:
+      boxed: ''
+      class: ''
+  intro:
+    type: section
+    attributes:
+      boxed: ''
+  features:
+    type: section
+    attributes:
+      boxed: ''
+  utility:
+    type: section
+    attributes:
+      boxed: ''
+      class: ''
+  above:
+    type: section
+    attributes:
+      boxed: ''
+  testimonials:
+    type: section
+    attributes:
+      boxed: ''
+  expanded:
+    type: section
+    attributes:
+      boxed: ''
+  aside:
+    attributes:
+      class: ''
+    block:
+      fixed: '1'
+  mainbar:
+    type: section
+    subtype: main
+  sidebar:
+    type: section
+    subtype: aside
+    attributes:
+      class: ''
+    block:
+      fixed: '1'
+  container-main:
+    attributes:
+      boxed: ''
+  footer:
+    attributes:
+      boxed: ''
+  offcanvas:
+    attributes:
+      boxed: ''
+content:
+  date-6625:
+    attributes:
+      css:
+        class: date
+      date:
+        formats: 'l j F Y'
+  custom-9435:
+    title: 'Custom HTML'
+    attributes:
+      html: 'Киев: <a href="tel:+380965941828" class="white"><i class="fa fa-phone"></i>  +38 (096) 594-18-28</a><br>Одесса: <a href="tel:+380970900766" class="white"><i class="fa fa-phone"></i>  +38 (097) 090-07-66 </a> <br>Одесса: <a href="tel:+380968222843" class="white"><i class="fa fa-phone"></i>  +38 (096) 822-28-43</a>'
+    block:
+      class: center
+  social-3171:
+    block:
+      class: g-social-header
+  logo-9608:
+    title: 'Logo / Image'
+    attributes:
+      url: /
+      target: _self
+      image: 'gantry-media://AirbagUA_logo_top.png'
+      link: '1'
+      svg: ''
+      class: center
+    block:
+      class: center
+  custom-9307:
+    title: 'Custom HTML'
+    attributes:
+      html: "AirBagUa - Ремонт и восстановление подушек безопасности Airbag\n"
+    block:
+      class: 'center slogan'
+  position-position-7102:
+    title: 'Module Position'
+    attributes:
+      key: search
+  menu-3134:
+    block:
+      class: center
+  position-position-4734:
+    title: Aside
+    attributes:
+      key: aside
+  logo-9571:
+    title: 'Logo / Image'
+    attributes:
+      url: /
+      target: _self
+      image: 'gantry-media://AirbagUA_logo_top.png'
+      link: '1'
+      svg: ''
+  copyright-1736:
+    attributes:
+      additional:
+        text: ''
+  custom-9674:
+    title: 'Custom HTML'
+    attributes:
+      html: 'Киев: <a href="tel:+380965941828" class="white"><i class="fa fa-phone"></i>  +38 (096) 594-18-28</a><br>Одесса: <a href="tel:+380970900766" class="white"><i class="fa fa-phone"></i>  +38 (097) 090-07-66 </a> <br>Одесса: <a href="tel:+380968222843" class="white"><i class="fa fa-phone"></i>  +38 (096) 822-28-43</a>'
+    block:
+      class: g-copyright
+  horizontalmenu-9034:
+    title: 'Horizontal Menu'
+    attributes:
+      items:
+        -
+          text: 'О компании'
+          link: /o-kompanii
+          name: 'О нас'
+        -
+          text: Услуги
+          link: /uslugi
+          name: Услуги
+        -
+          text: Информация
+          link: /informatsiya
+          name: Информация
+        -
+          text: Контакты
+          link: /kontakty
+          name: Контакты
+  totop-8670:
+    title: 'To Top'

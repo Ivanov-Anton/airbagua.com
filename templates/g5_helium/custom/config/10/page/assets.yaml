@@ -1,0 +1,7 @@
+css:
+  -
+    location: ''
+    inline: ".slogan{font-size:36px;line-height:40px;}\na.white{color:white;}\nsection#g-navigation {background-position-y:bottom!important; background-position-x: center!important; background-image: url(/templates/g5_helium/custom/images/header/AirbagUA_logo.png)!important;\n    background-size: cover!important;\n    background-repeat: no-repeat!important;\n}\n.g-owlcarousel.has-color-overlay .owl-stage > .owl-item:nth-child(even) .g-owlcarousel-item-img:after, .g-owlcarousel.has-color-overlay .owl-stage > .owl-item:nth-child(odd) .g-owlcarousel-item-img:after {opacity: 0.2!important;}\n.h350 h2.sppb-addon-title.sppb-feature-box-title {min-height: 70px;}\n.page-header h2 {\n    line-height: 1;\n    min-height: 100px;\n}"
+    extra: {  }
+    priority: '0'
+    name: custom

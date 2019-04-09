@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.5" type="plugin" group="sh404sefextplugins"	method="upgrade">
+	<name>sh404sef - Sample component support plugin</name>
+	<author>Yannick Gaultier</author>
+	<creationDate>2015-04-06</creationDate>
+	<copyright>2015 Yannick Gaultier</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>welcome@weeblr.com</authorEmail>
+	<authorUrl>https://weeblr.com</authorUrl>
+	<version>1.0.1</version>
+	<description>Sample sh404SEF plugin for sef urls</description>
+	<files>
+		<filename plugin="com_sample">com_sample.php</filename>
+		<folder plugin="com_sample">sample</folder>
+	</files>
+</extension>

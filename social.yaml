@@ -1,0 +1,22 @@
+enabled: '1'
+css:
+  class: ''
+title: ''
+target: _blank
+display: both
+items:
+  -
+    icon: 'fa fa-envelope'
+    text: ''
+    link: 'airbagsua@gmail.com'
+    name: Gmail
+  -
+    icon: 'fa fa-facebook fa-fw'
+    text: ''
+    link: 'https://www.facebook.com/airbagua.service'
+    name: Facebook
+  -
+    icon: 'fa fa-instagram'
+    text: ''
+    link: 'https://www.instagram.com/airbagua_service'
+    name: Instagram

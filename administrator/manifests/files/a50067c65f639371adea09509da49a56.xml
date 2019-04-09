@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="file" method="upgrade">
+	<name>a50067c65f639371adea09509da49a56</name>
+	<author>JoomLang</author>
+	<authorEmail>pochta@joomlang.ru</authorEmail>
+	<authorUrl>http://www.joomlang.ru</authorUrl>
+	<creationDate>04/10/2015</creationDate>
+	<copyright>Copyright © 2012 -2015 www.joomlang.ru. Все права защищены.</copyright>
+	<license>GNU/GPL v2</license>
+	<version>3.0.8v2</version>
+	<description>Русификатор Simple Image Gallery Pro 3.0.8</description>
+	<scriptfile>script.php</scriptfile>
+	<fileset></fileset>
+</extension>

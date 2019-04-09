@@ -1,0 +1,11 @@
+enabled: '1'
+date:
+  start: '2012'
+  end: now
+owner: AirBagUa
+link: ''
+target: _parent
+additional:
+  text: 'Создание и продвижение сайта<br />веб-студия <a href="https://supershop.od.ua" target="blank" class="white">SuperShop</a>'
+css:
+  class: ''
