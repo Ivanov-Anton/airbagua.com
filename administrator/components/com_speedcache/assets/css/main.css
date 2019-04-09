@@ -1,0 +1,468 @@
+/**
+ * Speedcache
+ *
+ * We developed this code with our hearts and passion.
+ * We hope you found it useful, easy to understand and to customize.
+ * Otherwise, please feel free to contact us at contact@joomunited.com *
+ * @package Speedcache
+ * @copyright Copyright (C) 2016 JoomUnited (https://www.joomunited.com). All rights reserved.
+ * @license GNU General Public License version 2 or later; http://www.gnu.org/licenses/gpl-2.0.html
+ */
+@import 'https://fonts.googleapis.com/css?family=Open+Sans';
+
+#dashboard {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1440px;
+    font-family: 'Open Sans', sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#dashboard .message {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 1px;
+    margin: 2em 0;
+    padding: 1em;
+    background-color: #2196F3;
+    color: #FFF;
+    font-size: 1.5em;
+}
+
+#dashboard .message.message-success {
+    background-color: #00897b;
+}
+
+#dashboard .message.message-error {
+    background-color: #EF5350;
+}
+
+#dashboard .block {
+    float: left;
+    left: auto;
+    right: auto;
+    width: 33.3333333333%;
+    margin-left: auto;
+    box-sizing: border-box;
+}
+
+.buttons_links .block {
+    width: 20% !important;
+}
+
+#dashboard .block .content {
+    margin: 0.3rem;
+    padding: 0.75rem;
+    background-color: #2196F3;
+    color: #FFF;
+    transition: box-shadow .25s;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 2px;
+}
+
+#dashboard div.block_content div.disabled {
+    opacity: 1;
+}
+
+#dashboard h3 {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#dashboard div.block div.content h3 {
+    padding-bottom: 5px;
+}
+
+#dashboard .buttons_links {
+    margin-bottom: 3em;
+}
+
+#dashboard .buttons_links a {
+    text-decoration: none;
+}
+
+#dashboard .buttons_links .content {
+    cursor: pointer;
+    will-change: opacity, transform;
+    transition: all .2s ease-out;
+}
+
+#dashboard .buttons_links .content:hover {
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+#dashboard .buttons_links .block .content {
+    text-align: center;
+}
+
+#dashboard .block .material-icons {
+    font-size: 4em;
+}
+
+#dashboard .hidden {
+    display: none;
+}
+
+#dashboard .block.error .content {
+    background-color: #444444;
+}
+
+#dashboard .block.ok .content {
+    background-color: #26A69A;
+}
+
+#dashboard .block.ok .content:hover,
+#dashboard .block.error .content:hover {
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+#dashboard .button-wrapper {
+    text-align: right;
+    line-height: 50px;
+}
+
+#dashboard .button-wrapper .material-button {
+    float: none !important;
+}
+
+.clear {
+    clear: both;
+}
+
+@media (max-width: 640px) {
+    #dashboard .block {
+        width: 100%;
+    }
+}
+
+#toolbar-speedcacheclearbtn,
+#toolbar-speedcachebackbtn {
+    float: right;
+}
+
+#toolbar-speedcacheclearbtn .icon-speedcacheclearbtn,
+#toolbar-speedcachebackbtn .icon-speedcachebackbtn {
+    font-family: 'Material Icons';
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga" 1;
+    font-style: normal;
+    text-transform: none;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    line-height: 19px;
+}
+
+#toolbar-speedcacheclearbtn .icon-speedcacheclearbtn:after {
+    content: 'flash_on';
+}
+
+#toolbar-speedcachebackbtn .icon-speedcachebackbtn:after {
+    content: 'dashboard';
+}
+
+#toolbar-speedcacheclearbtn button,
+#toolbar-options button,
+#toolbar-speedcacheimportmenubtn button,
+#toolbar-speedcachebackbtn button,
+#toolbar-publish button,
+#toolbar-unpublish button,
+#toolbar-trash button,
+#toolbar-speedcacheselectmenubtn button,
+#toolbar-delete button,
+#toolbar-unguest button,
+#toolbar-guest button,
+#toolbar-logged button,
+#toolbar-unlogged button,
+#toolbar-preloadguest button,
+#toolbar-unpreloadguest button,
+#toolbar-preloadlogged button,
+#toolbar-unpreloadlogged button,
+#toolbar-preloaduser button,
+#toolbar-unpreloaduser button,
+#toolbar-excludeguest button,
+#toolbar-unexcludeguest button,
+#toolbar-excludelogged button,
+#toolbar-unexcludelogged button,
+#toolbar-cancel button,
+#toolbar-save button
+{
+    background: #2196f3 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #fff;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 4px 10px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: box-shadow 0.25s ease 0s;
+}
+#toolbar-addexcludeRules button,
+#toolbar-addexclude button,
+#toolbar-addincludeRules button{
+    width : 148px;
+    background: #378137 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #fff;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 4px 10px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: box-shadow 0.25s ease 0s;
+}
+
+#toolbar-speedcachebackbtn button:hover, #toolbar-speedcacheclearbtn button:hover, #toolbar-options button:hover, #toolbar-publish button:hover, #toolbar-unpublish button:hover, #toolbar-trash button:hover,
+#toolbar-speedcacheselectmenubtn button:hover, #toolbar-speedcacheimportmenubtn button:hover, #toolbar-delete button:hover, #toolbar-unguest button:hover,
+#toolbar-guest button:hover,
+#toolbar-logged button:hover,
+#toolbar-unlogged button:hover,#toolbar-cancel button:hover,
+#toolbar-save button:hover,
+#toolbar-preloadguest button:hover,
+#toolbar-unpreloadguest button:hover,
+#toolbar-preloadlogged button:hover,
+#toolbar-unpreloadlogged button:hover,
+#toolbar-preloaduser button:hover,
+#toolbar-unpreloaduser button:hover,
+#toolbar-excludeguest button:hover,
+#toolbar-unexcludeguest button:hover,
+#toolbar-excludelogged button:hover,
+#toolbar-unexcludelogged button:hover,
+#toolbar-addexcludeRules button:hover,
+#toolbar-addexclude button:hover,
+#toolbar-addincludeRules button:hover{
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: #fff;
+}
+
+#toolbar-speedcacheimportmenubtn .icon-speedcacheimportmenubtn:before ,#toolbar-addincludeRules .icon-speedcacheimportmenubtn:before,#toolbar-addexclude .icon-speedcacheimportmenubtn:before,#toolbar-addexcludeRules .icon-speedcacheimportmenubtn:before{
+    content: "\2a";
+}
+
+#toolbar-speedcacheselectmenubtn .icon-speedcacheselectmenubtn:before {
+    content: "\2a";
+}
+
+#toolbar-speedcacheselectmenubtn {
+    display: none;
+}
+
+#toolbar-batch {
+    margin-left: 30px;
+}
+
+/* Menu item selection popup */
+
+.select-wrapper {
+    padding: 10px 0 10px 35px;
+}
+
+.select-wrapper a {
+    margin-right: 20px;
+}
+
+#sc-menu-items li > ul {
+    display: none;
+}
+
+#sc-menu-items li.expanded > ul {
+    display: block;
+}
+
+#sc-menu-items li.hasitems .title:before {
+    font-family: 'Material Icons';
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga" 1;
+    font-style: normal;
+    text-transform: none;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+#sc-menu-items li.hasitems > .title:before {
+    content: "keyboard_arrow_right";
+    font-size: 16px;
+}
+
+#sc-menu-items li.hasitems.expanded > .title:before {
+    content: "keyboard_arrow_down";
+}
+
+#sc-menu-items li {
+    list-style: none;
+    padding: 0px;
+    padding-left: 20px;
+    margin: 0px;
+    white-space: nowrap;
+    line-height: 18px;
+    position: relative;
+}
+
+#sc-menu-items li input[type="checkbox"] {
+    position: absolute;
+    top: -2px;
+}
+
+#sc-menu-items li span.check {
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: #FFF;
+    border: 1px solid #999;
+    padding: 0px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    top: -2px;
+}
+
+#sc-menu-items li .check.checked::before {
+    position: absolute;
+    vertical-align: middle;
+    color: transparent;
+    font-size: 0px;
+    content: "";
+    height: 0.3125rem;
+    width: 0.565rem;
+    background-color: transparent;
+    border-left: 0.1875rem solid transparent;
+    border-bottom: 0.1875rem solid transparent;
+    border-color: transparent;
+    left: 50%;
+    top: 50%;
+    margin-left: -0.325rem;
+    margin-top: -0.365rem;
+    display: block;
+    transform: rotate(-45deg);
+    transition: all 0.2s linear 0s;
+    width: 6px;
+    height: 3px;
+    margin-left: -4px;
+    margin-top: -4px;
+    border-width: 2px;
+    border-color: #555;
+}
+
+#sc-menu-items li a.title {
+    color: #333;
+    margin-left: 8px;
+}
+
+#sc-menu-items li a.title:hover,
+li a.title:focus {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#sc-menu-items li a.link:hover,
+li a.link:focus {
+    text-decoration: none;
+}
+
+.buttons-wrapper {
+    background-color: #FAFAFA;
+    height: 4em;
+    border-bottom: 1px solid #F1F1F1;
+}
+
+.material-button {
+    padding: 0.3rem 0.75rem;
+    color: #fff;
+    background-color: #2196F3;
+    transition: box-shadow .25s;
+    box-shadow: none;
+    border-radius: 2px;
+    float: right;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.material-button.blue {
+    color: #FFF;
+    background-color: #2196F3;
+}
+
+.material-button:hover,
+.material-button:focus {
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: #fff;
+}
+
+#count-wrapper {
+    line-height: 4em;
+    display: inline-block;
+    margin-left: 1em;
+}
+
+.tooltip {
+    font-size: 13px !important;
+}
+
+.chzn-drop .chzn-results .active-result {
+    text-align: left !important;
+    padding-left: 25px !important;
+}
+
+div#toolbar-custom.btn-wrapper a.btn.btn-small.sc_clearcache_link {
+    background: #2196f3 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #fff;
+    font-weight: bold;
+    margin: 0 10px;
+    /*padding: 4px 15px;*/
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: box-shadow 0.25s ease 0s;
+}
+
+#isisJsData .icon-unpublish:before,#isisJsData .icon-not-ok:before,#isisJsData .icon-eye-close:before,#isisJsData .icon-ban-circle:before,#isisJsData .icon-minus-sign:before,#isisJsData .btn-toolbar .icon-cancel:before {
+    color: #ffffff !important;
+}
+
+#isisJsData .icon-publish:before,#isisJsData .icon-save:before,#isisJsData .icon-ok:before,#isisJsData .icon-save-new:before,#isisJsData .icon-save-copy:before,#isisJsData .btn-toolbar .icon-copy:before {
+    color: #ffffff !important;
+}
+#toolbar-new button,#toolbar-apply button{
+    background: #378137 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #fff;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 4px 10px;
+    text-shadow: none;
+    text-transform: uppercase;
+    transition: box-shadow 0.25s ease 0s;
+}
+
+#toolbar-new button:hover, #toolbar-apply button:hover{
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: #fff;
+}
+
+.contentpane .display-add-button a{
+    margin-left: 20px;
+}
+#toolbar [class^="icon-"], #toolbar [class*=" icon-"]{
+    background-color: #2196f3 !important;
+    border-right : none !important;
+    margin : 0 !important;
+    width: 14px !important;
+}
+#toolbar .icon-new,#toolbar .icon-apply{
+    background-color: #378137 !important;
+}
+
+.specifictime{
+    display: none;
+}

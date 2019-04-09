@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="system" method="upgrade">
+    <name>SpeedCache Last</name>
+    <author>Joomunited</author>
+    <creationDate>May 2016</creationDate>
+    <copyright>Joomunited.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>contact@joomunited.com</authorEmail>
+    <authorUrl>www.joomunited.com</authorUrl>
+    <version>2.5.2</version>
+    <description>Joomunited's speed cache plugin</description>
+    <files>
+        <filename plugin="speedcache_last">speedcache_last.php</filename>
+    </files>
+    <config>
+
+    </config>
+</extension>

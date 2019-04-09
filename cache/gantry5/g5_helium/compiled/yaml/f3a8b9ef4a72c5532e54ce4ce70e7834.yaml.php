@@ -2,7 +2,7 @@
 return [
     '@class' => 'Gantry\\Component\\File\\CompiledYamlFile',
     'filename' => '/home/dobrod/airbagua.com/www/templates/g5_helium/config/default/page/body.yaml',
-    'modified' => 1547580536,
+    'modified' => 1552425395,
     'data' => [
         'doctype' => 'html',
         'attribs' => [

@@ -1,46 +1,48 @@
 <?php
 /**
- * @version     3.1.x
- * @package     Simple Image Gallery Pro
- * @author      JoomlaWorks - http://www.joomlaworks.net
- * @copyright   Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
- * @license     http://www.joomlaworks.net/license
+ * @version    3.6.x
+ * @package    Simple Image Gallery Pro
+ * @author     JoomlaWorks - https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
+ * @license    https://www.joomlaworks.net/license
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+/* Magnific Popup v1.1.0 released on 20/02/2016 */
 $relName = 'magnificpopup';
 $extraClass = 'magnificpopup';
 
-$stylesheets = array('magnific-popup.css?v=0.9.9');
+$stylesheets = array('https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.css');
 $stylesheetDeclarations = array();
-$scripts = array('jquery.magnific-popup.min.js?v=0.9.9');
+$scripts = array('https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js');
 
-if(!defined('PE_MAGNIFICPOPUP_LOADED')){
-	define('PE_MAGNIFICPOPUP_LOADED', true);
-	$scriptDeclarations = array('
-		jQuery.noConflict();
-		jQuery(function($) {
-			$(\'.sigProContainer\').each(function() {
-		        $(this).find(\'a.magnificpopup\').magnificPopup({
-		          type: \'image\',
-		          tLoading: \'Loading image #%curr%...\',
-		          gallery: {
-		            enabled: true,
-		            navigateByImgClick: true,
-		            preload: [0,1] // Will preload 0 - before current, and 1 after the current image
-		          },
-		          image: {
-		            tError: \'<a href="%url%">The image #%curr%</a> could not be loaded.\',
-		            titleSrc: function(item) {
-		              return item.el.attr(\'title\');
-		            }
-		          }
-		        });
-			});
-		});
-	');
+if (!defined('PE_MAGNIFICPOPUP_JS_LOADED')) {
+    define('PE_MAGNIFICPOPUP_JS_LOADED', true);
+    $scriptDeclarations = array('
+        (function($) {
+            $(document).ready(function() {
+	            $(\'.sigProContainer\').each(function() {
+	                $(this).find(\'a.magnificpopup\').magnificPopup({
+	                    type: \'image\',
+	                    tLoading: \'Loading image #%curr%...\',
+	                    gallery: {
+	                        enabled: true,
+	                        navigateByImgClick: true,
+	                        preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+	                    },
+	                    image: {
+	                        tError: \'<a href="%url%">The image #%curr%</a> could not be loaded.\',
+	                        titleSrc: function(item) {
+	                            return item.el.attr(\'title\');
+	                        }
+	                    }
+	                });
+	            });
+	        });
+	    })(jQuery);
+    ');
 } else {
-	$scriptDeclarations = array();
+    $scriptDeclarations = array();
 }

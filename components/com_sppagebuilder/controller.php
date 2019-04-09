@@ -40,6 +40,13 @@ class SppagebuilderController extends JControllerLegacy {
 	}
 
 	public function export(){
+		// check have access
+		$user = JFactory::getUser();
+		$authorised = $user->authorise('core.edit', 'com_sppagebuilder');
+		if (!$authorised) {
+			die('Restricted Access');
+		}
+
 		$input  = JFactory::getApplication()->input;
 		$template = $input->get('template','[]','RAW');
 		$filename = 'template'. rand(10000,99999);
@@ -90,6 +97,7 @@ class SppagebuilderController extends JControllerLegacy {
 
 	//Ajax
 	public function ajax() {
+		
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$format = strtolower($input->getWord('format'));

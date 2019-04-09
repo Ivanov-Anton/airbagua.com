@@ -6,8 +6,8 @@ blueprints/gantry/theme/admin.yaml	b0f2b75b7146342191a950e684cbb8f5
 blueprints/gantry/theme/details.yaml	dfdacb33d214d21c040018dcf0170049
 blueprints/menu/menu.yaml	97bfc9e993a9459303397d6be3a99cda
 blueprints/menu/menuitem.yaml	08be6856e2d7d9d5613bdfe578494eef
-css-compiled/joomla-g-admin.css	1a508223be25b9dbb42e4199a3330a24
-css-compiled/g-admin.css	4b5ddce6a78b321538a9409301675a35
+css-compiled/joomla-g-admin.css	aa445f4a851913f3d1c307067c534eb9
+css-compiled/g-admin.css	874553ca48055378fd99dcdeea0287d4
 yarn.lock	49303671836855391fac13e1f858f569
 scss/joomla-admin/_headers.scss	f807dbdebbe9feedc6232dc85b744b44
 scss/joomla-admin/_navbar.scss	61f9b5d985f34a4f86a60f62b5fdbcaa
@@ -137,7 +137,7 @@ templates/forms/fields/input/section-variations.html.twig	10b37edec8470843423425
 templates/forms/fields/input/search.html.twig	49443590fd2fc732fdc427bc03da2646
 templates/forms/fields/input/url.html.twig	eece05d977acc0db4b7a2f340402d637
 templates/forms/fields/input/week.html.twig	008bc924b8d684342ba012c8845ba6fc
-templates/forms/fields/input/imagepicker.html.twig	a87516c90143f5d933da6fe2098ac50f
+templates/forms/fields/input/imagepicker.html.twig	75322e3147168fac234df903f509eb25
 templates/forms/fields/input/month.html.twig	ab62b6f8db0c3834dda43735240392f7
 templates/forms/fields/input/image.html.twig	d5157189dcab63a47b8ec7c21a2f48c5
 templates/forms/fields/input/filepicker.html.twig	622501eadb8615957fa791a713c97e25

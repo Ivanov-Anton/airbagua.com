@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -57,7 +57,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -132,22 +132,110 @@ SpAddonsConfig::addonConfig(
 					'responsive' => true,
 					'max'=> 400,
 				),
-
-				// Video
+	
 				'url'=>array(
 					'type'=>'text',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_URL'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_URL_DESC'),
-					'std'=>'https://www.youtube.com/watch?v=BWLRMBrKH_c'
+					'std'=>'https://www.youtube.com/watch?v=BWLRMBrKH_c',
+					'depends'=>array(
+						array('mp4_enable', '!=', 1)
+					)
 				),
+
 				'hideinfo'=>array(
 					'type'=>'checkbox',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_HIDE_INFO'),
-					'values'=>array(
-						1=>JText::_('JYES'),
-						0=>JText::_('JNO'),
-					),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_HIDE_INFO_DESC'),
 					'std'=>0,
+					'depends'=>array(
+						array('mp4_enable', '!=', 1)
+					)
+				),
+
+				'no_cookie'=>array(
+					'type'=>'checkbox',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_NO_COOKIE'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_NO_COOKIE_DESC'),
+					'std'=>0,
+					'depends'=>array(
+						array('mp4_enable', '!=', 1)
+					)
+				),
+
+				// Mp4 Video
+				'mp4_enable'=>array(
+					'type'=>'checkbox',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_MP4_ENABLE'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_MP4_ENABLE_DESC'),
+					'std'=> 0,
+				),
+
+				'mp4_video'=>array(
+					'type'=>'media',
+					'format'=>'video',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_MP4'),
+					'depends'=>array(
+						array('mp4_enable', '!=', 0)
+					),
+					'std'=>'https://www.joomshaper.com/media/videos/2017/11/10/pb-intro-video.mp4'
+				),
+	
+				'ogv_video'=>array(
+					'type'=>'media',
+					'format'=>'video',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_OGV'),
+					'depends'=>array(
+						array('mp4_enable', '!=', 0)
+					)
+				),
+				
+				'video_poster'=>array(
+					'type'=>'media',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_POSTER'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_POSTER_DESC'),
+					'show_input' => true,
+					'std'=>'https://www.joomshaper.com/images/2017/11/10/real-time-frontend.jpg',
+					'depends'=>array(
+						array('mp4_enable', '!=', 0)
+					)
+				),
+
+				'show_control'=> array(
+					'type'=> 'checkbox',
+					'title'=> JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_CONTROL'),
+					'desc'=> JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_CONTROL_DESC'),
+					'std'=> 1,
+					'depends'=>array(
+						array('mp4_enable', '!=', 0)
+					),
+				),
+				'video_loop'=> array(
+					'type'=> 'checkbox',
+					'title'=> JText::_('COM_SPPAGEBUILDER_ROW_VIDEO_LOOP'),
+					'desc'=> JText::_('COM_SPPAGEBUILDER_ROW_VIDEO_LOOP_DESC'),
+					'std'=> 0,
+					'depends'=>array(
+						array('mp4_enable', '!=', 0)
+					),
+				),
+				'video_mute'=> array(
+					'type'=> 'checkbox',
+					'title'=> JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_MUTE'),
+					'desc'=> JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_MUTE_DESC'),
+					'std'=> 1,
+					'depends'=>array(
+						array('mp4_enable', '!=', 0)
+					),
+				),
+				'autoplay_video'=> array(
+					'type'=> 'checkbox',
+					'title'=> JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_AUTOPLAY'),
+					'desc'=> JText::_('COM_SPPAGEBUILDER_ADDON_VIDEO_AUTOPLAY_DESC'),
+					'std'=> 0,
+					'depends'=>array(
+						array('mp4_enable', '!=', 0)
+					),
 				),
 
 				'class'=>array(

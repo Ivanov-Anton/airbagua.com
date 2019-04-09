@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -44,6 +44,9 @@ SpAddonsConfig::addonConfig(
 						'h4'=>JText::_('COM_SPPAGEBUILDER_ADDON_HEADINGS_H4'),
 						'h5'=>JText::_('COM_SPPAGEBUILDER_ADDON_HEADINGS_H5'),
 						'h6'=>JText::_('COM_SPPAGEBUILDER_ADDON_HEADINGS_H6'),
+						'p'=>	'p',
+						'span'=> 'span',
+						'div'=> 'div'
 					),
 					'std'=>'h3',
 					'depends'=>array(array('title', '!=', '')),
@@ -57,7 +60,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -90,7 +93,17 @@ SpAddonsConfig::addonConfig(
 					'type'=>'select',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LETTER_SPACING'),
 					'values'=>array(
-						'0'=> 'Default',
+						'-10px'=> '-10px',
+						'-9px'=> '-9px',
+						'-8px'=> '-8px',
+						'-7px'=> '-7px',
+						'-6px'=> '-6px',
+						'-5px'=> '-5px',
+						'-4px'=> '-4px',
+						'-3px'=> '-3px',
+						'-2px'=> '-2px',
+						'-1px'=> '-1px',
+						'0px'=> 'Default',
 						'1px'=> '1px',
 						'2px'=> '2px',
 						'3px'=> '3px',
@@ -159,7 +172,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-content { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-content { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -177,6 +190,23 @@ SpAddonsConfig::addonConfig(
 					'std'=>'',
 					'max'=>400,
 					'responsive'=>true
+				),
+
+				'text_fontweight'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_FONTWEIGHT'),
+					'values'=>array(
+						100=>100,
+						200=>200,
+						300=>300,
+						400=>400,
+						500=>500,
+						600=>600,
+						700=>700,
+						800=>800,
+						900=>900,
+					),
+					'std'=>'',
 				),
 
 				'dropcap'=>array(

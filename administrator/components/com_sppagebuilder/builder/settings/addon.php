@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2017 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -49,11 +49,6 @@ $addon_global_settings = array(
 				),
 			)
 		),
-		// 'global_use_background'=>array(
-		// 	'type'=>'checkbox',
-		// 	'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ENABLE_BACKGROUND_OPTIONS'),
-		// 	'std'=>0
-		// ),
 		'global_background_color'=>array(
 			'type'=>'color',
 			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR'),
@@ -63,14 +58,6 @@ $addon_global_settings = array(
 				array('global_background_type', '!=', 'gradient'),
 			)
 		),
-		// 'global_use_gradient'=>array(
-		// 	'type'=>'checkbox',
-		// 	'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ENABLE_GRADIENT_BACKGROUND'),
-		// 	'std'=>0,
-		// 	'depends'=>array(
-		// 		array('global_use_background', '=', 1)
-		// 	)
-		// ),
 		'global_background_gradient'=>array(
 			'type'=>'gradient',
 			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_GRADIENT'),
@@ -91,30 +78,14 @@ $addon_global_settings = array(
 				array('global_background_type', '=', 'image')
 			)
 		),
-		'global_use_overlay'=>array(
-			'type'=>'checkbox',
-			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ENABLE_BACKGROUND_OVERLAY'),
-			'std'=>0,
-			'depends'=>array(
-				array('global_background_type', '=', 'image')
-			)
-		),
-		'global_background_overlay'=>array(
-			'type'=>'color',
-			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY'),
-			'depends'=>array(
-				array('global_background_type', '=', 'image'),
-				array('global_use_overlay', '=', 1),
-			)
-		),
 		'global_background_repeat'=>array(
 			'type'=>'select',
 			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT'),
 			'values'=>array(
 				'no-repeat'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_NO_REPEAT'),
 				'repeat-all'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT_ALL'),
-				'repeat-horizontally'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT_HORIZONTALLY'),
-				'repeat-vertically'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT_VERTICALLY'),
+				'repeat-x'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT_HORIZONTALLY'),
+				'repeat-y'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT_VERTICALLY'),
 				'inherit'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_INHERIT'),
 			),
 			'std'=>'no-repeat',
@@ -141,6 +112,7 @@ $addon_global_settings = array(
 		'global_background_attachment'=>array(
 			'type'=>'select',
 			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT'),
+			'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_DESC'),
 			'values'=>array(
 				'fixed'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_FIXED'),
 				'scroll'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_SCROLL'),
@@ -152,6 +124,143 @@ $addon_global_settings = array(
 				array('global_background_image', '!=', ''),
 			)
 		),
+		'global_background_position'=>array(
+			'type'=>'select',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_POSITION'),
+			'values'=>array(
+				'0 0'=>JText::_('COM_SPPAGEBUILDER_LEFT_TOP'),
+				'0 50%'=>JText::_('COM_SPPAGEBUILDER_LEFT_CENTER'),
+				'0 100%'=>JText::_('COM_SPPAGEBUILDER_LEFT_BOTTOM'),
+				'50% 0'=>JText::_('COM_SPPAGEBUILDER_CENTER_TOP'),
+				'50% 50%'=>JText::_('COM_SPPAGEBUILDER_CENTER_CENTER'),
+				'50% 100%'=>JText::_('COM_SPPAGEBUILDER_CENTER_BOTTOM'),
+				'100% 0'=>JText::_('COM_SPPAGEBUILDER_RIGHT_TOP'),
+				'100% 50%'=>JText::_('COM_SPPAGEBUILDER_RIGHT_CENTER'),
+				'100% 100%'=>JText::_('COM_SPPAGEBUILDER_RIGHT_BOTTOM'),
+			),
+			'std'=>'50% 50%',
+			'depends'=>array(
+				array('global_background_type', '=', 'image'),
+				array('global_background_image', '!=', ''),
+			)
+		),
+		'global_overlay_separator'=>array(
+			'type'=>'separator',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY_OPTIONS'),
+			'depends'=>array(
+				array('global_background_type', '=', 'image')
+			),
+		),
+		'global_use_overlay'=>array(
+			'type'=>'checkbox',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ENABLE_BACKGROUND_OVERLAY'),
+			'std'=>0,
+			'depends'=>array(
+				array('global_background_type', '=', 'image')
+			)
+		),
+		'global_overlay_type'=>array(
+			'type'=>'buttons',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_CHOOSE'),
+			'std'=>'overlay_none',
+			'values'=>array(
+				array(
+					'label' => 'None',
+					'value' => 'overlay_none'
+				),
+				array(
+					'label' => 'Color',
+					'value' => 'overlay_color'
+				),
+				array(
+					'label' => 'Gradient',
+					'value' => 'overlay_gradient'
+				),
+				array(
+					'label' => 'Pattern',
+					'value' => 'overlay_pattern'
+				)
+			),
+			'depends'=>array(
+				array('global_use_overlay', '!=', 0),
+			),
+		),
+		'global_background_overlay'=>array(
+			'type'=>'color',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY'),
+			'depends'=>array(
+				array('global_background_type', '=', 'image'),
+				array('global_use_overlay', '=', 1),
+				array('global_overlay_type', '=', 'overlay_color'),
+			)
+		),
+		'global_gradient_overlay'=>array(
+			'type'=>'gradient',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_GRADIENT'),
+			'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_GRADIENT_DESC'),
+			'std'=> array(
+				"color" => "rgba(127, 0, 255, 0.8)",
+				"color2" => "rgba(225, 0, 255, 0.7)",
+				"deg" => "45",
+				"type" => "linear"
+			),
+			'depends'=>array(
+				array('global_background_type', '=', 'image'),
+				array('global_use_overlay', '=', 1),
+				array('global_overlay_type', '=', 'overlay_gradient'),
+			)
+		),
+		'global_pattern_overlay'=>array(
+			'type'=>'media',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN'),
+			'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_DESC'),
+			'std'=> '',
+			'depends'=>array(
+				array('global_background_type', '=', 'image'),
+				array('global_use_overlay', '=', 1),
+				array('global_overlay_type', '=', 'overlay_pattern'),
+			)
+		),
+		'global_overlay_pattern_color'=>array(
+			'type'=>'color',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_COLOR'),
+			'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_COLOR_DESC'),
+			'std'=> '',
+			'depends'=>array(
+				array('global_background_type', '=', 'image'),
+				array('global_use_overlay', '=', 1),
+				array('global_overlay_type', '=', 'overlay_pattern'),
+			)
+		),
+		'blend_mode'=>array(
+			'type'=>'select',
+			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BLEND_MODE'),
+			'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BLEND_MODE_DESC'),
+			'values'=>array(
+				'normal'=>'Normal',
+				'color'=>'Color',
+				'color-burn'=>'Color Burn',
+				'color-dodge'=>'Color Dodge',
+				'darken'=>'Darken',
+				'difference'=>'Difference',
+				'exclusion'=>'Exclusion',
+				'hard-light'=>'Hard Light',
+				'hue'=>'Hue',
+				'lighten'=>'Lighten',
+				'luminosity'=>'Luminosity',
+				'multiply'=>'Multiply',
+				'overlay'=>'Overlay',
+				'saturation'=>'Saturation',
+				'screen'=>'Screen',
+				'soft-light'=>'Soft Light',
+			),
+			'std'=>'normal',
+			'depends'=>array(
+				array('global_background_type', '=', 'image'),
+				array('global_use_overlay', '=', 1),
+			)
+		),
+
 		'global_user_border'=>array(
 			'type'=>'checkbox',
 			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_USE_BORDER'),
@@ -191,7 +300,7 @@ $addon_global_settings = array(
 		'global_margin'=>array(
 			'type'=>'margin',
 			'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_MARGIN'),
-			'std'=>array('md'=> '0 0 30px 0', 'sm'=> '0 0 20px 0', 'xs'=> '0 0 10px 0'),
+			'std'=>array('md'=> '0px 0px 30px 0px', 'sm'=> '0px 0px 20px 0px', 'xs'=> '0px 0px 10px 0px'),
 			'responsive' => true
 		),
 		'global_padding'=>array(

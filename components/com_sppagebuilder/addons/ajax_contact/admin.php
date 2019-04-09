@@ -3,7 +3,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
  */
 //no direct accees
@@ -53,7 +53,7 @@ SpAddonsConfig::addonConfig(
                         'selector' => array(
                             'type' => 'font',
                             'font' => '{{ VALUE }}',
-                            'css' => '.sppb-addon-title { font-family: {{ VALUE }}; }'
+                            'css' => '.sppb-addon-title { font-family: "{{ VALUE }}"; }'
                         )
                     ),
                     'title_fontsize' => array(
@@ -143,6 +143,104 @@ SpAddonsConfig::addonConfig(
                         'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_FORM_EMAIL_DESC'),
                         'std' => ''
                     ),
+                    'show_phone' => array(
+                        'type' => 'checkbox',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_SHOW_PHONE_FIELD'),
+                        'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_SHOW_PHONE_FIELD_DESC'),
+                        'values' => array(
+                            '0' => 'No',
+                            '1' => 'Yes'
+                        ),
+                        'std' => '0'
+                    ),
+                    //Input style
+                    'field_separator'=>array(
+                        'type'=>'separator',
+                        'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_FIELD_OPTION'),
+                    ),
+                    'field_bg_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_BGCOLOR'),
+                        'std' => ''
+                    ),
+                    'field_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_COLOR'),
+                        'std' => ''
+                    ),
+                    'field_placeholder_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_PLACEHOLDER_COLOR'),
+                        'std' => ''
+                    ),
+                    'input_height' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_HEIGHT'),
+                        'max'=>200,
+                        'std' => '',
+                        'responsive'=>true,
+                        'std' => array('md'=>'', 'sm'=>'', 'xs'=>''),
+                    ),
+                    'field_font_size' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_FONTSIZE'),
+                        'max'=>200,
+                        'std' => '',
+                    ),
+                    'field_border_width' => array(
+                        'type' => 'margin',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_BORDER_WIDTH'),
+                        'std' => '',
+                    ),
+                    'field_border_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_BORDER_COLOR'),
+                        'std' => '',
+                    ),
+                    'field_border_radius' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_BORDER_RADIUS'),
+                        'max'=>200,
+                        'std' => '',
+                    ),
+                    'field_margin' => array(
+                        'type' => 'margin',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_MARGIN'),
+                        'responsive'=> true,
+                        'std' => array('md'=>'0px 0px 20px 0px', 'sm'=>'0px 0px 15px 0px', 'xs'=>'0px 0px 15px 0px'),
+                    ),
+                    'field_padding' => array(
+                        'type' => 'padding',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_PADDING'),
+                        'std' => '',
+                    ),
+                    'textarea_height' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_TEXTAREA_HEIGHT'),
+                        'max'=>1000,
+                        'responsive'=>true,
+                        'std' => array('md'=>'', 'sm'=>'', 'xs'=>''),
+                    ),
+                    'field_hover_bg_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_HOVER_BG_COLOR'),
+                        'std' => '',
+                    ),
+                    'field_hover_placeholder_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_HOVER_COLOR'),
+                        'std' => '',
+                    ),
+                    'field_focus_border_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_INPUT_FOCUS_BORDER_COLOR'),
+                        'std' => '',
+                    ),
+                    //Captcha
+                    'captcha_separator'=>array(
+                        'type'=>'separator',
+                        'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_CAPTCHA_OPTION'),
+                    ),
                     'formcaptcha' => array(
                         'type' => 'checkbox',
                         'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_SHOW_CAPTCHA'),
@@ -203,6 +301,11 @@ SpAddonsConfig::addonConfig(
                             array('captcha_type', '=', 'default'),
                         ),
                     ),
+                    //Column
+                    'col_separator'=>array(
+                        'type'=>'separator',
+                        'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_COLUMN_OPTION'),
+                    ),
                     'name_input_col' => array(
                         'type' => 'select',
                         'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_NAME_INPUT_COL_SIZE'),
@@ -248,6 +351,22 @@ SpAddonsConfig::addonConfig(
                         ),
                         'std' => '12'
                     ),
+                    'phone_input_col' => array(
+                        'type' => 'select',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_PHONE_INPUT_COL_SIZE'),
+                        'values' => array(
+                            '3' => '3',
+                            '4' => '4',
+                            '5' => '5',
+                            '6' => '6',
+                            '7' => '7',
+                            '8' => '8',
+                            '9' => '9',
+                            '12' => '12',
+                        ),
+                        'std' => '12',
+                        'depends' => array('show_phone' => '1')
+                    ),
                     'message_input_col' => array(
                         'type' => 'select',
                         'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_MESSAGE_INPUT_COL_SIZE'),
@@ -271,15 +390,21 @@ SpAddonsConfig::addonConfig(
                     'show_checkbox' => array(
                         'type' => 'checkbox',
                         'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_SHOW_CHECKBOX'),
-                        'std' => 0,
+                        'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_SHOW_CHECKBOX_DESC'),
+                        'std' => 1,
                     ),
                     'checkbox_title' => array(
                         'type' => 'textarea',
                         'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_CHECKBOX_TITLE'),
-                        'std' => 'I am agree with your <a href="#">terms & conditions</a>.',
+                        'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_CHECKBOX_TITLE_DESC'),
+                        'std' => 'I agree with the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and I declare that I have read the information that is required in accordance with <a href="http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=uriserv:OJ.L_.2016.119.01.0001.01.ENG&amp;toc=OJ:L:2016:119:TOC" target="_blank">Article 13 of GDPR.</a>',
                         'depends' => array('show_checkbox' => 1)
                     ),
                     // Button
+                    'btn_separator'=>array(
+                        'type'=>'separator',
+                        'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_BUTTON_OPTIONS'),
+                    ),
                     'use_custom_button' => array(
                         'type' => 'checkbox',
                         'title' => JText::_('COM_SPPAGEBUILDER_ADDON_AJAX_CONTACT_USE_BUTTON'),
@@ -298,7 +423,7 @@ SpAddonsConfig::addonConfig(
                         'selector' => array(
                             'type' => 'font',
                             'font' => '{{ VALUE }}',
-                            'css' => '.sppb-btn { font-family: {{ VALUE }}; }'
+                            'css' => '.sppb-btn { font-family: "{{ VALUE }}"; }'
                         ),
                         'depends' => array('use_custom_button' => 1)
                     ),
@@ -355,6 +480,83 @@ SpAddonsConfig::addonConfig(
                             array('button_type', '=', 'custom'),
                         )
                     ),
+                    //Link Button Style
+                    'link_button_status' => array(
+                        'type' => 'buttons',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_STYLE'),
+                        'std' => 'normal',
+                        'values' => array(
+                            array(
+                                'label' => 'Normal',
+                                'value' => 'normal'
+                            ),
+                            array(
+                                'label' => 'Hover',
+                                'value' => 'hover'
+                            ),
+                        ),
+                        'tabs' => true,
+                        'depends' => array(
+                            array('button_type', '=', 'link'),
+                        )
+                    ),
+                    'link_button_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR'),
+                        'std' => '',
+                        'depends' => array(
+                            array('button_type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    'link_button_border_width' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_WIDTH'),
+                        'max'=> 30,
+                        'std' => '',
+                        'depends' => array(
+                            array('button_type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    'link_border_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR'),
+                        'std' => '',
+                        'depends' => array(
+                            array('button_type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    'link_button_padding_bottom' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_PADDING_BOTTOM'),
+                        'max'=>100,
+                        'std' => '',
+                        'depends' => array(
+                            array('button_type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    //Link Hover
+                    'link_button_hover_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR_HOVER'),
+                        'std' => '',
+                        'depends' => array(
+                            array('button_type', '=', 'link'),
+                            array('link_button_status', '=', 'hover'),
+                        )
+                    ),
+                    'link_button_border_hover_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR_HOVER'),
+                        'std' => '',
+                        'depends' => array(
+                            array('button_type', '=', 'link'),
+                            array('link_button_status', '=', 'hover'),
+                        )
+                    ),
                     'button_padding' => array(
                         'type' => 'padding',
                         'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
@@ -376,7 +578,10 @@ SpAddonsConfig::addonConfig(
                             '3d' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_APPEARANCE_3D'),
                         ),
                         'std' => '',
-                        'depends' => array('use_custom_button' => 1)
+                        'depends' => array(
+                            array('use_custom_button', '=', 1),
+                            array('button_type', '!=', 'link'),
+                        )
                     ),
                     'button_status' => array(
                         'type' => 'buttons',
@@ -396,6 +601,7 @@ SpAddonsConfig::addonConfig(
                         'depends' => array(
                             array('use_custom_button', '=', 1),
                             array('button_type', '=', 'custom'),
+                            array('button_type', '!=', 'link'),
                         )
                     ),
                     'button_background_color' => array(
@@ -408,6 +614,7 @@ SpAddonsConfig::addonConfig(
                             array('use_custom_button', '=', 1),
                             array('button_type', '=', 'custom'),
                             array('button_status', '=', 'normal'),
+                            array('button_type', '!=', 'link'),
                         ),
                     ),
                     'button_background_gradient' => array(
@@ -424,6 +631,7 @@ SpAddonsConfig::addonConfig(
                             array('button_appearance', '=', 'gradient'),
                             array('button_type', '=', 'custom'),
                             array('button_status', '=', 'normal'),
+                            array('button_type', '!=', 'link'),
                         )
                     ),
                     'button_color' => array(
@@ -435,6 +643,7 @@ SpAddonsConfig::addonConfig(
                             array('use_custom_button', '=', 1),
                             array('button_type', '=', 'custom'),
                             array('button_status', '=', 'normal'),
+                            array('button_type', '!=', 'link'),
                         ),
                     ),
                     'button_background_color_hover' => array(
@@ -447,6 +656,7 @@ SpAddonsConfig::addonConfig(
                             array('use_custom_button', '=', 1),
                             array('button_type', '=', 'custom'),
                             array('button_status', '=', 'hover'),
+                            array('button_type', '!=', 'link'),
                         ),
                     ),
                     'button_background_gradient_hover' => array(
@@ -463,6 +673,7 @@ SpAddonsConfig::addonConfig(
                             array('button_appearance', '=', 'gradient'),
                             array('button_type', '=', 'custom'),
                             array('button_status', '=', 'hover'),
+                            array('button_type', '!=', 'link'),
                         )
                     ),
                     'button_color_hover' => array(
@@ -474,6 +685,7 @@ SpAddonsConfig::addonConfig(
                             array('use_custom_button', '=', 1),
                             array('button_type', '=', 'custom'),
                             array('button_status', '=', 'hover'),
+                            array('button_type', '!=', 'link'),
                         ),
                     ),
                     'button_size' => array(
@@ -498,7 +710,10 @@ SpAddonsConfig::addonConfig(
                             'square' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_SHAPE_SQUARE'),
                             'round' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_SHAPE_ROUND'),
                         ),
-                        'depends' => array('use_custom_button' => 1)
+                        'depends' => array(
+                            array('use_custom_button', '=', 1),
+                            array('button_type', '!=', 'link'),
+                        )
                     ),
                     'button_block' => array(
                         'type' => 'select',
@@ -508,13 +723,28 @@ SpAddonsConfig::addonConfig(
                             '' => JText::_('JNO'),
                             'sppb-btn-block' => JText::_('JYES'),
                         ),
-                        'depends' => array('use_custom_button' => 1)
+                        'depends' => array(
+                            array('use_custom_button', '=', 1),
+                            array('button_type', '!=', 'link'),
+                        )
                     ),
                     'button_icon' => array(
                         'type' => 'icon',
                         'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_ICON'),
                         'desc' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_ICON_DESC'),
-                        'depends' => array('use_custom_button' => 1)
+                        'depends' => array(
+                            array('use_custom_button', '=', 1),
+                            array('button_type', '!=', 'link'),
+                        )
+                    ),
+                    'button_icon_margin' => array(
+                        'type' => 'margin',
+                        'title' => JText::_('COM_SPPAGEBUILDER_TAB_ICON_MARGIN'),
+                        'depends' => array(
+                            array('use_custom_button', '=', 1),
+                            array('button_type', '!=', 'link'),
+                        ),
+                        'std'=>''
                     ),
                     'button_icon_position' => array(
                         'type' => 'select',
@@ -523,7 +753,20 @@ SpAddonsConfig::addonConfig(
                             'left' => JText::_('COM_SPPAGEBUILDER_GLOBAL_LEFT'),
                             'right' => JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
                         ),
-                        'depends' => array('use_custom_button' => 1)
+                        'depends' => array(
+                            array('use_custom_button', '=', 1),
+                            array('button_type', '!=', 'link'),
+                        )
+                    ),
+                    'button_position' => array(
+                        'type' => 'select',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_POSITION'),
+                        'values' => array(
+                            'sppb-text-left' => JText::_('COM_SPPAGEBUILDER_GLOBAL_LEFT'),
+                            'sppb-text-center' => JText::_('COM_SPPAGEBUILDER_GLOBAL_CENTER'),
+                            'sppb-text-right' => JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
+                        ),
+                        'std' => 'sppb-text-left',
                     ),
                     'class' => array(
                         'type' => 'text',

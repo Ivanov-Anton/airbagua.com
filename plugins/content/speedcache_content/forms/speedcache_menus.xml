@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="params">
+        <fieldset name="speedcache"
+                  label="COM_SPEEDCACHE_MENU_TAB_LABEL"
+        >
+            <field name="cacheguest" type="radio" default="1"
+                   label="Caching for guest"
+                   description="Caching this url for guest users"
+                   class="btn-group btn-group-yesno">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="preloadguest" type="radio" default="0"
+                   label="Preload for public"
+                   description="Preload this url for public users"
+                   class="btn-group btn-group-yesno">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="cachelogged" type="radio" default="1"
+                   label="Caching for logged in"
+                   description="Caching this url for logged in users"
+                   class="btn-group btn-group-yesno">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="preloadlogged" type="radio" default="0"
+                   label="Preload for logged in"
+                   description="Preload this url for logged in users"
+                   class="btn-group btn-group-yesno">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="preloadperuser" type="radio" default="0"
+                   label="Preload per user"
+                   description="Preload this url per users"
+                   class="btn-group btn-group-yesno">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+        </fieldset>
+    </fields>
+</form>

@@ -5,7 +5,7 @@
 * @copyright Copyright (c) 2010 - 2016 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
-//no direct accees
+
 defined ('_JEXEC') or die ('Restricted access');
 
 JHtml::_('jquery.framework');
@@ -39,14 +39,16 @@ if ($params->get('addcontainer', 1)) {
 }
 
 $doc->addScriptdeclaration('var pagebuilder_base="' . JURI::root() . '";');
-$doc->addScript( JUri::base(true).'/components/com_sppagebuilder/assets/js/edit.js' );
 $doc->addScript( JURI::root(true) . '/media/editors/tinymce/tinymce.min.js' );
-//$doc->addScript( JURI::base(true) . '/administrator/components/com_sppagebuilder/assets/js/script.js' );
 $doc->addScript( JUri::base(true). '/components/com_sppagebuilder/assets/js/actions.js' );
-$doc->addScript( JURI::base(true) . '/components/com_sppagebuilder/assets/js/jquery.vide.js' );
 
 $doc->addScript( JURI::base(true) . '/components/com_sppagebuilder/assets/js/csslint.js' );
 
+if($this->item->extension == 'com_content' && $this->item->extension_view == 'article'){
+	$extension_view = 'article';
+} else {
+	$extension_view = 'page';
+}
 
 $menus = $app->getMenu();
 $menu = $menus->getActive();
@@ -62,7 +64,6 @@ if ($menu) {
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/builder/classes/addon.php';
 $this->item->text = SpPageBuilderAddonHelper::__($this->item->text, true);
-//$this->item->text = SpPageBuilderAddonHelper::getFontendEditingPage($this->item->text);
 
 SpPgaeBuilderBase::loadAddons();
 
@@ -127,6 +128,7 @@ $doc->addScriptdeclaration('var sppbVersion="' . SppagebuilderHelper::getVersion
 $doc->addScriptdeclaration('var sppbMediaPath=\'/images\';');
 
 $doc->addScriptdeclaration('var sppbSvgShape=' . json_encode(SppagebuilderHelperSite::getSvgShapes()) . ';');
+$doc->addScriptdeclaration('var extensionView=\'' . $extension_view . '\';');
 
 if (!$this->item->text) {
 	$doc->addScriptdeclaration('var initialState=[];');
@@ -140,97 +142,101 @@ $editor   = $conf->get('editor');
 if ($editor == 'jce') {
 	require_once(JPATH_ADMINISTRATOR . '/components/com_jce/includes/base.php');
 	wfimport('admin.models.editor');
-  $editor = new WFModelEditor();
+	$editor = new WFModelEditor();
 
-  $settings = $editor->getEditorSettings();
+	$settings = $editor->getEditorSettings();
 
-  $app->triggerEvent('onBeforeWfEditorRender', array(&$settings));
+	$app->triggerEvent('onBeforeWfEditorRender', array(&$settings));
 	echo $editor->render($settings);
 }
 ?>
 
 <div id="sp-page-builder" class="sp-pagebuilder <?php echo $menuClassPrefix; ?> page-<?php echo $this->item->id; ?>" data-pageid="<?php echo $this->item->id; ?>">
-	<div class="sp-pagebuilder-modal-alt">
-	  <div id="page-options" class="sp-pagebuilder-modal-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;">
-	    <div class="sp-pagebuilder-modal-content" style="position:fixed;top:0px;left:0px;right:0px;bottom:0px;">
-	      <div class="sp-pagebuilder-modal-small">
-	       <h2 class="sp-pagebuilder-modal-title">Page Options</h2>
-	       <div>
-	        <div class="page-options-content">
-					<form action="<?php echo JRoute::_('index.php?option=com_sppagebuilder&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+    <form action="<?php echo JRoute::_('index.php?option=com_sppagebuilder&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate page-builder-form" style="display: none;">
+        <div id="page-options">
+			<?php $fieldsets = $this->form->getFieldsets(); ?>
+			
+			<div class="sp-pagebuilder-form-group-toggler active">
+				<span>Basic <span class="fa fa-chevron-right"></span></span>
+				<div>
+					<?php foreach ($this->form->getFieldset('basic') as $key => $field) : ?>
+						<div class="sp-pagebuilder-form-group">
+							<?php echo $field->label; ?>
+							<?php echo $field->input; ?>
+							<?php if($field->getAttribute('desc')) : ?>
+								<span class="sp-pagebuilder-form-help"><?php echo JText::_($field->getAttribute('desc')); ?></span>
+							<?php endif; ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
 
-	          <?php $fieldsets = $this->form->getFieldsets(); ?>
+			<?php if($extension_view == 'page'): ?>
+				<div class="sp-pagebuilder-form-group-toggler">
+					<span>SEO <span class="fa fa-chevron-right"></span></span>
+					<div>
+						<?php foreach ($this->form->getFieldset('seo') as $key => $field) : ?>
+							<div class="sp-pagebuilder-form-group">
+								<?php echo $field->label; ?>
+								<?php echo $field->input; ?>
+								<?php if($field->getAttribute('desc')) : ?>
+									<span class="sp-pagebuilder-form-help"><?php echo JText::_($field->getAttribute('desc')); ?></span>
+								<?php endif; ?>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			<?php endif; ?>
 
-						<ul class="sp-pagebuilder-nav sp-pagebuilder-nav-tabs" id="pageTabs">
-							<li class="active"><a href="#pagetitleoptions" data-toggle="tab">Title</a></li>
-							<li><a href="#seosettings" data-toggle="tab"><i class="fa fa-bullseye"></i> <?php echo JText::_($fieldsets['seosettings']->label, true); ?></a></li>
-							<li><a href="#pagecss" data-toggle="tab"><i class="fa fa-css3"></i> <?php echo JText::_($fieldsets['pagecss']->label, true); ?></a></li>
-							<li><a href="#publishing" data-toggle="tab"><i class="fa fa-calendar-check-o"></i> <?php echo JText::_($fieldsets['publishing']->label, true); ?></a></li>
-						</ul>
+			<?php if($extension_view == 'page'): ?>
+				<div class="sp-pagebuilder-form-group-toggler">
+					<span>Page CSS <span class="fa fa-chevron-right"></span></span>
+					<div>
+						<?php foreach ($this->form->getFieldset('pagecss') as $key => $field) : ?>
+							<div class="sp-pagebuilder-form-group">
+								<?php echo $field->label; ?>
+								<?php echo $field->input; ?>
+								<?php if($field->getAttribute('desc')) : ?>
+									<span class="sp-pagebuilder-form-help"><?php echo JText::_($field->getAttribute('desc')); ?></span>
+								<?php endif; ?>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				</div>
+			<?php endif; ?>
+        </div>
 
-	          <div class="tab-content" id="pageContent">
+        <input type="hidden" id="form_task" name="task" value="page.apply" />
+        <?php
+            $app = JFactory::getApplication();
+            $input = $app->input;
+            $Itemid = $input->get('Itemid', 0, 'INT');
 
-							<div id="pagetitleoptions" class="tab-pane active">
-	              <?php foreach ($this->form->getFieldset('basic') as $key => $field) { ?>
-	                <div class="sp-pagebuilder-form-group">
-	                  <?php echo $field->label; ?>
-	                  <?php echo $field->input; ?>
-	                </div>
-	                <?php } ?>
-	            	</div>
-
-	            <div id="seosettings" class="tab-pane">
-	              <?php foreach ($this->form->getFieldset('seosettings') as $key => $field) { ?>
-	                <div class="sp-pagebuilder-form-group">
-	                  <?php echo $field->label; ?>
-	                  <?php echo $field->input; ?>
-	                </div>
-	                <?php } ?>
-	            	</div>
-
-	              <div id="pagecss" class="tab-pane">
-	                <?php foreach ($this->form->getFieldset('pagecss') as $key => $field) { ?>
-	                  <div class="sp-pagebuilder-form-group">
-	                    <?php echo $field->label; ?>
-	                    <?php echo $field->input; ?>
-	                  </div>
-	                  <?php } ?>
-	                </div>
-
-	                <div id="publishing" class="tab-pane">
-	                  <?php foreach ($this->form->getFieldset('publishing') as $key => $field) { ?>
-	                    <div class="sp-pagebuilder-form-group">
-	                      <?php echo $field->label; ?>
-	                      <?php echo $field->input; ?>
-	                    </div>
-	                    <?php } ?>
-	                  </div>
-
-	                </div>
-
-									<input type="hidden" id="form_task" name="task" value="page.apply" />
-									<?php
-										$app = JFactory::getApplication();
-										$input = $app->input;
-										$Itemid = $input->get('Itemid', 0, 'INT');
-
-										$url = JRoute::_('index.php?option=com_sppagebuilder&view=page&id=' . $this->item->id . '&Itemid=' . $Itemid);
-										$root = JURI::base();
-										$root = new JURI($root);
-										$pageUrl = $root->getScheme() . '://' . $root->getHost() . $url;
-									?>
-									<input type="hidden" id="return_page" name="return_page" value="<?php echo base64_encode($pageUrl); ?>" />
-							    <?php echo JHtml::_('form.token'); ?>
-
-	                <a id="btn-apply-page-options" class="sp-pagebuilder-btn sp-pagebuilder-btn-success" href="#"><i class="fa fa-check-square-o"></i> Apply</a>
-	                <a id="btn-cancel-page-options" class="sp-pagebuilder-btn sp-pagebuilder-btn-default" href="#"><i class="fa fa-times-circle-o"></i> Cancel</a>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </form>
+            $url = JRoute::_('index.php?option=com_sppagebuilder&view=page&id=' . $this->item->id . '&Itemid=' . $Itemid);
+            $root = JURI::base();
+            $root = new JURI($root);
+            $pageUrl = $root->getScheme() . '://' . $root->getHost() . $url;
+        ?>
+        <input type="hidden" id="return_page" name="return_page" value="<?php echo base64_encode($pageUrl); ?>" />
+        <?php echo JHtml::_('form.token'); ?>
+	</form>
+	
+	<?php if($this->item->id && $extension_view == 'page') : ?>
+		<form action="" method="post" class="form-validate page-builder-form-menu" style="display: none;">
+			<div id="add-to-menu">
+				<?php foreach ($this->form->getFieldset('addtomenu') as $key => $field) : ?>
+					<div class="sp-pagebuilder-form-group">
+						<?php echo $field->label; ?>
+						<?php echo $field->input; ?>
+						<?php if($field->getAttribute('desc')) : ?>
+							<span class="sp-pagebuilder-form-help"><?php echo JText::_($field->getAttribute('desc')); ?></span>
+						<?php endif; ?>
+					</div>
+				<?php endforeach; ?>
+				<button type="submit" id="sp-pagebuilder-btn-add-to-menu" class="sp-pagebuilder-btn sp-pagebuilder-btn-success sp-pagebuilder-btn-add-to-menu"><?php echo $this->item->menuid ? '<i class="fa fa-save"></i> Update Menu' : '<i class="fa fa-plus-circle"></i> <span>Add to Menu</span>'; ?></button>
+			</div>
+		</form>
+	<?php endif; ?>
 
 	<div id="sp-pagebuilder-container">
 		<div class="sp-pagebuilder-loading-wrapper">
@@ -252,16 +258,17 @@ if ($editor == 'jce') {
 	<iframe name="sp-pagebuilder-view" id="sp-pagebuilder-view" data-url="<?php echo $iframe_sef_url; ?>"></iframe>
 	<div id="sp-pagebuilder-page-tools" class="sp-pagebuilder-page-tools"></div>
 </div>
+
 <div class="sp-pagebuilder-media-modal-overlay" style="display:none">
-  <div id="sp-pagebuilder-media-modal">
-  </div>
+	<div id="sp-pagebuilder-media-modal">
+	</div>
 </div>
 
 <?php
 foreach ($addons_list as $addon) {
 	$addon_name = $addon['addon_name'];
 	$addon_name = preg_replace('/^sp_/i', '', $addon['addon_name']);
-  $class_name = 'SppagebuilderAddon' . ucfirst($addon_name);
+	$class_name = 'SppagebuilderAddon' . ucfirst($addon_name);
 	if(method_exists($class_name, 'getTemplate')){
 		?>
 		<script id="sppb-tmpl-addon-<?php echo $addon_name; ?>" type="x-tmpl-lodash">
@@ -270,13 +277,13 @@ foreach ($addons_list as $addon) {
 			var addonAttr = '';
 			var addonId = 'sppb-addon-'+data.id;
 
-
 			var textColor = data.global_text_color || '';
 			var linkColor = data.global_link_color || '';
 			var linkHoverColor = data.global_link_hover_color || '';
 			var backgroundRepeat = data.global_background_repeat || '';
 			var backgroundSize = data.global_background_size || '';
 			var backgroundAttachment = data.global_background_attachment || '';
+			var backgroundPosition = data.global_background_position || '';
 			var modern_font_style = false;
 			var title_font_style = data.title_fontstyle || "";
 
@@ -371,6 +378,7 @@ foreach ($addons_list as $addon) {
 							background-repeat: {{ backgroundRepeat }};
 							background-size: {{ backgroundSize }};
 							background-attachment: {{ backgroundAttachment }};
+							background-position: {{ backgroundPosition }};
 						<# } #>
 					<# } else { #>
 						<# if(data.global_background_type == "image" && backgroundImage){ #>
@@ -378,6 +386,7 @@ foreach ($addons_list as $addon) {
 							background-repeat: {{ backgroundRepeat }};
 							background-size: {{ backgroundSize }};
 							background-attachment: {{ backgroundAttachment }};
+							background-position: {{ backgroundPosition }};
 						<# } #>
 					<# } #>
 					<# if(_.isObject(borderRadius)){ #>
@@ -407,16 +416,54 @@ foreach ($addons_list as $addon) {
 						position: relative;
 						overflow: hidden;
 					<# } #>
+					
 				}
 				<# if(data.global_use_overlay){ #>
 					#{{ addonId }} .sppb-addon-overlayer{
-						background-color: {{ data.global_background_overlay }};
+
+						<# if(typeof data.global_overlay_type == "undefined"){
+							data.global_overlay_type = "overlay_color";
+						} #>
+						<# if(data.global_overlay_type == "overlay_color") { #>
+							background-color: {{ data.global_background_overlay }};
+						<# }
+
+						if(data.global_background_type == "image" && backgroundImage){
+							if(data.global_overlay_type == "overlay_gradient" && _.isObject(data.global_gradient_overlay)){
+								if(typeof data.global_gradient_overlay.type !== 'undefined' && data.global_gradient_overlay.type == 'radial'){
+						#>
+									background: radial-gradient(at {{ data.global_gradient_overlay.radialPos || 'center center'}}, {{ data.global_gradient_overlay.color }} {{ data.global_gradient_overlay.pos || 0 }}%, {{ data.global_gradient_overlay.color2 }} {{ data.global_gradient_overlay.pos2 || 100 }}%);
+								<# } else { #>
+									background: linear-gradient({{ data.global_gradient_overlay.deg || 0}}deg, {{ data.global_gradient_overlay.color }} {{ data.global_gradient_overlay.pos || 0 }}%, {{ data.global_gradient_overlay.color2 }} {{ data.global_gradient_overlay.pos2 || 100 }}%);
+								<# }
+							}
+
+							if(!_.isEmpty(data.global_pattern_overlay) && data.global_overlay_type == "overlay_pattern"){
+								var patternImg = '';
+								if(data.global_pattern_overlay && (data.global_pattern_overlay.indexOf('http://') != -1 || data.global_pattern_overlay.indexOf('https://') != -1)){
+									patternImg = 'url('+data.global_pattern_overlay+')';
+								} else if(data.global_pattern_overlay){
+									patternImg = 'url('+pagebuilder_base+data.global_pattern_overlay+')';
+								}
+							#>
+								background-image:{{patternImg}};
+								background-attachment: scroll;
+								<# if(!_.isEmpty(data.global_overlay_pattern_color)){ #>
+									background-color:{{data.global_overlay_pattern_color}};
+								<# }
+							}
+						} #>
 						position: absolute;
-				    top: 0;
-				    left: 0;
-				    width: 100%;
-				    height: 100%;
-				    z-index: 0;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						z-index: 0;
+						<# if(data.global_background_type == "image" && backgroundImage){ #>
+							<# if (data.blend_mode) { #>
+								mix-blend-mode:{{data.blend_mode}};
+							<# } #>
+						<# } #>
 					}
 
 					#{{ addonId }} > .sppb-addon{
@@ -556,6 +603,7 @@ foreach ($addons_list as $addon) {
 						<# if(typeof data.use_global_width !== "undefined" && data.use_global_width && typeof data.global_width !== "undefined" && _.isObject(data.global_width)) { #>
 							width: {{data.global_width.xs}}%;
 						<# } #>
+
 					}
 
 					<# if (!_.isEmpty(data.title)){ #>
@@ -586,6 +634,5 @@ foreach ($addons_list as $addon) {
 	}
 }
 ?>
-
 
 <script type="text/javascript" src="<?php echo JURI::base(true) . '/components/com_sppagebuilder/assets/js/engine.js'; ?>"></script>

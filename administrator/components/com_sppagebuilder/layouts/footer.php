@@ -9,7 +9,7 @@ $doc->addStylesheet( JURI::base(true) . '/components/com_sppagebuilder/assets/cs
 	<div class="sp-pagebuilder-row">
 		<div class="col-md-5">
 			<div class="copyright-info">
-				Designed &amp; Developed with <i class="fa fa-heart"></i> by <a href="http://www.joomshaper.com" target="_blank">JoomShaper</a>
+				Designed &amp; Developed with <i class="fa fa-heart" aria-hidden="true" title="Love"></i> by <a href="http://www.joomshaper.com" target="_blank">JoomShaper</a>
 			</div>
 		</div>
 
@@ -17,7 +17,7 @@ $doc->addStylesheet( JURI::base(true) . '/components/com_sppagebuilder/assets/cs
 			<div class="pagebuilder-links">
 				<ul>
 					<li>
-						<a target="_blank" href="https://www.joomshaper.com/documentation/joomla-extensions/sp-page-builder-2-x">
+						<a target="_blank" href="https://www.joomshaper.com/documentation/sp-page-builder/sp-page-builder-3">
 							Guide
 						</a>
 					</li>
@@ -29,7 +29,7 @@ $doc->addStylesheet( JURI::base(true) . '/components/com_sppagebuilder/assets/cs
 					</li>
 
 					<li>
-						<a target="_blank" href="https://www.joomshaper.com/forums/categories/listings/sp-page-builder-2-x">
+						<a target="_blank" href="https://www.joomshaper.com/forums/categories/sppagebuilder3">
 							Support
 						</a>
 					</li>
@@ -41,7 +41,7 @@ $doc->addStylesheet( JURI::base(true) . '/components/com_sppagebuilder/assets/cs
 					</li>
 
 					<li>
-						<a target="_blank" href="https://www.transifex.com/joomshaper/sp-page-builder/">
+						<a target="_blank" href="https://www.transifex.com/joomshaper/sp-page-builder-3/">
 							Find &amp; Help Translate
 						</a>
 					</li>

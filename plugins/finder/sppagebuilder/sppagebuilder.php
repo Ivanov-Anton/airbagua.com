@@ -13,6 +13,11 @@ use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
+if(!class_exists('SppagebuilderHelperSite'))
+{
+	require_once JPATH_ROOT . '/components/com_sppagebuilder/helpers/helper.php';
+}
+
 class PlgFinderSppagebuilder extends FinderIndexerAdapter
 {
 	/**
@@ -51,20 +56,6 @@ class PlgFinderSppagebuilder extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Method to update the item link information when the item category is
-	 * changed. This is fired when the item category is published or unpublished
-	 * from the list view.
-	 */
-	public function onFinderCategoryChangeState($extension, $pks, $value)
-	{
-		// Make sure we're handling com_contact categories
-		if ($extension === 'com_sppagebuilder')
-		{
-			$this->categoryStateChange($pks, $value);
-		}
-	}
-
-	/**
 	 * Method to remove the link information for items that have been deleted.
 	 */
 	public function onFinderAfterDelete($context, $table)
@@ -101,14 +92,6 @@ class PlgFinderSppagebuilder extends FinderIndexerAdapter
 			$this->reindex($row->id);
 		}
 
-		if ($context === 'com_categories.category')
-		{
-			if (!$isNew && $this->old_cataccess != $row->access)
-			{
-				$this->categoryAccessChange($row);
-			}
-		}
-
 		return true;
 	}
 
@@ -124,14 +107,6 @@ class PlgFinderSppagebuilder extends FinderIndexerAdapter
 			if (!$isNew)
 			{
 				$this->checkItemAccess($row);
-			}
-		}
-
-		if ($context === 'com_categories.category')
-		{
-			if (!$isNew)
-			{
-				$this->checkCategoryAccess($row);
 			}
 		}
 
@@ -167,18 +142,30 @@ class PlgFinderSppagebuilder extends FinderIndexerAdapter
 			return;
 		}
 
+		$menuItem = self::getActiveMenu($item->id);
 		$item->setLanguage();
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
-		$item->route = self::getPageRoute($item->id, $item->catid, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
+		$item->body = SppagebuilderHelperSite::getPrettyText($item->body);
+		
+		$link = 'index.php?option=com_sppagebuilder&view=page&id=' . $item->id;
 
-		// Get the menu title if it exists.
-		$title = $this->getItemMenuTitle($item->url);
-
-		// Adjust the title if necessary.
-		if (!empty($title) && $this->params->get('use_menu_title', true))
+		if ($item->language && $item->language !== '*' && JLanguageMultilang::isEnabled())
 		{
-			$item->title = $title;
+			$link .= '&lang=' . $item->language;
+		}
+
+		if(isset($menuItem->id) && $menuItem->id)
+		{
+			$link .= '&Itemid='. $menuItem->id;
+		}
+
+		$item->route = $link;
+	
+		$item->path = $item->route;
+
+		if(isset($menuItem->title) && $menuItem->title)
+		{
+			$item->title = $menuItem->title;
 		}
 	
 		// Handle the page author data.
@@ -187,14 +174,8 @@ class PlgFinderSppagebuilder extends FinderIndexerAdapter
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Page');
 
-		// Add the category taxonomy data.
-		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
-
-		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
@@ -205,7 +186,7 @@ class PlgFinderSppagebuilder extends FinderIndexerAdapter
 	 */
 	protected function setup()
 	{
-		FinderIndexerHelper::getContentPath('index.php?option=com_sppagebuilder');
+		JLoader::register('SppagebuilderRouter', JPATH_SITE . '/components/com_sppagebuilder/route.php');
 
 		return true;
 	}
@@ -219,45 +200,29 @@ class PlgFinderSppagebuilder extends FinderIndexerAdapter
 
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
-			->select('a.id, a.title AS title, a.text AS body, a.created_on AS start_date')
+			->select('a.id, a.view_id, a.title AS title, a.text AS body, a.created_on AS start_date')
 			->select('a.created_by, a.modified, a.modified_by, a.language')
-			->select('a.access, a.published AS state, a.ordering, a.catid')
-			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
-
-		$case_when_category_alias = ' CASE WHEN ';
-		$case_when_category_alias .= $query->charLength('c.alias', '!=', '0');
-		$case_when_category_alias .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
-		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
-		$case_when_category_alias .= ' ELSE ';
-		$case_when_category_alias .= $c_id . ' END as catslug';
-		$query->select($case_when_category_alias)
+			->select('a.access, a.catid, a.extension, a.extension_view, a.published AS state, a.ordering')
 
 			->select('u.name')
 			->from('#__sppagebuilder AS a')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid')
-			->join('LEFT', '#__users AS u ON u.id = a.created_by');
+			->join('LEFT', '#__users AS u ON u.id = a.created_by')
+			->where($db->quoteName('a.extension') . ' = '  . $db->quote('com_sppagebuilder'));
+
 
 		return $query;
 	}
 
-	/**
-	 * Method to get the page URL.
-	 */
-	public static function getPageRoute($id, $catid = 0, $language = 0)
-	{
-		$link = 'index.php?option=com_sppagebuilder&view=page&id=' . $id;
+	public static function getActiveMenu($pageId) {
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select(array('title, id'));
+		$query->from($db->quoteName('#__menu'));
+		$query->where($db->quoteName('link') . ' LIKE '. $db->quote('%option=com_sppagebuilder&view=page&id='. $pageId .'%'));
+		$query->where($db->quoteName('published') . ' = '. $db->quote('1'));
+		$db->setQuery($query);
+		$item = $db->loadObject();
 
-		if ((int) $catid > 1)
-		{
-			$link .= '&catid=' . $catid;
-		}
-
-		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
-		{
-			$link .= '&lang=' . $language;
-		}
-
-		return $link;
+		return $item;
 	}
 }

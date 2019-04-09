@@ -51,13 +51,14 @@ $global_attributes = SpPgaeBuilderBase::addonOptions();
 $addons_list    = SpAddonsConfig::$addons;
 $globalDefault = SpPgaeBuilderBase::getSettingsDefaultValue($global_attributes);
 
+JPluginHelper::importPlugin( 'system' );
+$dispatcher = JEventDispatcher::getInstance();
+
 foreach ( $addons_list as $key => &$addon ) {
   $new_default_value = SpPgaeBuilderBase::getSettingsDefaultValue($addon['attr']);
   $addon['default'] = array_merge($new_default_value['default'], $globalDefault['default']);
   
-  // if(isset($default_value['attr'])){
-  //   $addon['attr'] = $default_value['attr'];
-  // }
+  $results = $dispatcher->trigger( 'onBeforeAddonConfigure', array($key, &$addon) );
 }
 
 $row_default_value = SpPgaeBuilderBase::getSettingsDefaultValue($rowSettings['attr']);

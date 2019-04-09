@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="params">
+        <fieldset
+                name="advanced">
+            <field
+                    name="sc_ajax_load_module"
+                    type="radio"
+                    label="MOD_CUSTOM_SPEEDCACHE_AJAX_MODULE_LABEL"
+                    description="MOD_CUSTOM_SPEEDCACHE_AJAX_MODULE_DESC"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+            >
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                    name="sc_ajax_load_module_interval"
+                    type="radio"
+                    label="MOD_CUSTOM_SPEEDCACHE_AJAX_MODULE_INTERNAL_LABEL"
+                    description="MOD_CUSTOM_SPEEDCACHE_AJAX_MODULE_INTERNAL_DESC"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+            >
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field
+                    name="sc_ajax_loadmod_interval_time"
+                    type="number"
+                    label="MOD_CUSTOM_SPEEDCACHE_AJAX_MODULE_INTERNAL_TIME_LABEL"
+                    description="MOD_CUSTOM_SPEEDCACHE_AJAX_MODULE_INTERNAL_TIME_DESC"
+                    default="5"
+            />
+        </fieldset>
+    </fields>
+</form>

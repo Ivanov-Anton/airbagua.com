@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2015 JoomShaper
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -14,10 +14,6 @@ jimport('joomla.application.component.view');
 if(!class_exists('SppagebuilderHelperSite')) {
 	require_once JPATH_ROOT . '/components/com_sppagebuilder/helpers/helper.php';
 }
-
-// if (!class_exists('SppagebuilderModelPage')) {
-// 	require_once JPATH_ROOT . '/components/com_sppagebuilder/models/page.php';
-// }
 
 class SppagebuilderViewForm extends JViewLegacy
 {
@@ -34,20 +30,19 @@ class SppagebuilderViewForm extends JViewLegacy
 		$this->form = $this->get('Form');
 
 		if ( !$user->id ) {
-				$uri = JFactory::getURI();
-				$pageURL = $uri->toString();
-				$return_url = base64_encode($pageURL);
-				$joomlaLoginUrl = 'index.php?option=com_users&view=login&return=' . $return_url;
+			$uri = JFactory::getURI();
+			$pageURL = $uri->toString();
+			$return_url = base64_encode($pageURL);
+			$joomlaLoginUrl = 'index.php?option=com_users&view=login&return=' . $return_url;
 
-				$app->redirect(JRoute::_($joomlaLoginUrl, false), JText::_('JERROR_ALERTNOAUTHOR'), 'message');
-				return false;
+			$app->redirect(JRoute::_($joomlaLoginUrl, false), JText::_('JERROR_ALERTNOAUTHOR'), 'message');
+			return false;
 		}
 
 		$input 		 = JFactory::getApplication()->input;
 		$pageid 	 = $input->get('id', '', 'INT');
 		$item_info  = SppagebuilderModelPage::getPageInfoById($pageid);
-		
-		$authorised = $user->authorise('core.edit', 'com_sppagebuilder') || $user->authorise('core.edit', 'com_sppagebuilder.page.' . $pageid) || ($user->authorise('core.edit.own', 'com_sppagebuilder') && ($user->id == $item_info->created_by));
+		$authorised = $user->authorise('core.edit', 'com_sppagebuilder.page.' . $pageid) || ($user->authorise('core.edit.own',   'com_sppagebuilder.page.' . $pageid) && $item_info->created_by == $user->id);
 
 		if ($authorised !== true)
 		{

@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2017 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -37,47 +37,34 @@ class SppagebuilderRouter extends JComponentRouterBase {
 		}
 
 		if (($menuItem instanceof stdClass) && $menuItem->query['view'] == $query['view']) {
-
 			if (!$menuItemGiven) {
 				$segments[] = $view;
 			}
-
 			unset($query['view']);
 		}
 
-		// Page
-		if (($view == 'page')) {
-
-			if(isset($query['id']) && $query['id']) {
-				if(!isset($query['Itemid']) || empty($query['Itemid']) || (isset($menuItem) && $menuItem->query['id'] != $query['id'])){
-					$id = $this->getPageSegment($query['id']);
-					$segments[] = str_replace(':', '-', $id);
-				}
-				unset($query['id']);
-			}
+		if($menuItemGiven) {
 			
-			unset($query['view']);
-		}
-
-		// Form
-		if (($view == 'form')) {
-
-			if(isset($query['id']) && $query['id']) {
-				$id = $this->getPageSegment($query['id']);
-				$segments[] = str_replace(':', '-', $id);
-				unset($query['id']);
+			if(isset($query['view']) && $query['view']) {
+				unset($query['view']);
 			}
-
-			if(isset($query['layout']) && $query['layout']) {
-				$segments[] = $query['layout'];
-				unset($query['layout']);
+			$id = 0;
+			if(isset($query['id']) && $query['id']) {
+				$id = $query['id'];
+				unset($query['id']);
 			}
 
 			if(isset($query['tmpl']) && $query['tmpl']) {
 				unset($query['tmpl']);
 			}
 
-			unset($query['view']);
+			if(isset($query['layout']) && $query['layout']) {
+				$segments[] = $query['layout'];
+				if($id) {
+					$segments[] = $id;
+				}
+				unset($query['layout']);
+			}
 		}
 
 		return $segments;
@@ -90,43 +77,17 @@ class SppagebuilderRouter extends JComponentRouterBase {
 		$item = $menu->getActive();
 		$total = count((array) $segments);
 		$vars = array();
-		$view = (isset($item->query['view']) && $item->query['view']) ? $item->query['view'] : 'page';
+		$view = (isset($item->query['view']) && $item->query['view']) ? $item->query['view'] : '';
 
-		if($view == 'page') {
-			if($total == 2) {
-				if($segments[1] == 'edit') {
-					$vars['view'] = 'form';
-					$vars['id'] = (int) $segments[0];
-					$vars['tmpl'] = 'component';
-					$vars['layout'] = 'edit';
-				} else {
-					$vars['view'] = 'page';
-					$vars['id'] = (int) $segments[0];
-				}
-			}
-
-			if($total == 1) {
-				$vars['view'] = 'page';
-				$vars['id'] = (int) $segments[0];
-			}
+		if(count($segments) == 2 && $segments[0] == 'edit') {
+			$vars['view'] = 'form';
+			$vars['id'] = (int) $segments[1];
+			$vars['tmpl'] = 'component';
+			$vars['layout'] = 'edit';
+			return $vars;
 		}
 
 		return $vars;
-	}
-
-	private function getPageSegment($id) {
-		if (!strpos($id, ':')) {
-			$db = JFactory::getDbo();
-			$dbquery = $db->getQuery(true);
-			$dbquery->select($dbquery->qn('title'))
-			->from($dbquery->qn('#__sppagebuilder'))
-			->where('id = ' . $dbquery->q($id));
-			$db->setQuery($dbquery);
-
-			$id .= ':' . JFilterOutput::stringURLSafe($db->loadResult());
-		}
-
-		return $id;
 	}
 }
 

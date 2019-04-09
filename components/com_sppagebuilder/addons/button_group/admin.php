@@ -65,7 +65,7 @@ SpAddonsConfig::addonConfig(
                                 'selector' => array(
                                     'type' => 'font',
                                     'font' => '{{ VALUE }}',
-                                    'css' => '.sppb-btn { font-family: {{ VALUE }}; }'
+                                    'css' => '.sppb-btn { font-family: "{{ VALUE }}"; }'
                                 )
                             ),
                             'font_style' => array(
@@ -129,6 +129,9 @@ SpAddonsConfig::addonConfig(
                                     'gradient' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_APPEARANCE_GRADIENT'),
                                 ),
                                 'std' => 'flat',
+                                'depends' => array(
+                                    array('type', '!=', 'link'),
+                                )
                             ),
                             'fontsize' => array(
                                 'type' => 'slider',
@@ -230,6 +233,83 @@ SpAddonsConfig::addonConfig(
                                     array('type', '=', 'custom'),
                                     array('button_status', '=', 'hover'),
                                 ),
+                            ),
+                            //Link Button Style
+                            'link_button_status' => array(
+                                'type' => 'buttons',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_STYLE'),
+                                'std' => 'normal',
+                                'values' => array(
+                                    array(
+                                        'label' => 'Normal',
+                                        'value' => 'normal'
+                                    ),
+                                    array(
+                                        'label' => 'Hover',
+                                        'value' => 'hover'
+                                    ),
+                                ),
+                                'tabs' => true,
+                                'depends' => array(
+                                    array('type', '=', 'link'),
+                                )
+                            ),
+                            'link_button_color' => array(
+                                'type' => 'color',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR'),
+                                'std' => '',
+                                'depends' => array(
+                                    array('type', '=', 'link'),
+                                    array('link_button_status', '=', 'normal'),
+                                )
+                            ),
+                            'link_button_border_width' => array(
+                                'type' => 'slider',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_WIDTH'),
+                                'max'=> 30,
+                                'std' => '',
+                                'depends' => array(
+                                    array('type', '=', 'link'),
+                                    array('link_button_status', '=', 'normal'),
+                                )
+                            ),
+                            'link_border_color' => array(
+                                'type' => 'color',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR'),
+                                'std' => '',
+                                'depends' => array(
+                                    array('type', '=', 'link'),
+                                    array('link_button_status', '=', 'normal'),
+                                )
+                            ),
+                            'link_button_padding_bottom' => array(
+                                'type' => 'slider',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_PADDING_BOTTOM'),
+                                'max'=>100,
+                                'std' => '',
+                                'depends' => array(
+                                    array('type', '=', 'link'),
+                                    array('link_button_status', '=', 'normal'),
+                                )
+                            ),
+                            //Link Hover
+                            'link_button_hover_color' => array(
+                                'type' => 'color',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR_HOVER'),
+                                'std' => '',
+                                'depends' => array(
+                                    array('type', '=', 'link'),
+                                    array('link_button_status', '=', 'hover'),
+                                )
+                            ),
+                            'link_button_border_hover_color' => array(
+                                'type' => 'color',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR_HOVER'),
+                                'std' => '',
+                                'depends' => array(
+                                    array('type', '=', 'link'),
+                                    array('link_button_status', '=', 'hover'),
+                                )
                             ),
                             'size' => array(
                                 'type' => 'select',

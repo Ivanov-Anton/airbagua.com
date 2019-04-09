@@ -51,6 +51,7 @@ class SppagebuilderControllerIntegrations extends JControllerLegacy
 
 		$integrations = json_decode($ch_output);
 		$component = $input->get('integration', 'com_content', 'STRING');
+		$install_type = $input->get('installtype', 'install', 'STRING');
 
 		if(isset($integrations->$component) && $integrations->$component) {
 			$url = $integrations->$component->downloadUrl;
@@ -95,6 +96,10 @@ class SppagebuilderControllerIntegrations extends JControllerLegacy
 			$report['message'] = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$report['success'] = true;
 			$model->storeInstall($integration);
+			// if installl type update then it will be auto enable
+			if($install_type == 'update') {
+				$this->enable('com_content');
+			}
 		}
 
 		// Cleanup the install files.
@@ -117,7 +122,7 @@ class SppagebuilderControllerIntegrations extends JControllerLegacy
 	}
 
 	// Activate
-	public function enable() {
+	public function enable($type = '') {
 		$report = array();
 		$user = JFactory::getUser();
 		$input = JFactory::getApplication()->input;
@@ -129,8 +134,12 @@ class SppagebuilderControllerIntegrations extends JControllerLegacy
 			$report['success'] = false;
 			die(json_encode($report));
 		}
-
-		$component = $input->get('integration', 'com_content', 'STRING');
+		if($type) {
+			$component = $type;
+		} else {
+			$component = $input->get('integration', 'com_content', 'STRING');
+		}
+		
 		$model->toggleActivate($component, 1);
 
 		$report['success'] = true;

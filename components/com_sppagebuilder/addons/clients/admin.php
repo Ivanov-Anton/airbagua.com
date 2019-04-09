@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -56,7 +56,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -189,6 +189,12 @@ SpAddonsConfig::addonConfig(
 							'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CLIENT_URL_DESC'),
 							'placeholder'=>'http://',
 							'hide_preview'=>true,
+						),
+						'url_same_window'=>array(
+							'type'=>'checkbox',
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_LINK_SAME_WINDOW'),
+							'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_LINK_SAME_WINDOW_DESC'),
+							'std'=> 0,
 						),
 					),
 				),

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="package" version="3.0" method="upgrade">
+    <name>SpeedCache</name>
+    <author>Joomunited</author>
+    <creationDate>May 2016</creationDate>
+    <packagename>speedcache</packagename>
+    <version>2.5.2</version>
+    <url>https://www.joomunited.com</url>
+    <license>GNU General Public License version 2 or later</license>
+    <packager>Joomunited</packager>
+    <description>Joomunited - SpeedCache package</description>
+    <scriptfile>install.php</scriptfile>
+    <files folder="packages">
+        <file type="component" id="com_speedcache">com_speedcache</file>
+        <file type="plugin" id="plg_speedcache" group="system">plg_speedcache</file>
+        <file type="plugin" id="plg_speedcache_last" group="system">plg_speedcache_last</file>
+        <file type="plugin" id="plg_speedcache_install" group="installer">plg_speedcache_install</file>
+        <file type="plugin" id="plg_speedcache_juupdater" group="installer">plg_speedcache_juupdater</file>
+        <file type="plugin" id="plg_speedcache_content" group="content">plg_speedcache_content</file>
+        <file type="module" id="mod_speedcache" client="administrator">mod_speedcache</file>
+    </files>
+
+    <updateservers>
+        <server type="extension" priority="2" name="Speedcache Updates">
+            https://www.joomunited.com/juupdater_files/speedcache-update.xml
+        </server>
+    </updateservers>
+</extension>

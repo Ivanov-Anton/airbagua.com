@@ -2,7 +2,7 @@
 return [
     '_type' => 'Gantry\\Component\\Content\\Block\\HtmlBlock',
     '_version' => 1,
-    'id' => '5c633216a05a82.03372985',
+    'id' => '5cacddec7cf663.70836981',
     'content' => '<div id="copyright-1736-particle" class="g-content g-particle">            <div class="g-copyright ">
     &copy;
             AirBagUa

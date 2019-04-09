@@ -3,7 +3,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
  */
 //no direct accees
@@ -46,7 +46,7 @@ SpAddonsConfig::addonConfig(
                         'selector' => array(
                             'type' => 'font',
                             'font' => '{{ VALUE }}',
-                            'css' => '.sppb-btn { font-family: {{ VALUE }}; }'
+                            'css' => '.sppb-btn { font-family: "{{ VALUE }}"; }'
                         )
                     ),
                     'font_style' => array(
@@ -105,7 +105,7 @@ SpAddonsConfig::addonConfig(
                             'link' => JText::_('COM_SPPAGEBUILDER_GLOBAL_LINK'),
                             'custom' => JText::_('COM_SPPAGEBUILDER_GLOBAL_CUSTOM'),
                         ),
-                        'std' => 'custom',
+                        'std' => 'default',
                     ),
                     'appearance' => array(
                         'type' => 'select',
@@ -118,6 +118,9 @@ SpAddonsConfig::addonConfig(
                             '3d' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_APPEARANCE_3D'),
                         ),
                         'std' => '',
+                        'depends' => array(
+                            array('type', '!=', 'link'),
+                        )
                     ),
                     'fontsize' => array(
                         'type' => 'slider',
@@ -220,6 +223,83 @@ SpAddonsConfig::addonConfig(
                             array('button_status', '=', 'hover'),
                         ),
                     ),
+                    //Link Button Style
+                    'link_button_status' => array(
+                        'type' => 'buttons',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_STYLE'),
+                        'std' => 'normal',
+                        'values' => array(
+                            array(
+                                'label' => 'Normal',
+                                'value' => 'normal'
+                            ),
+                            array(
+                                'label' => 'Hover',
+                                'value' => 'hover'
+                            ),
+                        ),
+                        'tabs' => true,
+                        'depends' => array(
+                            array('type', '=', 'link'),
+                        )
+                    ),
+                    'link_button_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR'),
+                        'std' => '',
+                        'depends' => array(
+                            array('type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    'link_button_border_width' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_WIDTH'),
+                        'max'=> 30,
+                        'std' => '',
+                        'depends' => array(
+                            array('type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    'link_border_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR'),
+                        'std' => '',
+                        'depends' => array(
+                            array('type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    'link_button_padding_bottom' => array(
+                        'type' => 'slider',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_PADDING_BOTTOM'),
+                        'max'=>100,
+                        'std' => '',
+                        'depends' => array(
+                            array('type', '=', 'link'),
+                            array('link_button_status', '=', 'normal'),
+                        )
+                    ),
+                    //Link Hover
+                    'link_button_hover_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR_HOVER'),
+                        'std' => '',
+                        'depends' => array(
+                            array('type', '=', 'link'),
+                            array('link_button_status', '=', 'hover'),
+                        )
+                    ),
+                    'link_button_border_hover_color' => array(
+                        'type' => 'color',
+                        'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR_HOVER'),
+                        'std' => '',
+                        'depends' => array(
+                            array('type', '=', 'link'),
+                            array('link_button_status', '=', 'hover'),
+                        )
+                    ),
                     'button_padding' => array(
                         'type' => 'padding',
                         'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
@@ -251,6 +331,9 @@ SpAddonsConfig::addonConfig(
                             'square' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_SHAPE_SQUARE'),
                             'round' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_SHAPE_ROUND'),
                         ),
+                        'depends' => array(
+                            array('type', '!=', 'link'),
+                        )
                     ),
                     'block' => array(
                         'type' => 'select',
@@ -259,12 +342,21 @@ SpAddonsConfig::addonConfig(
                         'values' => array(
                             '' => JText::_('JNO'),
                             'sppb-btn-block' => JText::_('JYES'),
+                        ),
+                        'depends' => array(
+                            array('type', '!=', 'link'),
                         )
                     ),
                     'icon' => array(
                         'type' => 'icon',
                         'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_ICON'),
                         'desc' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_ICON_DESC'),
+                    ),
+                    'icon_margin' => array(
+                        'type' =>'margin',
+                        'title' =>JText::_('COM_SPPAGEBUILDER_TAB_ICON_MARGIN'),
+                        'responsive'=>true,
+                        'std'=>'0px 0px 0px 0px',
                     ),
                     'icon_position' => array(
                         'type' => 'select',
@@ -273,7 +365,7 @@ SpAddonsConfig::addonConfig(
                             'left' => JText::_('COM_SPPAGEBUILDER_GLOBAL_LEFT'),
                             'right' => JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
                         ),
-                        'std' => 'left'
+                        'std' => 'left',
                     ),
                     'class' => array(
                         'type' => 'text',

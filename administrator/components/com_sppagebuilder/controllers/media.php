@@ -13,6 +13,7 @@ jimport( 'joomla.application.component.helper' );
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 jimport('joomla.filter.output');
+jimport('joomla.filter.filteroutput');
 require_once JPATH_ROOT . '/administrator/components/com_sppagebuilder/helpers/image.php';
 
 class SppagebuilderControllerMedia extends JControllerForm {
@@ -184,52 +185,77 @@ class SppagebuilderControllerMedia extends JControllerForm {
     $model  = $this->getModel();
     $user = JFactory::getUser();
     $input  = JFactory::getApplication()->input;
-    $id = $input->post->get('id', NULL, 'INT');
+    $m_type = $input->post->get('m_type', NULL, 'STRING');
+    
+    if($m_type == 'path') {
+      $report = array();
+      $report['status'] = true;
+      $path = htmlspecialchars($input->post->get('path', NULL, 'STRING'));
+      $src = JPATH_ROOT . '/' . $path;
 
-    if(!is_numeric($id)) {
-      $report['status'] = false;
-      $report['output'] = JText::_('COM_SPPAGEBUILDER_MEDIA_MANAGER_DELETE_FAILED');
-      echo json_encode($report);
-      die;
-    }
-
-    $media = $model->getMediaByID($id);
-
-    $authorised = $user->authorise('core.edit', 'com_sppagebuilder') || ($user->authorise('core.edit.own', 'com_sppagebuilder') && ($media->created_by == $user->id));
-    if ($authorised !== true) {
-      $report['status'] = false;
-      $report['output'] = JText::_('JERROR_ALERTNOAUTHOR');
-      echo json_encode($report);
-      die();
-    }
-
-    $src = JPATH_ROOT . '/' . $media->path;
-
-    $report = array();
-    $report['status'] = false;
-
-    if(isset($media->thumb) && $media->thumb) {
-      if(JFile::exists(JPATH_ROOT . '/' . $media->thumb)) {
-        JFile::delete(JPATH_ROOT . '/' . $media->thumb); // Delete thumb
+      if(JFile::exists($src)) {
+        if(!JFile::delete($src)) {
+          $report['status'] = false;
+          $report['output'] = JText::_('COM_SPPAGEBUILDER_MEDIA_MANAGER_DELETE_FAILED');
+          echo json_encode($report);
+          die;
+        }
+      } else {
+        $report['status'] = true;
       }
-    }
 
-    if(JFile::exists($src)) {
-      if(!JFile::delete($src)) {
+      echo json_encode($report);
+
+    } else {
+      $id = $input->post->get('id', NULL, 'INT');
+
+      if(!is_numeric($id)) {
         $report['status'] = false;
         $report['output'] = JText::_('COM_SPPAGEBUILDER_MEDIA_MANAGER_DELETE_FAILED');
         echo json_encode($report);
         die;
       }
-    } else {
+  
+      $media = $model->getMediaByID($id);
+
+      $authorised = $user->authorise('core.edit', 'com_sppagebuilder') || ($user->authorise('core.edit.own', 'com_sppagebuilder') && ($media->created_by == $user->id));
+      if ($authorised !== true) {
+        $report['status'] = false;
+        $report['output'] = JText::_('JERROR_ALERTNOAUTHOR');
+        echo json_encode($report);
+        die();
+      }
+
+      $src = JPATH_ROOT . '/' . $media->path;
+
+      $report = array();
+      $report['status'] = false;
+
+      if(isset($media->thumb) && $media->thumb) {
+        if(JFile::exists(JPATH_ROOT . '/' . $media->thumb)) {
+          JFile::delete(JPATH_ROOT . '/' . $media->thumb); // Delete thumb
+        }
+      }
+
+      if(JFile::exists($src)) {
+        if(!JFile::delete($src)) {
+          $report['status'] = false;
+          $report['output'] = JText::_('COM_SPPAGEBUILDER_MEDIA_MANAGER_DELETE_FAILED');
+          echo json_encode($report);
+          die;
+        }
+      } else {
+        $report['status'] = true;
+      }
+
+      // Remove from database
+      $media = $model->removeMediaByID($id);
       $report['status'] = true;
+
+      echo json_encode($report);
     }
 
-    // Remove from database
-    $media = $model->removeMediaByID($id);
-    $report['status'] = true;
-
-    echo json_encode($report);
+    
     die;
   }
 
@@ -263,6 +289,11 @@ class SppagebuilderControllerMedia extends JControllerForm {
   public function create_folder() {
     $input  = JFactory::getApplication()->input;
     $folder = $input->post->get('folder', '', 'STRING');
+      
+    $dirname = dirname($folder);
+    $basename = JFilterOutput::stringURLSafe(basename($folder));
+    $folder = $dirname . '/'. $basename;
+
     $report = array();
     $report['status'] = false;
     $fullname = JPATH_ROOT . $folder;

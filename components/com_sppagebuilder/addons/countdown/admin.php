@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -56,7 +56,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -149,8 +149,8 @@ SpAddonsConfig::addonConfig(
 					'type'=>'text',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_DATE'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_DATE_DESC'),
-					'placeholder'=>'2018/05/25',
-					'std'=> '2018/05/25'
+					'placeholder'=>'2019/12/25',
+					'std'=> '2019/12/25'
 				),
 
 				'time'=>array(
@@ -199,6 +199,32 @@ SpAddonsConfig::addonConfig(
 					'type'=>'color',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_COUNTER_TEXT_COLOR'),
 					'std'=>'#FFFFFF',
+				),
+
+				'counter_text_font_family'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_COUNTER_TEXT_FONT_FAMILY'),
+					'selector'=>array(
+						'type'=>'font',
+						'font'=>'{{ VALUE }}',
+						'css'=>'.sppb-countdown-number { font-family: "{{ VALUE }}"; }',
+					),
+				),
+
+				'counter_text_font_weight'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_COUNTER_TEXT_FONT_WEIGHT'),
+					'values'=>array(
+						100=>100,
+						200=>200,
+						300=>300,
+						400=>400,
+						500=>500,
+						600=>600,
+						700=>700,
+						800=>800,
+						900=>900,
+					),
 				),
 
 				'counter_background_color'=>array(
@@ -263,6 +289,27 @@ SpAddonsConfig::addonConfig(
 					'type'=>'color',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_COUNTER_LABEL_COLOR'),
 					'std'=>'',
+				),
+
+				'label_font_family'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_COUNTER_LABEL_FONTFAMILY'),
+					'selector'=>array(
+						'type'=>'font',
+						'font'=>'{{ VALUE }}',
+						'css'=>'.sppb-countdown-text { font-family: "{{ VALUE }}"; }',
+					),
+				),
+
+				'label_font_style'=>array(
+					'type'=>'fontstyle',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_COUNTER_LABEL_FONTSTYLE'),
+				),
+
+				'label_margin'=>array(
+					'type'=>'margin',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_COUTNDOWN_COUNTER_LABEL_MARGIN'),
+					'responsive'=>true
 				),
 
 				'class'=>array(

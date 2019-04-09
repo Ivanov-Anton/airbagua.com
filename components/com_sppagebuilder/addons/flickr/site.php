@@ -16,11 +16,8 @@ class SppagebuilderAddonFlickr extends SppagebuilderAddons {
 		$title = (isset($this->addon->settings->title) && $this->addon->settings->title) ? $this->addon->settings->title : '';
 		$heading_selector = (isset($this->addon->settings->heading_selector) && $this->addon->settings->heading_selector) ? $this->addon->settings->heading_selector : 'h3';
 		$count = (isset($this->addon->settings->count) && $this->addon->settings->count) ? $this->addon->settings->count : 0;
+		$api_code = (isset($this->addon->settings->api) && $this->addon->settings->api) ? $this->addon->settings->api : '2fc5721d612333f915b8ab6c9def835f';
 		$images = $this->getImages();
-
-		if(count((array) $images) < $count) {
-			$count = count((array) $images);
-		}
 
 		//Output
 		$output  = '<div class="sppb-addon sppb-addon-flickr ' . $class . '">';
@@ -28,12 +25,25 @@ class SppagebuilderAddonFlickr extends SppagebuilderAddons {
 		$output .= '<div class="sppb-addon-content">';
 		$output .= '<ul class="sppb-flickr-gallery">';
 
-		for ($i=0; $i < $count; $i++) {
-			$output .= '<li>';
-			$output .= '<a target="_blank" href="'. str_replace('_m', '_b', $images[$i]->media->m) .'" class="sppb-flickr-gallery-btn">';
+		if($api_code == '2fc5721d612333f915b8ab6c9def835f') {
+			for ($i=0; $i < $count; $i++) {
+				$output .= '<li>';
+				$output .= '<a target="_blank" rel="noopener noreferrer" href="'. str_replace('_m', '_b', $images[$i]->media->m) .'" class="sppb-flickr-gallery-btn">';
 				$output .= '<img class="sppb-img-responsive" src="'. str_replace('_m', '_q', $images[$i]->media->m) .'" alt="'. $images[$i]->title .'">';
-			$output .= '</a>';
-			$output .= '</li>';
+				$output .= '</a>';
+				$output .= '</li>';
+			}
+
+		} else {
+			foreach($images as $image) {
+				$image_url = "https://farm". $image->farm .".staticflickr.com/". $image->server ."/".$image->id."_".$image->secret."_b.jpg";
+	
+				$output .= '<li>';
+				$output .= '<a target="_blank" rel="noopener noreferrer" href="'. $image_url .'" class="sppb-flickr-gallery-btn">';
+				$output .= '<img class="sppb-img-responsive" src="'. substr_replace($image_url, "_q", -6, 2) .'" alt="'. $image->title .'">';
+				$output .= '</a>';
+				$output .= '</li>';
+			}
 		}
 
 		$output .= '</ul>';
@@ -106,7 +116,14 @@ class SppagebuilderAddonFlickr extends SppagebuilderAddons {
 			$images = file_get_contents($cache_file);
 		} else {
 			$id = (isset($this->addon->settings->id) && $this->addon->settings->id) ? $this->addon->settings->id : '35591378@N03';
-			$api = 'https://api.flickr.com/services/feeds/photos_public.gne?id='. $id .'&format=json&nojsoncallback=1';
+			$api_code = (isset($this->addon->settings->api) && $this->addon->settings->api) ? $this->addon->settings->api : '2fc5721d612333f915b8ab6c9def835f';
+			$count = (isset($this->addon->settings->count) && $this->addon->settings->count) ? $this->addon->settings->count : 0;
+
+			if( $api_code == '2fc5721d612333f915b8ab6c9def835f'){
+				$api = 'https://api.flickr.com/services/feeds/photos_public.gne?id='. $id .'&format=json&nojsoncallback=1';
+			} else {
+				$api = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key='. $api_code .'&user_id='. $id .'&per_page='. $count .'&format=json&nojsoncallback=1';
+			}
 
 			if( ini_get('allow_url_fopen') ) {
 				$images = file_get_contents($api);
@@ -117,7 +134,9 @@ class SppagebuilderAddonFlickr extends SppagebuilderAddons {
 
 		}
 		$json = json_decode($images);
-		if(isset($json->items)) {
+		if(isset($json->photos->photo)) {
+			return $json->photos->photo;
+		} elseif(isset($json->items)) {
 			return $json->items;
 		}
 

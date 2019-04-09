@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -67,7 +67,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 		if (in_array('facebook', $show_socials)) {
 			$output .= '<li class="sppb-social-share-facebook">';
 			$output .= '<a onClick="window.open(\'http://www.facebook.com/sharer.php?u='. $current_url . '\',\'Facebook\',\'width=600,height=300,left=\'+(screen.availWidth/2-300)+\',top=\'+(screen.availHeight/2-150)+\'\'); return false;" href="http://www.facebook.com/sharer.php?u=' . $current_url . '">';
-			$output .= '<i class="fa fa-facebook"></i>';
+			$output .= '<i class="fa fa-facebook" aria-hidden="true"></i>';
 			if ($show_social_names) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_FACEBOOK') . '</span>';
 			}
@@ -80,7 +80,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 			//twitter
 			$output .= '<li class="sppb-social-share-twitter">';
 			$output .= '<a onClick="window.open(\'http://twitter.com/share?url=' . urlencode($current_url) . '&amp;text=' . str_replace(" ", "%20", $page_title ) . '\',\'Twitter share\',\'width=600,height=300,left=\'+(screen.availWidth/2-300)+\',top=\'+(screen.availHeight/2-150)+\'\'); return false;" href="http://twitter.com/share?url=' . $current_url. '&amp;text=' . str_replace(" ", "%20", $page_title) . '">';
-			$output .= '<i class="fa fa-twitter"></i>';
+			$output .= '<i class="fa fa-twitter" aria-hidden="true"></i>';
 			if ($show_social_names) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_TWITTER') . '</span>';
 			}
@@ -93,7 +93,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 			//google plus
 			$output .= '<li class="sppb-social-share-glpus">';
 			$output .= '<a onClick="window.open(\'https://plus.google.com/share?url=' . $current_url . '\',\'Google plus\',\'width=585,height=666,left=\'+(screen.availWidth/2-292)+\',top=\'+(screen.availHeight/2-333)+\'\'); return false;" href="https://plus.google.com/share?url=' . $current_url .'" >';
-			$output .= '<i class="fa fa-google-plus"></i>';
+			$output .= '<i class="fa fa-google-plus" aria-hidden="true"></i>';
 			if ($show_social_names) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_GOOGLE_PLUS') . '</span>';
 			}
@@ -106,7 +106,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 			//linkedin
 			$output .= '<li class="sppb-social-share-linkedin">';
 			$output .= '<a onClick="window.open(\'http://www.linkedin.com/shareArticle?mini=true&url=' . $current_url .'\',\'Linkedin\',\'width=585,height=666,left=\'+(screen.availWidth/2-292)+\',top=\'+(screen.availHeight/2-333)+\'\'); return false;" href="http://www.linkedin.com/shareArticle?mini=true&url=' . $current_url . '" >';
-			$output .= '<i class="fa fa-linkedin-square"></i>';
+			$output .= '<i class="fa fa-linkedin-square" aria-hidden="true"></i>';
 			if ($show_social_names) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_LINKEDIN') . '</span>';
 			}
@@ -118,7 +118,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 		} if (in_array('pinterest', $show_socials)) {
 			$output .= '<li class="sppb-social-share-pinterest">';
 			$output .= '<a onClick="window.open(\'http://pinterest.com/pin/create/button/?url='.$current_url.'&amp;description='.$page_title .'\',\'Pinterest\',\'width=585,height=666,left=\'+(screen.availWidth/2-292)+\',top=\'+(screen.availHeight/2-333)+\'\'); return false;" href="http://pinterest.com/pin/create/button/?url='.$current_url.'&amp;description='.$page_title. '" >';
-			$output .= '<i class="fa fa-pinterest"></i>';
+			$output .= '<i class="fa fa-pinterest" aria-hidden="true"></i>';
 			if ($show_social_names == 1) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_PINTEREST') . '</span>';
 			}
@@ -142,7 +142,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 		} if (in_array('getpocket', $show_socials)) {
 			$output .= '<li class="sppb-social-share-getpocket">';
 			$output .= '<a onClick="window.open(\'https://getpocket.com/save?url='.$current_url .'\',\'Getpocket\',\'width=585,height=666,left=\'+(screen.availWidth/2-292)+\',top=\'+(screen.availHeight/2-333)+\'\'); return false;" href="https://getpocket.com/save?url='.$current_url. '" >';
-			$output .= '<i class="fa fa-get-pocket"></i>';
+			$output .= '<i class="fa fa-get-pocket" aria-hidden="true"></i>';
 			if ($show_social_names == 1) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_GETPOCKET') . '</span>';
 			}
@@ -154,7 +154,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 		} if (in_array('reddit', $show_socials)) {
 			$output .= '<li class="sppb-social-share-reddit">';
 			$output .= '<a onClick="window.open(\'http://www.reddit.com/submit?url='.$current_url .'\',\'Reddit\',\'width=585,height=666,left=\'+(screen.availWidth/2-292)+\',top=\'+(screen.availHeight/2-333)+\'\'); return false;" href="http://www.reddit.com/submit?url='.$current_url. '" >';
-			$output .= '<i class="fa fa-reddit"></i>';
+			$output .= '<i class="fa fa-reddit" aria-hidden="true"></i>';
 			if ($show_social_names == 1) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_REDDIT') . '</span>';
 			}
@@ -166,7 +166,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 		} if (in_array('vk', $show_socials)) {
 			$output .= '<li class="sppb-social-share-vk">';
 			$output .= '<a onClick="window.open(\'http://vk.com/share.php?url=' . $current_url .'\',\'Vk\',\'width=585,height=666,left=\'+(screen.availWidth/2-292)+\',top=\'+(screen.availHeight/2-333)+\'\'); return false;" href="http://vk.com/share.php?url='.$current_url. '" >';
-			$output .= '<i class="fa fa-vk"></i>';
+			$output .= '<i class="fa fa-vk" aria-hidden="true"></i>';
 			if ($show_social_names == 1) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_VK') . '</span>';
 			}
@@ -178,7 +178,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 		} if (in_array('xing', $show_socials)) {
 			$output .= '<li class="sppb-social-share-xing">';
 			$output .= '<a onClick="window.open(\'https://www.xing.com/spi/shares/new?cb=0&url=' . $current_url .'\',\'Xing\',\'width=585,height=666,left=\'+(screen.availWidth/2-292)+\',top=\'+(screen.availHeight/2-333)+\'\'); return false;" href="https://www.xing.com/spi/shares/new?cb=0&url='.$current_url. '" >';
-			$output .= '<i class="fa fa-xing"></i>';
+			$output .= '<i class="fa fa-xing" aria-hidden="true"></i>';
 			if ($show_social_names == 1) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_XING') . '</span>';
 			}
@@ -190,7 +190,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 		} if (in_array('whatsapp', $show_socials)) {
 			$output .= '<li class="sppb-social-share-whatsapp">';
 			$output .= '<a href="whatsapp://send?text='.$current_url. '" >';
-			$output .= '<i class="fa fa-whatsapp"></i>';
+			$output .= '<i class="fa fa-whatsapp" aria-hidden="true"></i>';
 			if ($show_social_names == 1) {
 				$output .= '<span class="sppb-social-share-title">' . JText::_('COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_WHATSAPP') . '</span>';
 			}
@@ -287,20 +287,20 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 
 		$output ='
 			<#
-					let current_url = "' . $current_url .'"
-					let page_title = "' . $page_title .'"
-					let show_totalshare = data.show_totalshare || ""
-					let share_col = "sppb-col-sm-12"
-					let icons_col = "sppb-col-sm-12"
-					let totalShareText = "'. JText::_("COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_TOTAL_SHARES") . '"
+				let current_url = "' . $current_url .'"
+				let page_title = "' . $page_title .'"
+				let show_totalshare = data.show_totalshare || ""
+				let share_col = "sppb-col-sm-12"
+				let icons_col = "sppb-col-sm-12"
+				let totalShareText = "'. JText::_("COM_SPPAGEBUILDER_ADDON_SOCIALSHARE_TOTAL_SHARES") . '"
 
-					let sShareClass = data.class || ""
-							sShareClass += (!_.isEmpty(data.social_style))? " sppb-social-share-style-"+data.social_style.replace("_","-"):""
+				let sShareClass = data.class || ""
+						sShareClass += (!_.isEmpty(data.social_style))? " sppb-social-share-style-"+data.social_style.replace("_","-"):""
 
-					if (show_totalshare == 1) {
-						share_col = "sppb-col-sm-3"
-						icons_col = "sppb-col-sm-9"
-					}
+				if (show_totalshare == 1) {
+					share_col = "sppb-col-sm-3"
+					icons_col = "sppb-col-sm-9"
+				}
 			#>
 
 			<style type="text/css">
@@ -349,7 +349,7 @@ class SppagebuilderAddonSocial_share extends SppagebuilderAddons {
 
 			<div class="sppb-addon sppb-addon-social-share {{ sShareClass }}">
 				<div class="sppb-social-share">
-					<# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-addon-title">{{{ data.title }}}</{{ data.heading_selector }}><# } #>
+					<# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-addon-title sp-inline-editable-element" data-id={{data.id}} data-fieldName="title" contenteditable="true">{{{ data.title }}}</{{ data.heading_selector }}><# } #>
 					<div class="sppb-social-share-wrap sppb-row">
 
 					<# if(show_totalshare){ #>

@@ -40,7 +40,7 @@ $doc->addStylesheet( JURI::base(true) . '/components/com_sppagebuilder/assets/cs
 					<div class="sppb-about-view-right span8">
 						<div class="sppb-about-view-texts">
 							<h2>SP Page Builder Pro <span>Version: <?php echo SppagebuilderHelper::getVersion(); ?></span></h2>
-							<p>Trusted by <strong>200,000+</strong> people worldwide, SP Page Builder is an extremely powerful drag &amp; drop design system.<br/> Whether you're a beginner or a professional, you must love taking control over your website design.</p>
+							<p>Trusted by <strong>400,000+</strong> people worldwide, SP Page Builder is an extremely powerful drag &amp; drop design system.<br/> Whether you're a beginner or a professional, you must love taking control over your website design.</p>
 							<p>With SP Page Builder, you can build a unique, stunning and functional site without coding a single line.<br/> Using the tool, anyone can build a professional quality site in minutes.</p>
 							<div class="sppb-about-view-jed">
 								<span class="fa fa-thumbs-o-up"></span>

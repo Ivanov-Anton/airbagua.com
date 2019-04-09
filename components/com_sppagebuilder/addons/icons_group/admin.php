@@ -3,7 +3,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2018 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
  */
 //no direct accees
@@ -40,6 +40,16 @@ SpAddonsConfig::addonConfig(
                         'max' => 100,
                         'std' => array('md' => 5),
                     ),
+                    'item_display' => array(
+                        'type' => 'select',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_ICON_DISPLAY'),
+                        'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_ICON_DISPLAY_DESC'),
+                        'values'=>array(
+                            'inline-block'=>JText::_('COM_SPPAGEBUILDER_ADDON_ICON_DISPLAY_INLINE'),
+                            'block'=>JText::_('COM_SPPAGEBUILDER_ADDON_ICON_DISPLAY_BLOCK'),
+                        ),
+                        'std' => 'inline-block',
+                    ),
                     'icon_alignment' => array(
                         'type' => 'select',
                         'title' => JText::_('COM_SPPAGEBUILDER_ADDON_ICON_ALIGNMENT'),
@@ -50,12 +60,6 @@ SpAddonsConfig::addonConfig(
                             'sppb-text-right' => JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
                         ),
                         'std' => 'sppb-text-center',
-                    ),
-                    'class' => array(
-                        'type' => 'text',
-                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_CLASS'),
-                        'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_CLASS_DESC'),
-                        'std' => ''
                     ),
                     // End styling
                     'sp_icons_group_item' => array(
@@ -77,17 +81,30 @@ SpAddonsConfig::addonConfig(
                                 'placeholder' => 'http://www.facebook.com/joomshaper',
                                 'std' => '#',
                             ),
+                            'link_open_new_window' => array(
+                                'type' => 'checkbox',
+                                'title' => JText::_('COM_SPPAGEBUILDER_ADDON_LINK_NEW_WINDOW'),
+                                'std' => 0,
+                            ),
+                            'color' => array(
+                                'type' => 'color',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR'),
+                            ),
+                            'background' => array(
+                                'type' => 'color',
+                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR'),
+                            ),
                             'width' => array(
                                 'type' => 'slider',
                                 'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_WIDTH'),
-                                'std' => array('md' => 90),
+                                'std' => array('md' => 80),
                                 'max' => 500,
                                 'responsive' => true
                             ),
                             'height' => array(
                                 'type' => 'slider',
                                 'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_HEIGHT'),
-                                'std' => array('md' => 90),
+                                'std' => array('md' => 80),
                                 'max' => 500,
                                 'responsive' => true
                             ),
@@ -102,11 +119,11 @@ SpAddonsConfig::addonConfig(
                                 'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_STYLE'),
                                 'desc' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_STYLE_DESC'),
                                 'values' => array(
-                                    'solid' => JText::_('COM_SPPAGEBUILDER_GLOBAL_SOLID'),
-                                    'dotted' => JText::_('COM_SPPAGEBUILDER_GLOBAL_DOTTED'),
-                                    'dashed' => JText::_('COM_SPPAGEBUILDER_GLOBAL_DASHED'),
-                                    'double' => JText::_('COM_SPPAGEBUILDER_GLOBAL_DOUBLE'),
-                                    'none' => JText::_('COM_SPPAGEBUILDER_GLOBAL_NONE'),
+                                    'solid' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_STYLE_SOLID'),
+                                    'dotted' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_STYLE_DOTTED'),
+                                    'dashed' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_STYLE_DASHED'),
+                                    'double' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_STYLE_DOUBLE'),
+                                    'none' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_STYLE_NONE'),
                                 ),
                                 'std' => 'solid',
                                 'depends' => array(array('border_width', '!==', 0))
@@ -119,14 +136,6 @@ SpAddonsConfig::addonConfig(
                                 'responsive' => true,
                                 'depends' => array(array('border_width', '!==', 0))
                             ),
-                            'color' => array(
-                                'type' => 'color',
-                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR'),
-                            ),
-                            'background' => array(
-                                'type' => 'color',
-                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR'),
-                            ),
                             'border_color' => array(
                                 'type' => 'color',
                                 'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR')
@@ -137,7 +146,11 @@ SpAddonsConfig::addonConfig(
                                 'desc' => JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING_DESC'),
                                 'placeholder' => '10px',
                                 'responsive' => true,
-                                'std' => '15px',
+                                'std' => '20px 20px 20px 20px',
+                            ),
+                            'label_separator' => array(
+                                'type' => 'separator',
+                                'title' => JText::_('COM_SPPAGEBUILDER_ADDON_ICON_SHOW_LABEL_OPTIONS')
                             ),
                             'show_label' => array(
                                 'type' => 'checkbox',
@@ -175,6 +188,54 @@ SpAddonsConfig::addonConfig(
                                 'std' => array('md' => 16),
                                 'responsive' => true
                             ),
+                            'label_lineheight'=>array(
+                                'type'=>'slider',
+                                'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LINE_HEIGHT'),
+                                'depends' => array(
+                                    array('show_label', '=', 1)
+                                ),
+                                'max'=> 400,
+                                'responsive'=>true,
+                                'std'=> ''
+                            ),
+                            'label_letterspace'=>array(
+                                'type'=>'select',
+                                'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LETTER_SPACING'),
+                                'depends' => array(
+                                    array('show_label', '=', 1)
+                                ),
+                                'values'=>array(
+                                    '-10px'=> '-10px',
+                                    '-9px'=>  '-9px',
+                                    '-8px'=>  '-8px',
+                                    '-7px'=>  '-7px',
+                                    '-6px'=>  '-6px',
+                                    '-5px'=>  '-5px',
+                                    '-4px'=>  '-4px',
+                                    '-3px'=>  '-3px',
+                                    '-2px'=>  '-2px',
+                                    '-1px'=>  '-1px',
+                                    '0px'=> 'Default',
+                                    '1px'=> '1px',
+                                    '2px'=> '2px',
+                                    '3px'=> '3px',
+                                    '4px'=> '4px',
+                                    '5px'=> '5px',
+                                    '6px'=>	'6px',
+                                    '7px'=>	'7px',
+                                    '8px'=>	'8px',
+                                    '9px'=>	'9px',
+                                    '10px'=> '10px'
+                                ),
+                                'std'=>'0px'
+                            ),
+                            'label_font_style'=>array(
+                                'type'=>'fontstyle',
+                                'title'=> JText::_('COM_SPPAGEBUILDER_GLOBAL_FONT_STYLE'),
+                                'depends' => array(
+                                    array('show_label', '=', 1)
+                                ),
+                            ),
                             'label_margin' => array(
                                 'type' => 'margin',
                                 'title' => JText::_('COM_SPPAGEBUILDER_ADDON_ICONS_GROUP_MARGIN'),
@@ -183,6 +244,7 @@ SpAddonsConfig::addonConfig(
                                 'depends' => array(
                                     array('show_label', '=', 1)
                                 ),
+                                'std'=>''
                             ),
                             'separator' => array(
                                 'type' => 'separator',
@@ -214,23 +276,6 @@ SpAddonsConfig::addonConfig(
                                     array('use_hover', '=', 1)
                                 )
                             ),
-                            'hover_border_width' => array(
-                                'type' => 'slider',
-                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_WIDTH'),
-                                'responsive' => true,
-                                'depends' => array(
-                                    array('use_hover', '=', 1)
-                                )
-                            ),
-                            'hover_border_radius' => array(
-                                'type' => 'slider',
-                                'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_RADIUS'),
-                                'max' => 500,
-                                'responsive' => true,
-                                'depends' => array(
-                                    array('use_hover', '=', 1)
-                                )
-                            ),
                             'icon_class' => array(
                                 'type' => 'text',
                                 'title' => JText::_('COM_SPPAGEBUILDER_ADDON_CLASS'),
@@ -239,6 +284,12 @@ SpAddonsConfig::addonConfig(
                                 'std' => '',
                             ),
                         )
+                    ),
+                    'class' => array(
+                        'type' => 'text',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ADDON_CLASS'),
+                        'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_CLASS_DESC'),
+                        'std' => ''
                     ),
                 ),
             )

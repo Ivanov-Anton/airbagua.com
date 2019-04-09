@@ -1,15 +1,16 @@
 <?php
 /**
- * @version     3.1.x
- * @package     Simple Image Gallery Pro
- * @author      JoomlaWorks - http://www.joomlaworks.net
- * @copyright   Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
- * @license     http://www.joomlaworks.net/license
+ * @version    3.6.x
+ * @package    Simple Image Gallery Pro
+ * @author     JoomlaWorks - https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
+ * @license    https://www.joomlaworks.net/license
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+/* Highslide v5.0.0 released on 24/05/2016 [Final] */
 $relName = 'highslide';
 $extraClass = 'highslide';
 
@@ -17,9 +18,9 @@ $stylesheets = array('highslide.css');
 $stylesheetDeclarations = array();
 $scripts = array('highslide-full.packed.js');
 
-if(!defined('PE_HIGHSLIDE_LOADED')){
-	define('PE_HIGHSLIDE_LOADED', true);
-	$scriptDeclarations = array('
+if (!defined('PE_HIGHSLIDE_JS_LOADED')) {
+    define('PE_HIGHSLIDE_JS_LOADED', true);
+    $scriptDeclarations = array('
 		hs.graphicsDir = \''.$popupPath.'/graphics/\';
 		hs.align = \'center\';
 		hs.transitions = [\'expand\', \'crossfade\'];
@@ -79,7 +80,13 @@ if(!defined('PE_HIGHSLIDE_LOADED')){
 			}
 		}
 		highSlideForSIGP.ready(highSlideForSIGP.init);
+
+		/*
+		document.addEventListener("DOMContentLoaded", function(event) {
+			highSlideForSIGP.init;
+		});
+		*/
 	');
 } else {
-	$scriptDeclarations = array();
+    $scriptDeclarations = array();
 }

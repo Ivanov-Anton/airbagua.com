@@ -19,6 +19,9 @@ require_once JPATH_COMPONENT.'/helpers/route.php';
 
 jimport('joomla.application.component.controller');
 
+//CSRF
+\JHtml::_('jquery.token');
+
 $controller = JControllerLegacy::getInstance('Sppagebuilder');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

@@ -1,0 +1,12 @@
+atoms:
+  -
+    id: analytics-2472
+    type: analytics
+    title: 'Google Analytics'
+    attributes:
+      enabled: '1'
+      ua:
+        code: UA-136971982-1
+        anonym: '0'
+        ssl: '0'
+        debug: '0'

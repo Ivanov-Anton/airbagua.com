@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -231,7 +231,9 @@ Joomla.orderTable = function() {
 												<?php endif; ?>
 
 												<a class="sp-pagebuilder-btn sp-pagebuilder-btn-default sp-pagebuilder-btn-xs sp-pagebuilder-btn-preview-page" target="_blank" href="<?php echo $item->preview; ?>" style="color: #fff; margin: 5px;"><?php echo JText::_('COM_SPPAGEBUILDER_PREVIEW'); ?></a>
-												<a class="sp-pagebuilder-btn sp-pagebuilder-btn-success sp-pagebuilder-btn-xs sp-pagebuilder-btn-frontend-editor" target="_blank" href="<?php echo $item->frontend_edit; ?>" style="color: #fff; margin: 5px 0;"><?php echo JText::_('COM_SPPAGEBUILDER_FRONTEND_EDITOR'); ?></a>
+												<?php if ($canEdit) : ?>
+													<a class="sp-pagebuilder-btn sp-pagebuilder-btn-success sp-pagebuilder-btn-xs sp-pagebuilder-btn-frontend-editor" target="_blank" href="<?php echo $item->frontend_edit; ?>" style="color: #fff; margin: 5px 0;"><?php echo JText::_('COM_SPPAGEBUILDER_FRONTEND_EDITOR'); ?></a>
+												<?php endif; ?>
 
 												<?php
 												if(isset($item->created_by) && $item->created_by) {

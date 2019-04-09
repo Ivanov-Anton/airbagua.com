@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -67,8 +67,8 @@ SpAddonsConfig::addonConfig(
 					'values'=>array(
 						'after'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_TITLE_POSITION_BEFORE_TITLE'),
 						'before'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_TITLE_POSITION_AFTER_TITLE'),
-						'left'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_TITLE_POSITION_LEFT'),
-						'right'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_TITLE_POSITION_RIGHT'),
+						'left'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LEFT'),
+						'right'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
 					),
 					'std'=>'after',
 					'depends'=>array(array('title', '!=', '')),
@@ -156,6 +156,13 @@ SpAddonsConfig::addonConfig(
 					'std'=>'',
 				),
 
+				'link_open_new_window' => array(
+					'type' => 'checkbox',
+					'title' => JText::_('COM_SPPAGEBUILDER_ADDON_LINK_NEW_WINDOW'),
+					'std' => 0,
+					'depends'=>array(array('title_url', '!=', '')),
+				),
+
 				'url_appear'=>array(
 					'type'=>'select',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_URL_APEAR'),
@@ -176,6 +183,7 @@ SpAddonsConfig::addonConfig(
 					'values'=> array(
 						'icon'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_LAYOUT_TYPE_ICON'),
 						'image'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_LAYOUT_TYPE_IMAGE'),
+						'both'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_LAYOUT_TYPE_BOTH'),
 					),
 					'std' => 'icon'
 				),
@@ -183,13 +191,9 @@ SpAddonsConfig::addonConfig(
 				'separator_image_options'=>array(
 					'type'=>'separator',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_image_OPTIONS'),
-					'depends'=>array('feature_type'=>'image')
-				),
-
-				'separator_icon_options'=>array(
-					'type'=>'separator',
-					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_ICON_OPTIONS'),
-					'depends'=>array('feature_type'=>'icon')
+					'depends'=>array(
+                        array('feature_type', '!=', 'icon'),
+                    )
 				),
 
 				'feature_image'=>array(
@@ -197,14 +201,48 @@ SpAddonsConfig::addonConfig(
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_IMAGE'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_IMAGE_DESC'),
 					'std' => '',
-					'depends'=>array('feature_type'=>'image')
+					'depends'=>array(
+                        array('feature_type', '!=', 'icon'),
+                    )
+				),
+				'feature_image_width'=>array(
+					'type' => 'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_IMAGE_WIDTH'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_IMAGE_WIDTH_DESC'),
+                    'responsive' => true,
+                    'max'=> 100,
+					'std' => array('md'=>50),
+					'depends' => array(
+                        array('feature_type', '!=', 'icon'),
+                        array('title_position', '!=', 'before'),
+                        array('title_position', '!=', 'after'),
+                    )
+				),
+                'feature_image_margin'=>array(
+                    'type'=>'margin',
+                    'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_MARGIN'),
+                    'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_MARGIN_DESC'),
+                    'depends'=>array(
+                        array('feature_type', '!=', 'icon'),
+                    ),
+                    'responsive' => true
+				),
+                            
+                'separator_icon_options'=>array(
+					'type'=>'separator',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_ICON_OPTIONS'),
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    )
 				),
 
 				'icon_name'=>array(
 					'type'=>'icon',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ICON_NAME'),
 					'std'=> 'fa-trophy',
-					'depends'=>array('feature_type'=>'icon')
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    )
 				),
 
 				'icon_size'=>array(
@@ -212,7 +250,9 @@ SpAddonsConfig::addonConfig(
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ICON_SIZE'),
 					'placeholder'=>36,
 					'std'=>array('md'=>36),
-					'depends'=>array('feature_type'=>'icon'),
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    ),
 					'responsive' => true,
 					'max'=> 400,
 				),
@@ -221,25 +261,33 @@ SpAddonsConfig::addonConfig(
 					'type'=>'color',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR'),
 					'std'=>'#0080FE',
-					'depends'=>array('feature_type'=>'icon')
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    )
 				),
 
 				'icon_background'=>array(
 					'type'=>'color',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR'),
-					'depends'=>array('feature_type'=>'icon')
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    )
 				),
 
 				'icon_border_color'=>array(
 					'type'=>'color',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR'),
-					'depends'=>array('feature_type'=>'icon')
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    )
 				),
 
 				'icon_border_width'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_WIDTH'),
-					'depends'=>array('feature_type'=>'icon'),
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    ),
 					'responsive' => true,
 					'max'=> 400,
 				),
@@ -247,23 +295,36 @@ SpAddonsConfig::addonConfig(
 				'icon_border_radius'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_RADIUS'),
-					'depends'=>array('feature_type'=>'icon'),
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    ),
 					'responsive' => true,
 					'max'=> 400,
+				),
+
+				'icon_boxshadow'=>array(
+					'type'=>'boxshadow',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_ICON_BOXSHADOW'),
+					'std'=>'0 0 0 0 #ffffff'
 				),
 
 				'icon_margin_top'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_MARGIN_TOP'),
-					'depends'=>array('feature_type'=>'icon'),
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    ),
 					'responsive' => true,
+					'min'=> -200,
 					'max'=> 400,
 				),
 
 				'icon_margin_bottom'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_MARGIN_BOTTOM'),
-					'depends'=>array('feature_type'=>'icon'),
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    ),
 					'responsive' => true,
 					'max'=> 400,
 				),
@@ -272,13 +333,15 @@ SpAddonsConfig::addonConfig(
 					'type'=>'padding',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING_DESC'),
-					'depends'=>array('feature_type'=>'icon'),
+					'depends'=>array(
+                        array('feature_type', '!=', 'image'),
+                    ),
 					'responsive' => true
 				),
 
 				'separator_addon_options'=>array(
 					'type'=>'separator',
-					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ADDON_OPTIONS')
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_OPTIONS')
 				),
 
 				'text'=>array(
@@ -295,7 +358,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-content .sppb-addon-text { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-content .sppb-addon-text { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -307,12 +370,39 @@ SpAddonsConfig::addonConfig(
 					'responsive'=>true
 				),
 
+				'text_fontweight'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_FONTWEIGHT'),
+					'values'=>array(
+						'100'=>100,
+						'200'=>200,
+						'300'=>300,
+						'400'=>400,
+						'500'=>500,
+						'600'=>600,
+						'700'=>700,
+						'900'=>900,
+					),
+					'std'=>'',
+				),
+
 				'text_lineheight'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_CONTENT_LINE_HEIGHT'),
 					'std'=>'',
 					'max'=>400,
 					'responsive'=>true
+				),
+                                
+                'text_background'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR'),
+				),
+                'text_padding'=>array(
+					'type'=>'padding',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING_DESC'),
+					'responsive' => true
 				),
 
 				'alignment'=>array(
@@ -325,6 +415,36 @@ SpAddonsConfig::addonConfig(
 						'sppb-text-right'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
 					),
 					'std'=>'sppb-text-center',
+				),
+
+				'global_separator'=>array(
+					'type'=>'separator',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_HOVER_OPTIONS'),
+				),
+				'addon_hover_bg'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_HOVER_BG'),
+				),
+				'addon_hover_boxshadow'=>array(
+					'type'=>'boxshadow',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_HOVER_BOXSHADOW'),
+					'std'=>'0 0 0 0 #ffffff'
+				),
+				'addon_hover_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_ADDON_HOVER_COLOR'),
+				),
+				'title_hover_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_TITLE_HOVER_COLOR'),
+				),
+				'icon_hover_bg'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_ICON_HOVER_BG'),
+				),
+				'icon_hover_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FEATURE_BOX_ICON_HOVER_COLOR'),
 				),
 
 				'class'=>array(

@@ -21,6 +21,8 @@ $custom_style_sm = '';
 $custom_style_xs = '';
 if ($appearance == 'outline') {
     $custom_style .= (isset($options->button_background_color) && $options->button_background_color) ? ' border-color: ' . $options->button_background_color . ';' : '';
+    $custom_style .= (isset($options->button_border_width) && $options->button_border_width) ? ' border-width: ' . $options->button_border_width . ';' : '';
+    $custom_style .= 'background-color: transparent;';
 } else if ($appearance == '3d') {
     $custom_style .= (isset($options->button_background_color_hover) && $options->button_background_color_hover) ? ' border-bottom-color: ' . $options->button_background_color_hover . ';' : '';
     $custom_style .= (isset($options->button_background_color) && $options->button_background_color) ? ' background-color: ' . $options->button_background_color . ';' : '';
@@ -48,9 +50,9 @@ if ($appearance == 'outline') {
 }
 $custom_style .= (isset($options->button_color) && $options->button_color) ? ' color: ' . $options->button_color . ';' : '';
 
-$custom_style .= (isset($options->button_padding) && $options->button_padding) ? ' padding: ' . $options->button_padding . ';' : '';
-$custom_style_sm .= (isset($options->button_padding_sm) && $options->button_padding_sm) ? ' padding: ' . $options->button_padding_sm . ';' : '';
-$custom_style_xs .= (isset($options->button_padding_xs) && $options->button_padding_xs) ? ' padding: ' . $options->button_padding_xs . ';' : '';
+$custom_style .= (isset($options->button_padding) && trim($options->button_padding)) ? ' padding: ' . $options->button_padding . ';' : '';
+$custom_style_sm .= (isset($options->button_padding_sm) && trim($options->button_padding_sm)) ? ' padding: ' . $options->button_padding_sm . ';' : '';
+$custom_style_xs .= (isset($options->button_padding_xs) && trim($options->button_padding_xs)) ? ' padding: ' . $options->button_padding_xs . ';' : '';
 
 $custom_style .= (isset($options->fontsize) && $options->fontsize) ? ' font-size: ' . $options->fontsize . 'px;' : '';
 $custom_style_sm .= (isset($options->fontsize_sm) && $options->fontsize_sm) ? ' font-size: ' . $options->fontsize_sm . 'px;' : '';
@@ -141,7 +143,30 @@ if (!$modern_font_style) {
         }
     }
 }
+if($btn_style=='link'){
+    $link_style ='';
+    $link_style .= (isset($options->link_button_color) && $options->link_button_color) ? ' color: ' . $options->link_button_color . ';' : '';
+    $link_style .= (isset($options->link_border_color) && $options->link_border_color) ? ' border-color: ' . $options->link_border_color . ';' : '';
+    $link_style .= (isset($options->link_button_border_width) && $options->link_button_border_width) ? ' border-width: 0 0 ' . $options->link_button_border_width . 'px 0;' : '';
+    $link_style .= (isset($options->link_button_padding_bottom) && gettype($options->link_button_padding_bottom) == 'string') ? ' padding: 0 0 ' . $options->link_button_padding_bottom . 'px 0;' : '';
+    $css .= $addon_id . ' #' . $id . '.sppb-btn-link {';
+        $css .= $link_style;
+        $css .= 'text-decoration:none;';
+        $css .= 'border-radius:0;';
+    $css .= '}';
 
+    // $link_button_status = (isset($options->link_button_status) && $options->link_button_status) ? $options->link_button_status : '';
+    // if($link_button_status == 'hover'){
+        $link_hover_style ='';
+        $link_hover_style .= (isset($options->link_button_hover_color) && $options->link_button_hover_color) ? ' color: ' . $options->link_button_hover_color . ';' : '';
+        $link_hover_style .= (isset($options->link_button_border_hover_color) && $options->link_button_border_hover_color) ? ' border-color: ' . $options->link_button_border_hover_color . ';' : '';
+        $css .= $addon_id . ' #' . $id . '.sppb-btn-link:hover,';
+        $css .= $addon_id . ' #' . $id . '.sppb-btn-link:focus {';
+            $css .= $link_hover_style;
+        $css .= '}';
+    // }
+
+}
 if ($style) {
     $css .= $addon_id . ' #' . $id . '.sppb-btn-' . $btn_style . '{' . $style . '}';
 }

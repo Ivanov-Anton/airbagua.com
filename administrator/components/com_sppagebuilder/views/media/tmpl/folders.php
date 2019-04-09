@@ -137,15 +137,15 @@ echo json_encode($report); die;
 
 			$thumb = dirname($path) . '/_sp-pagebuilder_thumbs/' . basename($path);
 			if(file_exists(JPATH_ROOT . '/' . $thumb)) {
-				$report['output'] .= '<img src="'. JURI::root(true) . '/' . $thumb .'">';
+				$report['output'] .= '<img title="'. $filename .'" src="'. JURI::root(true) . '/' . $thumb .'">';
 			} else {
-				$report['output'] .= '<img src="'. JURI::root(true) . '/' . $path .'">';
+				$report['output'] .= '<img title="'. $filename .'" src="'. JURI::root(true) . '/' . $path .'">';
 			}
 
 			$report['output'] .= '</div>';
 			$report['output'] .= '</div>';
 			$report['output'] .= '</div>';
-			$report['output'] .= '<span class="sp-pagebuilder-media-title"><i class="fa fa-picture-o"></i> ' . $title . '.' . $ext .'</span>';
+			$report['output'] .= '<span title="'. $filename .'" class="sp-pagebuilder-media-title"><i class="fa fa-picture-o"></i> ' . $title . '.' . $ext .'</span>';
 			$report['output'] .= '</div>';
 
 			$report['output'] .= '</li>';

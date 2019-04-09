@@ -3,7 +3,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
  */
 //no direct accees
@@ -29,24 +29,41 @@ class SppagebuilderAddonTimeline extends SppagebuilderAddons {
             $output .= '<div class="sppb-row timeline-movement ' . $oddeven . '">';
             $output .= '<div class="timeline-badge"></div>';
             if ($oddeven == 'odd') {
-                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item">';
-                $output .= '<p class="timeline-date text-right">' . $timeline->date . '</p>';
+                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6 timeline-item">';
+                if(isset($timeline->date) && $timeline->date){
+                  $output .= '<p class="timeline-date text-right">' . $timeline->date . '</p>';
+                }
                 $output .= '</div>';
-                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item">';
+                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6 timeline-item">';
                 $output .= '<div class="timeline-panel">';
-                $output .= '<p class="title">' . $timeline->title . '</p>';
-                $output .= '<div class="details">' . $timeline->content . '</div>';
+                if(isset($timeline->title) && $timeline->title){
+                  $output .= '<p class="title">' . $timeline->title . '</p>';
+                }
+                if(isset($timeline->content) && $timeline->content){
+                  $output .= '<div class="details">' . $timeline->content . '</div>';
+                }
                 $output .= '</div>';
                 $output .= '</div>';
             } elseif ($oddeven == 'even') {
-                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item">';
+                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6 timeline-item mobile-block">';
+                if(isset($timeline->date) && $timeline->date){
+                  $output .= '<p class="timeline-date text-left">' . $timeline->date . '</p>';
+                }
+                $output .= '</div>';
+                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6 timeline-item">';
                 $output .= '<div class="timeline-panel left-part">';
-                $output .= '<p class="title">' . $timeline->title . '</p>';
-                $output .= '<div class="details">' . $timeline->content . '</div>';
+                if(isset($timeline->title) && $timeline->title){
+                  $output .= '<p class="title">' . $timeline->title . '</p>';
+                }
+                if(isset($timeline->content) && $timeline->content){
+                  $output .= '<div class="details">' . $timeline->content . '</div>';
+                }
                 $output .= '</div>';
                 $output .= '</div>';
-                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item">';
-                $output .= '<p class="timeline-date text-left">' . $timeline->date . '</p>';
+                $output .= '<div class="sppb-col-xs-12 sppb-col-sm-6 timeline-item mobile-hidden">';
+                if(isset($timeline->date) && $timeline->date){
+                  $output .= '<p class="timeline-date text-left">' . $timeline->date . '</p>';
+                }
                 $output .= '</div>';
             }
             $output .= '</div>'; //.timeline-movement
@@ -102,7 +119,7 @@ class SppagebuilderAddonTimeline extends SppagebuilderAddons {
         <# } #>
         <div class="sppb-addon sppb-addon-timeline {{ data.class }}">
           <div class="sppb-addon-timeline-text-wrap">
-            <# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-addon-title">{{ data.title }}</{{ data.heading_selector }}><# } #>
+            <# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-addon-title sp-inline-editable-element" data-id={{data.id}} data-fieldName="title" contenteditable="true">{{ data.title }}</{{ data.heading_selector }}><# } #>
           </div>
 
           <div class="sppb-addon-timeline-wrapper">
@@ -120,20 +137,23 @@ class SppagebuilderAddonTimeline extends SppagebuilderAddons {
                   </div>
                   <div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item">
                     <div class="timeline-panel">
-                      <p class="title">{{ timeline_item.title }}</p>
-                      <div class="details">{{{ timeline_item.content }}}</div>
+                      <p class="title sp-editable-content" id="addon-title-{{data.id}}-{{key}}" data-id={{data.id}} data-fieldName="sp_timeline_items-{{key}}-title">{{ timeline_item.title }}</p>
+                      <div class="details sp-editable-content" id="addon-content-{{data.id}}-{{key}}" data-id={{data.id}} data-fieldName="sp_timeline_items-{{key}}-content">{{{ timeline_item.content }}}</div>
                     </div>
                   </div>
 
                 <# } else { #>
 
-                  <div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item">
-                    <div class="timeline-panel left-part">
-                      <p class="title">{{ timeline_item.title }}</p>
-                      <div class="details">{{{ timeline_item.content }}}</div>
-                    </div>
+                  <div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item mobile-block">
+                    <p class="timeline-date text-left">{{ timeline_item.date }}</p>
                   </div>
                   <div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item">
+                    <div class="timeline-panel left-part">
+                      <p class="title sp-editable-content" id="addon-title-{{data.id}}-{{key}}" data-id={{data.id}} data-fieldName="sp_timeline_items-{{key}}-title">{{ timeline_item.title }}</p>
+                      <div class="details sp-editable-content" id="addon-content-{{data.id}}-{{key}}" data-id={{data.id}} data-fieldName="sp_timeline_items-{{key}}-content">{{{ timeline_item.content }}}</div>
+                    </div>
+                  </div>
+                  <div class="sppb-col-xs-12 sppb-col-sm-6  timeline-item mobile-hidden">
                     <p class="timeline-date text-left">{{ timeline_item.date }}</p>
                   </div>
 

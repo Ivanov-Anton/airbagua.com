@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -411,22 +411,25 @@ class SpPgaeBuilderBase {
 				$sppbOneAddon = true;
 				if($options['type'] == 'repeatable'){
 					$default[$key] = self::repeatableFieldVal($options['attr']);
-				} else if ( isset( $options['std'] ) ) {
+				}else if ( isset( $options['std'] ) ) {
 					$default[$key] = $options['std'];
 				}
 			} else {
 				foreach ( $options as $key => $option ) {
-					if ( isset( $option['attr'] ) ) {
+					if ( isset( $option['std'] ) ) {
+						$default[$key] = $option['std'];
+					} else if( isset( $option['attr'] ) ) {
 						$default[$key] = self::repeatableFieldVal($option['attr']);
-					} else {
+					}else {
 						if ( isset( $option['std'] ) ) {
 							$default[$key] = $option['std'];
 						}
 					}
 				}
 			}
+			
 		}
-
+		
 		$newAddonAttr = array();
 
 		$newAddonAttr['default'] = $default;
@@ -443,7 +446,13 @@ class SpPgaeBuilderBase {
 			if ( isset( $reOption['std'] ) ) {
 				$redefault[0][$rkey] = $reOption['std'];
 			}
+			if( isset($reOption['type'])){
+                if ( $reOption['type'] == 'repeatable' && isset( $reOption['attr'] ) ) {
+                    $redefault[0][$rkey] = self::repeatableFieldVal($reOption['attr']);
+                }
+            }
 		}
+	
 		return $redefault;
 	}
 
@@ -453,31 +462,73 @@ class SpPgaeBuilderBase {
 		$query = $db->getQuery(true);
 		$query->select( 'a.enabled' );
 		$query->from($db->quoteName('#__extensions', 'a'));
-		$query->where($db->quoteName('a.name')." = ".$db->quote('AcyMailing'));
+		$query->where('(' . $db->quoteName('a.element') . ' = '. $db->quote($db->escape('com_acymailing')) . ' OR ' . $db->qn('a.element') . ' = ' . $db->q($db->escape('com_acym')) . ')');
 		$db->setQuery($query);
 		$is_enabled = $db->loadResult();
+		
+		if($is_enabled)
+		{
+			// Get acymailing version
+			$acym_version = self::getExtensionVersion(array('com_acymailing', 'com_acym'));
 
-		$listArray = array();
-
-		if($is_enabled){
 			$query2 = $db->getQuery(true);
-			$query2->select($db->quoteName(array('listid', 'name')));
-			$query2->from($db->quoteName('#__acymailing_list'));
-			$query2->where($db->quoteName('published') . ' = '. $db->quote(1));
-			$query2->order('ordering ASC');
+			if($acym_version >= 6) 
+			{
+				$query2->select($db->quoteName(array('id', 'name')));
+				$query2->from($db->quoteName('#__acym_list'));
+				$query2->where($db->quoteName('active') . ' = '. $db->quote(1));
+			} 
+			else 
+			{
+				$query2->select($db->quoteName(array('listid', 'name')));
+				$query2->from($db->quoteName('#__acymailing_list'));
+				$query2->where($db->quoteName('published') . ' = '. $db->quote(1));
+			}
+			$query2->order('name DESC');
 			$db->setQuery($query2);
 			$lists = $db->loadObjectList();
-
+			$listArray = array();
 			if(count((array) $lists)){
 				foreach($lists as $list){
-					$listArray[$list->listid] = $list->name;
+					if($acym_version >= 6) {
+						$listArray[$list->id] = $list->name;
+					} else {
+						$listArray[$list->listid] = $list->name;	
+					}
 				}
 			}
+			return $listArray;
+		}
 
+		return array();
+		
+	}
+
+	// Get extension version
+	public static function getExtensionVersion($ext_name = '')
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+		->select($db->quoteName('e.manifest_cache'))
+		->from($db->quoteName('#__extensions', 'e'));
+
+		// multiple extension names
+		if(is_array($ext_name) && count((array)$ext_name)) {
+			$ext_elements = implode(' OR ', array_map(function ($entry) {
+				return "e.element = '" . $entry . "'";
+			}, $ext_name));
+			$query->where( $ext_elements );
+		} else {
+			$query->where($db->quoteName('e.element') . ' = ' . $db->quote($ext_name));
+		}
+		$db->setQuery($query);
+		
+		$manifest_cache = json_decode($db->loadResult());
+		if(isset($manifest_cache->version) && $manifest_cache->version) {
+			return $manifest_cache->version;
 		}
 		
-		return $listArray;
-		
+		return '1.0';
 	}
 
 	public static function k2CatList()

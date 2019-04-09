@@ -2,13 +2,13 @@
 return [
     '@class' => 'Gantry\\Component\\File\\CompiledYamlFile',
     'filename' => '/home/dobrod/airbagua.com/www/templates/g5_helium/gantry/theme.yaml',
-    'modified' => 1547580537,
+    'modified' => 1552425395,
     'data' => [
         'details' => [
             'name' => 'Helium',
-            'version' => '5.4.27',
+            'version' => '5.4.28',
             'icon' => 'paper-plane',
-            'date' => 'December 14, 2018',
+            'date' => 'March 11, 2019',
             'author' => [
                 'name' => 'RocketTheme, LLC',
                 'email' => 'support@rockettheme.com',

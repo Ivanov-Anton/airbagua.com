@@ -21,7 +21,14 @@ if(isset($options->sm_col) && $options->sm_col) {
 if(isset($options->xs_col) && $options->xs_col) {
 	$options->cssClassName .= ' sppb-' . $options->xs_col;
 }
-
+//Column order
+$column_order = '';
+if(isset($options->tablet_order) && $options->tablet_order) {
+	$column_order .= ' sppb-order-sm-'.$options->tablet_order;
+}
+if(isset($options->mobile_order) && $options->mobile_order) {
+	$column_order .= ' sppb-order-xs-'.$options->mobile_order;
+}
 // Visibility
 if(isset($options->hidden_md) && $options->hidden_md) {
 	$custom_class .= ' sppb-hidden-md sppb-hidden-lg';
@@ -54,11 +61,11 @@ if(isset($options->animation) && $options->animation) {
 }
 
 $html  = '';
-$html .= '<div class="sppb-' . $options->cssClassName . '" id="column-wrap-id-'. $options->dynamicId .'">';
+$html .= '<div class="sppb-' . $options->cssClassName . ''.$column_order.'" id="column-wrap-id-'. $options->dynamicId .'">';
 $html .= '<div id="column-id-'. $options->dynamicId .'" class="sppb-column' . $custom_class . '" ' . $data_attr . '>';
 
 if (isset($options->background_image) && $options->background_image) {
-	if (isset($options->overlay) && $options->overlay) {
+	if (isset($options->overlay_type) && $options->overlay_type !== 'overlay_none') {
 		$html .= '<div class="sppb-column-overlay"></div>';
 	}
 }

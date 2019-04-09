@@ -18,37 +18,38 @@ jQuery(document).ready(function($) {
 
 		var action = $(this).data('action');
 
+		// get shared parent container
+		var $container = $(this).parent('.sp-pagebuilder-btn-group').parent();
+
 		if (action === 'editor') {
 			$('.sp-pagebuilder-admin').hide();
 			$(spIntergationElement).show();
 			$('#jform_attribs_sppagebuilder_active').val('0');
 
 			if (typeof WFEditor !== 'undefined') {
-	      $('.wf-editor-header').empty();
-				$('.mceEditor').each(function(){
-					var editorTempID = $(this).attr('id');
-					var currentEditorID = editorTempID.substring( 0, editorTempID.length - 7 );
-					var editorContentTemp = WFEditor.getContent(currentEditorID);
-					$('#'+currentEditorID).val(editorContentTemp);
-					$(this).remove();
+				$('.wf-editor', $container).each(function() {
+					var value = this.nodeName === "TEXTAREA" ? this.value : this.innerHTML;
+
+					// pass content from textarea to editor
+					Joomla.editors.instances[this.id].setValue(value);
+
+					// show editor and tabs
+					$(this).parent('.wf-editor-container').show();
 				});
 
-	      WFEditor.create();
-				$('.mceEditor').show();
-	    }
+			}
 
 		} else {
 
 			if (typeof WFEditor !== 'undefined') {
-	      $('.wf-editor-header').empty();
-				$('.mceEditor').each(function(){
-					var editorTempID = $(this).attr('id');
-					var currentEditorID = editorTempID.substring( 0, editorTempID.length - 7 );
-					var editorContentTemp = WFEditor.getContent(currentEditorID);
-					$('#'+currentEditorID).val(editorContentTemp);
-					$(this).remove();
+				$('.wf-editor', $container).each(function() {
+					// pass content to textarea
+					Joomla.editors.instances[this.id].getValue();
+
+					// hide editor and tabs
+					$(this).parent('.wf-editor-container').hide();
 				});
-	    }
+			}
 
 			$(spIntergationElement).hide();
 			$('.sp-pagebuilder-admin').show();

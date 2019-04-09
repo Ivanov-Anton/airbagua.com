@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset
+            name="parameters"
+            label="COM_SPEEDCACHE_CONFIG_PARAMETERS_LABEL"
+            description="COM_SPEEDCACHE_CONFIG_PARAMETERS_DESC"
+            addfieldpath="/administrator/components/com_speedcache/models/fields" >
+    >
+
+        <field
+                name="cache_lifetime"
+                type="int"
+                default="1440"
+                label="COM_SPEEDCACHE_CONFIG_CACHE_LIFETIME_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_CACHE_LIFETIME_DESC"
+                required="true"/>
+
+        <field name="use_browser_cache" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_BROWSER_CACHE_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_BROWSER_CACHE_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="distinct_user_cache" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DISTINCT_USER_CACHE_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DISTINCT_USER_CACHE_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="clear_on_admin_tasks" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_CLEAR_ON_ADMIN_TASK_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_CLEAR_ON_ADMIN_TASK_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="clear_on_frontend_tasks" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_CLEAR_ON_FRONTEND_TASK_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_CLEAR_ON_FRONTEND_TASK_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="clear_joomla_cache" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_CLEAR_JOOMLA_CACHE_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_CLEAR_JOOMLA_CACHE_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="preloading_token" type="token"
+               label="COM_SPEEDCACHE_CONFIG_PRELOADING_TOKEN_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_PRELOADING_TOKEN_DESC"
+        />
+
+        <field name="cache_preloading_after_save" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_PRELOADING_AFTER_CLEARING_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_PRELOADING_AFTER_CLEARING_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="cache_header" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_CACHE_HEADER_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_CACHE_HEADER_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="auto_add_url" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_AUTO_ADD_URL_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_AUTO_ADD_URL_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field
+                name="cache_desktop"
+                type="list"
+                label="COM_SPEEDCACHE_CONFIG_CACHE_DESKTOP_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_CACHE_DESKTOP_DESC"
+                default=""
+                >
+            <option value="0">COM_SPEEDCACHE_CONFIG_CACHE_DESKTOP_OPTION_ACTIVE</option>
+            <option value="1">COM_SPEEDCACHE_CONFIG_CACHE_DESKTOP_OPTION_DEACTIVE</option>
+        </field>
+
+        <field
+                name="cache_tablet"
+                type="list"
+                label="COM_SPEEDCACHE_CONFIG_CACHE_TABLET_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_CACHE_TABLET_DESC"
+                default=""
+                >
+            <option value="0">COM_SPEEDCACHE_CONFIG_CACHE_TABLET_OPTION_AUTOMATIC</option>
+            <option value="1">COM_SPEEDCACHE_CONFIG_CACHE_TABLET_OPTION_ACTIVE</option>
+            <option value="2">COM_SPEEDCACHE_CONFIG_CACHE_TABLET_OPTION_DEACTIVE</option>
+        </field>
+
+        <field
+                name="cache_mobile"
+                type="list"
+                label="COM_SPEEDCACHE_CONFIG_CACHE_MOBILE_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_CACHE_MOBILE_DESC"
+                default=""
+                >
+            <option value="0">COM_SPEEDCACHE_CONFIG_CACHE_MOBILE_OPTION_AUTOMATIC</option>
+            <option value="1">COM_SPEEDCACHE_CONFIG_CACHE_MOBILE_OPTION_ACTIVE</option>
+            <option value="2">COM_SPEEDCACHE_CONFIG_CACHE_MOBILE_OPTION_DEACTIVE</option>
+        </field>
+
+        <field name="lazy_loading" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_LAZY_LOADING_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_LAZY_LOADING_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field
+                name="include_lazy_loading"
+                type="lazyloadinginclusion"
+                label="COM_SPEEDCACHE_CONFIG_INCLUDE_LAZY_LOADING_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_INCLUDE_LAZY_LOADING_DESC"
+                showon="lazy_loading:1"
+        />
+
+        <field
+                name="exclude_lazy_loading"
+                type="lazyloadingexclusion"
+                label="COM_SPEEDCACHE_CONFIG_EXCLUDE_LAZY_LOADING_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_EXCLUDE_LAZY_LOADING_DESC"
+                showon="lazy_loading:1"
+        />
+
+        <field name="cache_external_script" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_EXTERNAL_SCRIPT_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_EXTERNAL_SCRIPT_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="ajax_load_module_config" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_AJAX_LOAD_MODULE_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_AJAX_LOAD_MODULE_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+    </fieldset>
+    <fieldset
+            name="minify"
+            label="COM_SPEEDCACHE_CONFIG_MINIFY"
+            description="COM_SPEEDCACHE_CONFIG_MINIFY_DESC"
+            addfieldpath="/administrator/components/com_speedcache/models/fields"
+    >
+        <field
+                name="include_minify_folders"
+                type="foldertree"
+                label="COM_SPEEDCACHE_CONFIG_INCLUDE_FOLDERS_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_INCLUDE_FOLDERS_DESC"
+                default="components/com_content,templates"
+                class="input-xlarge"
+                size="100"
+        />
+
+        <field name="minify_group_css" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_GROUP_CSS_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_GROUP_CSS_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="minify_group_js" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_GROUP_JS_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_GROUP_JS_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="minify_group_fonts" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_GROUP_FONT_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_GROUP_FONT_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="defer_css" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFER_CSS_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFER_CSS_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="defer_js" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFER_JS_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFER_JS_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field
+                name="minify_exclusion_group"
+                type="minifyexclusion"
+                label="COM_SPEEDCACHE_CONFIG_EXCLUDE_MINIFY_GROUP_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_EXCLUDE_MINIFY_GROUP_DESC"
+        />
+
+    </fieldset>
+    <fieldset
+            name="default_cache"
+            label="COM_SPEEDCACHE_CONFIG_DEFAULT_PARAMETERS_LABEL"
+            description="COM_SPEEDCACHE_CONFIG_DEFAULT_PARAMETERS_DESC"
+            addfieldpath="/administrator/components/com_speedcache/models/fields" >
+        >
+        <field name="cacheguest" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_GUEST_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_GUEST_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="preloadguest" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_GUEST_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_GUEST_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="cachelogged" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_LOGGED_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_LOGGED_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="preloadlogged" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_LOGGED_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_LOGGED_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="preloadperuser" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_USER_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_USER_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="excludeguest" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_GUEST_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_GUEST_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="excludelogged" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_LOGGED_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_LOGGED_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+    </fieldset>
+    <fieldset
+            name="cdn_config"
+            label="COM_SPEEDCACHE_CONFIG_CDN"
+            description="COM_SPEEDCACHE_CONFIG_CDN_DESC"
+            addfieldpath="/administrator/components/com_speedcache/models/fields"
+    >
+
+        <field name="cdn_active" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_CDN_ACTIVE_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_CDN_ACTIVE_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field
+                name="cdn_url"
+                type="text"
+                label="COM_SPEEDCACHE_CONFIG_CDN_URL_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_CDN_URL_DESC"
+                hint="https://www.domain.com"
+        />
+
+        <field
+                name="cdn_content"
+                type="text"
+                default="media,templates"
+                label="COM_SPEEDCACHE_CONFIG_CDN_CONTENT_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_CDN_CONTENT_DESC"
+                required="true"
+        />
+
+        <field
+                name="cdn_exclude_content"
+                type="text"
+                default=".php"
+                label="COM_SPEEDCACHE_CONFIG_CDN_EXCLUDE_CONTENT_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_CDN_EXCLUDE_CONTENT_DESC"
+                />
+
+        <field name="cdn_relative_path" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_CDN_RELATIVE_PATH_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_CDN_RELATIVE_PATH_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+
+    </fieldset>
+    <fieldset
+            name="imagerecycle"
+            label="COM_SPEEDCACHE_CONFIG_IMAGE_RECYCLE_LABEL"
+            addfieldpath="/administrator/components/com_speedcache/models/fields" >
+    >
+        <field name="imagerecycle" label="Image recycle" type="imagerecycle" />
+    </fieldset>
+    <fieldset
+            name="importandexport"
+            label="COM_SPEEDCACHE_CONFIG_IMPORT_EXPORT_FIELDSET_LABEL"
+            description="Import/Export"
+            addfieldpath="administrator/components/com_speedcache/models/fields">
+        <field name="export" label="COM_SPEEDCACHE_CONFIG_EXPORT_LABEL" desc="COM_SPEEDCACHE_CONFIG_EXPORT_DESC" type="export" />
+        <field name="import" label="COM_SPEEDCACHE_CONFIG_IMPORT_LABEL" desc="COM_SPEEDCACHE_CONFIG_IMPORT_DESC" type="import" />
+    </fieldset>
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL"
+            description="JCONFIG_PERMISSIONS_DESC"
+    >
+
+        <field
+                name="rules"
+                type="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                filter="rules"
+                validate="rules"
+                component="com_speedcache"
+                section="component"/>
+    </fieldset>
+    <fieldset
+            name="liveupdate"
+            label="COM_SPEEDCACHE_CONFIG_JUUPDATER_FIELDSET_LABEL"
+            description="Live update"
+            addfieldpath="administrator/components/com_speedcache/models/fields">
+        <field name="liveupdate" label="COM_SPEEDCACHE_CONFIG_JUUPDATER_LABEL" desc="COM_SPEEDCACHE_CONFIG_JUUPDATER_DESC" type="updaterstatus" />
+    </fieldset>
+    <fieldset
+            name="jutranslation"
+            label="Translations"
+            description="Joomunited translations"
+            addfieldpath="/administrator/components/com_speedcache/models/fields">
+        <field name="jutranslation" label="Translations" type="jutranslation" />
+    </fieldset>
+</config>

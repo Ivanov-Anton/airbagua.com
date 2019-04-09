@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -55,7 +55,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -129,6 +129,15 @@ SpAddonsConfig::addonConfig(
 					'depends'=>array(array('title', '!=', '')),
 					'responsive' => true,
 					'max'=> 400,
+				),
+
+				'title_padding'=>array(
+					'type'=>'padding',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
+					'placeholder'=>'10',
+					'depends'=>array(array('title', '!=', '')),
+					'responsive' => true,
+					'std'=> ''
 				),
 
 				'title_position'=>array(

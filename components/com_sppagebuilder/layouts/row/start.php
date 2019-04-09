@@ -19,6 +19,8 @@ $row_class .= (isset($options->columns_align_center) && $options->columns_align_
 $external_video = (isset($options->background_external_video) && $options->background_external_video ) ?  $options->background_external_video : '';
 $background_parallax = (isset($options->background_parallax) && $options->background_parallax ) ?  (int) $options->background_parallax : 0;
 
+$sec_cont_center = (isset($options->columns_align_center) && $options->columns_align_center ) ?  'sppb-section-content-center' : '';
+
 // Visibility
 if(isset($options->hidden_md) && $options->hidden_md) {
 	$custom_class .= ' sppb-hidden-md sppb-hidden-lg';
@@ -121,43 +123,65 @@ if(isset($options->show_bottom_shape) && $options->show_bottom_shape && !empty($
 }
 
 // Video
+$video_loop = '';
+if (isset($options->video_loop) && $options->video_loop==true) {
+	$video_loop = 'loop';
+} else {
+	$video_loop = '';
+}
+
 $video_params = '';
+$mp4_url = '';
+$ogv_url = '';
+
+$external_background_video = 0;
+
+if(isset($options->external_background_video) && $options->external_background_video){
+	$external_background_video = $options->external_background_video;
+}
+
 if(isset($options->background_type)){
-	if ($options->background_type == 'video') {
+	if ($options->background_type == 'video' && !$external_background_video) {
 		if (isset($options->background_image) && $options->background_image){
-			$video_params .= ' data-vide-image="' . JURI::base(true) . '/' . $options->background_image . '"';
+			if(strpos($options->background_image, "http://") !== false || strpos($options->background_image, "https://") !== false){
+				$video_params .= ' poster="' . $options->background_image . '" '.$video_loop.'';
+			} else {
+				$video_params .= ' poster="' . JURI::base(true) . '/' . $options->background_image . '"';
+			}
 		}
+
 		if (isset($options->background_video_mp4) && $options->background_video_mp4) {
 			$mp4_parsed = parse_url($options->background_video_mp4);
 			$mp4_url = (isset($mp4_parsed['host']) && $mp4_parsed['host']) ? $options->background_video_mp4 : JURI::base(true) . '/' . $options->background_video_mp4;
-	
-			$video_params .= ' data-vide-mp4="' . $mp4_url . '"';}
+		}
+
 		if (isset($options->background_video_ogv) && $options->background_video_ogv) {
 			$ogv_parsed = parse_url($options->background_video_ogv);
 			$ogv_url = (isset($ogv_parsed['host']) && $ogv_parsed['host']) ? $options->background_video_ogv : JURI::base(true) . '/' . $options->background_video_ogv;
-	
-			$video_params .= ' data-vide-ogv="' . $ogv_url . '"';
+
 		}
-		$video_params .= ' data-vide-bg';
 	}
 
 } else {
-	if (isset($options->background_video) && $options->background_video) {
+	if (isset($options->background_video) && $options->background_video && !$external_background_video) {
 		if (isset($options->background_image) && $options->background_image){
-			$video_params .= ' data-vide-image="' . JURI::base(true) . '/' . $options->background_image . '"';
+			if(strpos($options->background_image, "http://") !== false || strpos($options->background_image, "https://") !== false){
+				$video_params .= ' poster="' . $options->background_image . '" '.$video_loop.'';
+			} else {
+				$video_params .= ' poster="' . JURI::base(true) . '/' . $options->background_image . '" '.$video_loop.'';
+			}
 		}
+
 		if (isset($options->background_video_mp4) && $options->background_video_mp4) {
 			$mp4_parsed = parse_url($options->background_video_mp4);
 			$mp4_url = (isset($mp4_parsed['host']) && $mp4_parsed['host']) ? $options->background_video_mp4 : JURI::base(true) . '/' . $options->background_video_mp4;
-	
-			$video_params .= ' data-vide-mp4="' . $mp4_url . '"';}
+		}
+
 		if (isset($options->background_video_ogv) && $options->background_video_ogv) {
 			$ogv_parsed = parse_url($options->background_video_ogv);
 			$ogv_url = (isset($ogv_parsed['host']) && $ogv_parsed['host']) ? $options->background_video_ogv : JURI::base(true) . '/' . $options->background_video_ogv;
 	
-			$video_params .= ' data-vide-ogv="' . $ogv_url . '"';
 		}
-		$video_params .= ' data-vide-bg';
 	}
 }
 
@@ -169,14 +193,48 @@ if ($background_parallax && isset($options->background_image) && $options->backg
 $html = '';
 
 if(!$fluid_row){
-	$html .= '<section id="' . $row_id . '" class="sppb-section ' . $custom_class . '" '.$addon_attr.' ' . $video_params . $parallax_params . '>';
-	if (isset($options->overlay) && $options->overlay) {
+	$html .= '<section id="' . $row_id . '" class="sppb-section ' . $custom_class . ' '.$sec_cont_center.'" '.$addon_attr . $parallax_params .'>';
+
+	if ($mp4_url || $ogv_url) {
+		$html .= '<div class="sppb-section-bacground-video">';
+		$html .= '<video class="section-bg-video" autoplay muted playsinline '.$video_loop.''.$video_params.'>';
+		if($mp4_url){
+			$html .= '<source src="'.$mp4_url.'" type="video/mp4">';
+		}
+		if($ogv_url){
+			$html .= '<source src="'.$ogv_url.'" type="video/ogg">';
+		}
+		$html .= '</video>';
+		$html .= '</div>';
+	}
+	//When theere was no gradient or pattern overlay after adding those option need Backward Compatiblity for pervious color overlay
+	if(isset($options->overlay) && $options->overlay){
+		$options->overlay_type = 'overlay_color';
+	}
+	if (isset($options->overlay_type) && $options->overlay_type !== 'overlay_none') {
 		$html .= '<div class="sppb-row-overlay"></div>';
 	}
 	$html .= '<div class="sppb-row-container">';
 } else {
-	$html .= '<div id="' . $row_id . '" class="sppb-section ' . $custom_class . '" '.$addon_attr.' ' . $video_params . $parallax_params . '>';
-	if (isset($options->overlay) && $options->overlay) {
+	$html .= '<div id="' . $row_id . '" class="sppb-section ' . $custom_class . ' '.$sec_cont_center.'" '.$addon_attr . $parallax_params .'>';
+	
+	if ($mp4_url || $ogv_url) {
+		$html .= '<div class="sppb-section-bacground-video">';
+		$html .= '<video class="section-bg-video" autoplay muted playsinline '.$video_loop.''.$video_params.'>';
+		if($mp4_url){
+			$html .= '<source src="'.$mp4_url.'" type="video/mp4">';
+		}
+		if($ogv_url){
+			$html .= '<source src="'.$ogv_url.'" type="video/ogg">';
+		}
+		$html .= '</video>';
+		$html .= '</div>';
+	}
+	//When theere was no gradient or pattern overlay after adding those option need Backward Compatiblity for pervious color overlay
+	if(isset($options->overlay) && $options->overlay){
+		$options->overlay_type = 'overlay_color';
+	}
+	if (isset($options->overlay_type) && $options->overlay_type !== 'overlay_none') {
 		$html .= '<div class="sppb-row-overlay"></div>';
 	}
 	$html .= '<div class="sppb-container-inner">';
@@ -211,11 +269,11 @@ if ( (isset($options->title) && $options->title) || (isset($options->subtitle) &
 		$html .= '</div>';
 	}
 }
-
 if(isset($options->background_type)){
 	if (!empty($external_video) && $options->external_background_video && $options->background_type == 'video') {
 		$video = parse_url($external_video);
 		$src = '';
+		$vidId = '';
 		switch($video['host']) {
 			case 'youtu.be':
 			$id = trim($video['path'],'/');
@@ -231,7 +289,7 @@ if(isset($options->background_type)){
 			case 'vimeo.com':
 			case 'www.vimeo.com':
 			$id = trim($video['path'],'/');
-			$src = "//player.vimeo.com/video/{$id}?autoplay=1&loop=1&title=0&byline=0&portrait=0";
+			$src = "//player.vimeo.com/video/{$id}?background=1&autoplay=1&loop=1&title=0&byline=0&portrait=0";
 		}
 		$html .= '<div class="sppb-youtube-video-bg hidden"><iframe src="'.$src.'" frameborder="0" allowfullscreen></iframe></div>';
 	}
@@ -254,7 +312,7 @@ if(isset($options->background_type)){
 			case 'vimeo.com':
 			case 'www.vimeo.com':
 			$id = trim($video['path'],'/');
-			$src = "//player.vimeo.com/video/{$id}?autoplay=1&loop=1&title=0&byline=0&portrait=0";
+			$src = "//player.vimeo.com/video/{$id}?background=1&autoplay=1&loop=1&title=0&byline=0&portrait=0";
 		}
 		$html .= '<div class="sppb-youtube-video-bg hidden"><iframe src="'.$src.'" frameborder="0" allowfullscreen></iframe></div>';
 	}

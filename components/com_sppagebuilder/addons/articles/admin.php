@@ -55,7 +55,7 @@ array(
 				'selector'=> array(
 					'type'=>'font',
 					'font'=>'{{ VALUE }}',
-					'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+					'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 				)
 			),
 
@@ -211,6 +211,9 @@ array(
 					'oldest'=>JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLES_ORDERING_OLDEST'),
 					'hits'=>JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLES_ORDERING_POPULAR'),
 					'featured'=>JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLES_ORDERING_FEATURED'),
+					'alphabet_asc'=>JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLES_ORDERING_ALPHABET_ASC'),
+					'alphabet_desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLES_ORDERING_ALPHABET_DESC'),
+					'random'=>JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLES_ORDERING_RANDOM'),
 				),
 				'std'=>'latest',
 			),
@@ -243,6 +246,7 @@ array(
 				'std'=>'200',
 				'depends'=>array('show_intro'=>'1')
 			),
+
 			'link_articles'=>array(
 				'type'=>'checkbox',
 				'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLES_ALL_ARTICLES_BUTTON'),
@@ -290,7 +294,7 @@ array(
 				'selector'=> array(
 					'type'=>'font',
 					'font'=>'{{ VALUE }}',
-					'css'=>'.btn { font-family: {{ VALUE }}; }'
+					'css'=>'.sppb-btn { font-family: "{{ VALUE }}"; }'
 				)
 			),
 

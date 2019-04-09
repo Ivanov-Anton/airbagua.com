@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2017 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -57,7 +57,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -154,17 +154,6 @@ SpAddonsConfig::addonConfig(
 					'depends'=>array(array('price', '!=', '')),
 				),
 
-				'price_font_family'=>array(
-					'type'=>'fonts',
-					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_PRICE_FONT_FAMILY'),
-					'depends'=>array(array('price', '!=', '')),
-					'selector'=> array(
-						'type'=>'font',
-						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-pricing-price-container { font-family: {{ VALUE }}; }'
-					)
-				),
-
 				'price_font_size'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_PRICE_FONT_SIZE'),
@@ -172,6 +161,34 @@ SpAddonsConfig::addonConfig(
 					'max'=>500,
 					'responsive'=>true,
 					'depends'=>array(array('price', '!=', '')),
+				),
+
+				'price_font_family'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_PRICE_FONT_FAMILY'),
+					'depends'=>array(array('price', '!=', '')),
+					'selector'=> array(
+						'type'=>'font',
+						'font'=>'{{ VALUE }}',
+						'css'=>'.sppb-pricing-price-container { font-family: "{{ VALUE }}"; }'
+					)
+				),
+
+				'price_font_weight'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_PRICELIST_PRICE_FONT_WEIGHT'),
+					'depends'=>array(array('price', '!=', '')),
+					'values'=> array(
+						100=>100,
+						200=>200,
+						300=>300,
+						400=>400,
+						500=>500,
+						600=>600,
+						700=>700,
+						800=>800,
+						900=>900,
+					)
 				),
 
 				'price_symbol'=>array(
@@ -254,6 +271,28 @@ SpAddonsConfig::addonConfig(
 					'depends'=>array(array('price', '!=', '')),
 				),
 
+				'price_padding_bottom'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_PRICE_PADDING_BOTTOM'),
+					'max'=>200,
+					'responsive'=>true,
+					'std'=>array('md'=>''),
+					'depends'=>array(array('price', '!=', '')),
+				),
+
+				'price_border_bottom'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_PRICE_BORDER_BOTTOM'),
+					'max'=>15,
+					'depends'=>array(array('price', '!=', '')),
+				),
+
+				'price_border_bottom_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_PRICE_BORDER_BOTTOM_COLOR'),
+					'depends'=>array(array('price', '!=', '')),
+				),
+
 				'separator2'=>array(
 					'type'=>'separator'
 				),
@@ -276,7 +315,7 @@ Support Time 24 hrs',
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-pricing-features { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-pricing-features { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -326,7 +365,7 @@ Support Time 24 hrs',
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-btn { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-btn { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -610,6 +649,45 @@ Support Time 24 hrs',
 						'sppb-text-right'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
 					),
 					'std'=>'sppb-text-center',
+				),
+
+				'pricing_hover_separator'=>array(
+					'type'=>'separator',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_HOVER_OPTION'),
+				),
+
+				'pricing_hover_scale'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_SCALE'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_PRICING_SCALE_DESC'),
+					'min'=>1,
+					'max'=>3,
+					'step'=>.01,
+					'std'=>1,
+				),
+
+				'pricing_hover_bg'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR_HOVER'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR_HOVER_DESC'),
+				),
+
+				'pricing_hover_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR_HOVER'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR_HOVER_DESC'),
+				),
+
+				'pricing_hover_border_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR_HOVER'),
+				),
+
+				'pricing_hover_boxshadow'=>array(
+					'type'=>'boxshadow',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BOX_SHADOW_HOVER'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BOX_SHADOW_HOVER_DESC'),
+					'std'=>'0 0 0 0 #ffffff'
 				),
 
 				'class'=>array(

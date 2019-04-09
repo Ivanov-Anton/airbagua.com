@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -20,8 +20,11 @@ require_once JPATH_ROOT .'/administrator/components/com_sppagebuilder/builder/cl
 class AddonParser {
   public static $loaded_addon = array();
   public static $css_content = array();
+  public static $module_css_content = array();
   public static $js_content = '';
   private static $sppagebuilderAddonTags = array();
+  private static $template = '';
+  public static $authorised = array();
 
   public static function addAddon($tag, $func)
   {
@@ -48,9 +51,8 @@ class AddonParser {
   * @since 1.0.8
   */
   public static function getAddonPath( $addon_name = '') {
-    $template = self::getTemplateName();
 
-    $template_path = JPATH_ROOT . '/templates/' . $template;
+    $template_path = JPATH_ROOT . '/templates/' . self::$template;
     $plugins = self::getPluginsAddons();
 
     if ( file_exists( $template_path . '/sppagebuilder/addons/' . $addon_name . '/site.php' ) ) {
@@ -148,11 +150,11 @@ class AddonParser {
 
 
   public static function getAddons() {
-    $template = self::getTemplateName();
+    self::$template = self::getTemplateName();
 
     require_once JPATH_ROOT . '/components/com_sppagebuilder/addons/module/site.php';//include module manually
 
-    $template_path = JPATH_ROOT . '/templates/' . $template;
+    $template_path = JPATH_ROOT . '/templates/' . self::$template;
     $tmpl_folders = array();
     if (file_exists($template_path . '/sppagebuilder/addons')) {
       $tmpl_folders = JFolder::folders( $template_path . '/sppagebuilder/addons');
@@ -189,6 +191,8 @@ class AddonParser {
     SpPgaeBuilderBase::loadAddons();
     $addon_list = SpAddonsConfig::$addons;
 
+    self::$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+
     $layout_path = JPATH_ROOT . '/components/com_sppagebuilder/layouts';
 
     $layouts =  new stdClass;
@@ -223,7 +227,11 @@ class AddonParser {
         }
 
         $row_css = $layouts->row_css->render(array('options' => $row->settings));
-        array_push( self::$css_content, $row_css );
+        if($pageName == 'module') {
+          array_push( self::$module_css_content, $row_css );
+        } else {
+          array_push( self::$css_content, $row_css );
+        }
 
         $output .= $layouts->row_start->render(array('options' => $row->settings));
 
@@ -240,72 +248,15 @@ class AddonParser {
           }
 
           $column_css = $layouts->column_css->render(array('options' => $column->settings));
-          array_push( self::$css_content, $column_css );
+          if($pageName == 'module') {
+            array_push( self::$module_css_content, $column_css );
+          } else {
+            array_push( self::$css_content, $column_css );
+          }
 
           $output .= $layouts->column_start->render(array('options' => $column->settings));
 
           foreach ($column->addons as $key => $addon) {
-
-            $addon_options = array();
-            if((!isset($addon->type) || $addon->type !== 'inner_row') && isset($addon_list[$addon->name]['attr']) && $addon_list[$addon->name]['attr']) {
-              $addon_groups = $addon_list[$addon->name]['attr'];
-              if (is_array($addon_groups)) {
-                foreach ($addon_groups as $addon_group) {
-                  $addon_options += $addon_group;
-                }
-              }
-            }
-
-            if(!(isset($addon->type) && $addon->type === 'inner_row')){
-
-              foreach ($addon->settings as $key => &$setting) {
-
-                if (isset($setting->md)) {
-                  $md = isset($setting->md) ? $setting->md : "";
-                  $sm = isset($setting->sm) ? $setting->sm : "";
-                  $xs = isset($setting->xs) ? $setting->xs : "";
-                  $setting = $md;
-                  $addon->settings->{$key . '_sm'} = $sm;
-                  $addon->settings->{$key . '_xs'} = $xs;
-                }
-
-                if(isset($addon_options[$key]['selector'])) {
-                  $addon_selector = $addon_options[$key]['selector'];
-                  if(isset($addon->settings->{$key}) && !empty($addon->settings->{$key})) {
-                    $selector_value = $addon->settings->{$key};
-                    $addon->settings->{$key . '_selector'} = str_replace('{{ VALUE }}', $selector_value, $addon_selector);
-                  }
-                }
-
-                // Repeatable
-                if( (!isset($addon->type) || $addon->type !== 'inner_row') &&  (($key == 'sp_'. $addon->name .'_item') || ($key == $addon->name .'_item')) ) {
-                  if(count((array) $setting)) {
-                    foreach ($setting as &$options) {
-                      foreach ($options as $key2 => &$opt) {
-
-                        if (isset($opt->md)) {
-                          $md = isset($opt->md) ? $opt->md : "";
-                          $sm = isset($opt->sm) ? $opt->sm : "";
-                          $xs = isset($opt->xs) ? $opt->xs : "";
-                          $opt = $md;
-                          $options->{$key2 . '_sm'} = $sm;
-                          $options->{$key2 . '_xs'} = $xs;
-                        }
-
-                        if(isset($addon_options[$key]['attr'][$key2]['selector'])) {
-                          $addon_selector = $addon_options[$key]['attr'][$key2]['selector'];
-                          if(isset($options->{$key2}) && !empty($options->{$key2})) {
-                            $selector_value = $options->{$key2};
-                            $options->{$key2 . '_selector'} = str_replace('{{ VALUE }}', $selector_value, $addon_selector);
-                          }
-                        }
-
-                      }
-                    }
-                  }
-                }
-              }
-            }
 
             // Addon Visibility and ACL
             if ( isset($addon->visibility) && !$addon->visibility ) {
@@ -313,27 +264,17 @@ class AddonParser {
             }
 
             // ACL
-            $access = true;
-            $authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
-            if(isset($addon->settings->acl) && $addon->settings->acl ) {
-              $access_list = $addon->settings->acl;
-              $access = false;
-              foreach ($access_list as $acl) {
-                if(in_array($acl, $authorised)) {
-                  $access = true;
-                }
-              }
-              unset($addon->settings->acl);
-            }
-
+            $access = self::checkAddonACL($addon);
             if(!$access) {
               continue;
             } // End ACL
+          
 
             if ( isset($addon->type) && $addon->type === 'inner_row' ) {
-              $output .= self::viewAddons(array($addon), 1);
+              $newPageName = $pageName == 'module' ? 'module' : 'none';
+              $output .= self::viewAddons(array($addon), 1, $newPageName);
             } else {
-              $output .= self::getAddonHtmlView( $addon, $layouts );
+              $output .= self::getAddonHtmlView( $addon, $layouts, $pageName );
             }
           }
 
@@ -343,41 +284,46 @@ class AddonParser {
       }
 
       if($pageName == 'module') {
-        return  AddonParser::spDoAddon( $output ) . '<style type="text/css">'. self::convertCssArrayToString(self::minifyCss(self::$css_content)).'</style>';
+        return  AddonParser::spDoAddon( $output ) . '<style type="text/css">'. self::convertCssArrayToString(self::minifyCss(self::$module_css_content)).'</style>';
       } else {
         if( $pageName != 'none' ) {
-          $doc->addStyleDeclaration( self::convertCssArrayToString( self::minifyCss(self::$css_content) ) );
+          $app =JFactory::getApplication();
+          $params = $app->getParams('com_sppagebuilder');
+          $production_mode = $params->get('production_mode', 0);
+         
+          $inline_css = self::convertCssArrayToString( self::minifyCss(self::$css_content) );
+         
+          if($production_mode) {
+            $css_folder_path = JPATH_ROOT . '/media/com_sppagebuilder/css';
+            $css_file_path = $css_folder_path . '/'. $pageName . '.css';
+            $css_file_url = JURI::base(true) . '/media/com_sppagebuilder/css/' . $pageName . '.css';
+
+            if(!JFolder::exists( $css_folder_path )) {
+              JFolder::create( $css_folder_path );
+            }
+          
+            file_put_contents( $css_file_path, $inline_css );
+
+            if(file_exists( $css_file_path )) {
+              $doc->addStylesheet( $css_file_url );
+            } else {
+              $doc->addStyleDeclaration( $inline_css );
+            }
+          } else {
+            $doc->addStyleDeclaration( $inline_css );
+          }
+
         }
         return AddonParser::spDoAddon( $output );
       }
-    }else{
+    } else {
       return '<p>'.$content.'</p>';
     }
 
   }
 
-  public static function minifyCss($css_code){
-    // Remove comments
-    $css_code = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css_code);
-    
-    // Remove space after colons
-    $css_code = str_replace(': ', ':', $css_code);
+  public static function getAddonHtmlView( $addon, $layouts, $pageName = 'none' ) {
 
-    // Remove whitespace
-    $css_code = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $css_code);
-
-    // Remove Empty Selectors without any properties
-    $css_code = preg_replace('/(?:(?:[^\r\n{}]+)\s?{[\s]*})/', '', $css_code);
-
-    // Remove Empty Media Selectors without any properties or selector
-    $css_code = preg_replace('/@media\s?\((?:[^\r\n,{}]+)\s?{[\s]*}/', '', $css_code);
-
-    return $css_code;
-  }
-
-  public static function getAddonHtmlView( $addon, $layouts ) {
-
-    SpPgaeBuilderBase::loadAddons();
     $addon_list = SpAddonsConfig::$addons;
 
     $addon_name = $addon->name;
@@ -389,6 +335,64 @@ class AddonParser {
     $output = '';
 
     if(file_exists($addon_path . '/site.php')) {
+
+      $addon_options = array();
+      if(isset($addon_list[$addon->name]['attr']) && $addon_list[$addon->name]['attr']) {
+        $addon_groups = $addon_list[$addon->name]['attr'];
+        if (is_array($addon_groups)) {
+          foreach ($addon_groups as $addon_group) {
+            $addon_options += $addon_group;
+          }
+        }
+      }
+
+      foreach ($addon->settings as $key => &$setting) {
+
+        if (isset($setting->md)) {
+          $md = isset($setting->md) ? $setting->md : "";
+          $sm = isset($setting->sm) ? $setting->sm : "";
+          $xs = isset($setting->xs) ? $setting->xs : "";
+          $setting = $md;
+          $addon->settings->{$key . '_sm'} = $sm;
+          $addon->settings->{$key . '_xs'} = $xs;
+        }
+
+        if(isset($addon_options[$key]['selector'])) {
+          $addon_selector = $addon_options[$key]['selector'];
+          if(isset($addon->settings->{$key}) && !empty($addon->settings->{$key})) {
+            $selector_value = $addon->settings->{$key};
+            $addon->settings->{$key . '_selector'} = str_replace('{{ VALUE }}', $selector_value, $addon_selector);
+          }
+        }
+
+        // Repeatable
+        if( (!isset($addon->type) || $addon->type !== 'inner_row') &&  (($key == 'sp_'. $addon->name .'_item') || ($key == $addon->name .'_item')) ) {
+          if(count((array) $setting)) {
+            foreach ($setting as &$options) {
+              foreach ($options as $key2 => &$opt) {
+
+                if (isset($opt->md)) {
+                  $md = isset($opt->md) ? $opt->md : "";
+                  $sm = isset($opt->sm) ? $opt->sm : "";
+                  $xs = isset($opt->xs) ? $opt->xs : "";
+                  $opt = $md;
+                  $options->{$key2 . '_sm'} = $sm;
+                  $options->{$key2 . '_xs'} = $xs;
+                }
+
+                if(isset($addon_options[$key]['attr'][$key2]['selector'])) {
+                  $addon_selector = $addon_options[$key]['attr'][$key2]['selector'];
+                  if(isset($options->{$key2}) && !empty($options->{$key2})) {
+                    $selector_value = $options->{$key2};
+                    $options->{$key2 . '_selector'} = str_replace('{{ VALUE }}', $selector_value, $addon_selector);
+                  }
+                }
+
+              }
+            }
+          }
+        }
+      }
 
       //sbou start
       //plugin support for addonRender
@@ -414,36 +418,18 @@ class AddonParser {
             $newConetnt = '';
             foreach ($item->content as $contentAddon) {
 
-              $addon_options = array();
-              if(isset($addon_list[$contentAddon->name]['attr']) && $addon_list[$contentAddon->name]['attr']) {
-                $addon_groups = $addon_list[$contentAddon->name]['attr'];
-                foreach ($addon_groups as $addon_group) {
-                  $addon_options += $addon_group;
-                }
+              // Addon Visibility and ACL
+              if ( isset($addon->visibility) && !$addon->visibility ) {
+                continue;
               }
 
-              if(!(isset($addon->type) && $addon->type === 'inner_row')){
-                foreach ($contentAddon->settings as $key => &$setting) {
-                  if (isset($setting->md)) {
-                    $md = isset($setting->md) ? $setting->md : "";
-                    $sm = isset($setting->sm) ? $setting->sm : "";
-                    $xs = isset($setting->xs) ? $setting->xs : "";
-                    $setting = $md;
-                    $contentAddon->settings->{$key . '_sm'} = $sm;
-                    $contentAddon->settings->{$key . '_xs'} = $xs;
-                  }
+              // ACL
+              $access = self::checkAddonACL($contentAddon);
+              if(!$access) {
+                continue;
+              } // End ACL
 
-                  if(isset($addon_options[$key]['selector'])) {
-                    $addon_selector = $addon_options[$key]['selector'];
-                    if(isset($contentAddon->settings->{$key}) && !empty($contentAddon->settings->{$key})) {
-                      $selector_value = $contentAddon->settings->{$key};
-                      $contentAddon->settings->{$key . '_selector'} = str_replace('{{ VALUE }}', $selector_value, $addon_selector);
-                    }
-                  }
-                }
-              }
-
-              $newConetnt .= self::getAddonHtmlView($contentAddon, $layouts);
+              $newConetnt .= self::getAddonHtmlView($contentAddon, $layouts, $pageName);
             }
             $item->content = $newConetnt;
           }
@@ -480,11 +466,19 @@ class AddonParser {
         }
 
         $addon_css = $layouts->addon_css->render( array( 'addon' => $addon ) );
-        array_push( self::$css_content, $addon_css );
+        if($pageName == 'module') {
+          $output .= '<style type="text/css">'. $addon_css .'</style>';
+        } else {
+          array_push( self::$css_content, $addon_css );
+        }
 
         // css
         if ( method_exists( $class_name, 'css' ) ) {
-          array_push( self::$css_content, $addon_obj->css() );
+          if($pageName == 'module') {
+            $output .= '<style type="text/css">'. $addon_obj->css() .'</style>';
+          } else {
+            array_push( self::$css_content, $addon_obj->css() );
+          }
         }
 
       } else {
@@ -494,6 +488,25 @@ class AddonParser {
     }
 
     return $output;
+  }
+
+  public static function minifyCss($css_code){
+    // Remove comments
+    $css_code = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css_code);
+    
+    // Remove space after colons
+    $css_code = str_replace(': ', ':', $css_code);
+
+    // Remove whitespace
+    $css_code = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $css_code);
+
+    // Remove Empty Selectors without any properties
+    $css_code = preg_replace('/(?:(?:[^\r\n{}]+)\s?{[\s]*})/', '', $css_code);
+
+    // Remove Empty Media Selectors without any properties or selector
+    $css_code = preg_replace('/@media\s?\((?:[^\r\n,{}]+)\s?{[\s]*}/', '', $css_code);
+
+    return $css_code;
   }
 
   public static function generateShortcode($addon){
@@ -593,6 +606,22 @@ class AddonParser {
     }
 
     return $cssString;
+  }
+
+  public static function checkAddonACL($addon){
+    $access = true;
+    if(isset($addon->settings->acl) && $addon->settings->acl ) {
+      $access_list = $addon->settings->acl;
+      $access = false;
+      foreach ($access_list as $acl) {
+        if(in_array($acl, self::$authorised)) {
+          $access = true;
+        }
+      }
+      unset($addon->settings->acl);
+    }
+
+    return $access;
   }
 }
 

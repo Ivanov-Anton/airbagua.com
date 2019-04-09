@@ -30,7 +30,7 @@ if ($params->get('addcontainer', 1)) {
 	$doc->addStyleSheet(JUri::base(true) . '/components/com_sppagebuilder/assets/css/sppagecontainer.css');
 }
 
-$doc->addScript(JUri::base(true) . '/components/com_sppagebuilder/assets/js/jquery.parallax-1.1.3.js');
+$doc->addScript(JUri::base(true) . '/components/com_sppagebuilder/assets/js/jquery.parallax.js');
 
 $doc->addScript(JUri::base(true) . '/components/com_sppagebuilder/assets/js/sppagebuilder.js');
 
@@ -64,7 +64,7 @@ $Itemid = $input->get('Itemid', 0, 'INT');
 $url = JRoute::_('index.php?option=com_sppagebuilder&view=form&layout=edit&tmpl=component&id=' . $page->id . '&Itemid=' . $Itemid);
 $root = JURI::base();
 $root = new JURI($root);
-$link = $root->getScheme() . '://' . $root->getHost() . $url;
+$link = $root->getScheme() . '://' . $root->getHost() . (!in_array($root->getPort(),array(80,443)) ? ':'.$root->getPort() : ''). $url;
 
 ?>
 

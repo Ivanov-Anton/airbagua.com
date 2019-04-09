@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.0" type="module" client="administrator" method="upgrade">
+    <name>SpeedCache Module</name>
+    <description>Joomunited Speedcache main module</description>
+    <version>2.5.2</version>
+    <creationDate>December 2016</creationDate>
+    <author>Joomunited</author>
+    <authorEmail>contact@joomunited.com</authorEmail>
+    <authorUrl>www.joomunited.com</authorUrl>
+    <copyright>Joomunited.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <files>
+        <filename module="mod_speedcache">mod_speedcache.php</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <folder>assets</folder>
+    </files>
+    <config>
+    </config>
+</extension>

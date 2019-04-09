@@ -15,7 +15,7 @@ class Su_Shortcode_countdown extends Su_Shortcodes {
         parent::__construct();
     }
 
-    publirbagic static function countdown($atts = null, $content = null) {
+    public static function countdown($atts = null, $content = null) {
         $atts = su_shortcode_atts(array(
 			'count_date'    => '2020/12/25',
 			'count_time'    => '',

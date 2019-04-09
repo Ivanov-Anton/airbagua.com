@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset>
+        <field name="id" type="hidden" default="0"
+               label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC"/>
+
+        <field
+                name="url"
+                type="text"
+                label="Url"
+                description="Url to cache"
+        />
+
+        <field name="ignoreparams" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_IGNORE_PARAMS_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_IGNORE_PARAMS_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="cacheguest" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_GUEST_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_GUEST_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="preloadguest" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_GUEST_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_GUEST_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="cachelogged" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_LOGGED_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_CACHE_LOGGED_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="preloadlogged" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_LOGGED_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_LOGGED_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="preloadperuser" type="radio" default="0"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_USER_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_PRELOAD_USER_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field
+                name="lifetime"
+                type="list"
+                label="COM_SPEEDCACHE_CONFIG_DEFAULT_LIFT_TIME_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_DEFAULT_LIFT_TIME_DESC"
+                class="btn-group"
+                default="1">
+            <option value="1">Use default</option>
+            <option value="2">Use specific cache time</option>
+
+        </field>
+        <field
+                name="specifictime"
+                type="text"
+                label="COM_SPEEDCACHE_CONFIG_DEFAULT_SPECIFIC_TIME_LABEL"
+                description="COM_SPEEDCACHE_CONFIG_DEFAULT_SPECIFIC_TIME_DESC"
+        />
+        <field name="excludeguest" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_GUEST_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_GUEST_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="excludelogged" type="radio" default="1"
+               label="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_LOGGED_LABEL"
+               description="COM_SPEEDCACHE_CONFIG_DEFAULT_EXCLUDE_LOGGED_DESC"
+               class="btn-group btn-group-yesno">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field name="type" type="hidden" default="include"/>
+
+    </fieldset>
+</form>

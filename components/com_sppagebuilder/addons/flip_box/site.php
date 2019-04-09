@@ -3,7 +3,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
  */
 //no direct accees
@@ -329,21 +329,21 @@ class SppagebuilderAddonFlip_box extends SppagebuilderAddons {
             <# if (flip_style == "threeD-flipbox") { #>
                 <div class="threeD-content-wrap">
                     <div class="threeD-item">
-                        <div class = "threeD-flip-front">
-                            <div class = "threeD-content-inner">{{{ data.front_text }}}</div>
+                        <div class="threeD-flip-front">
+                            <div class="threeD-content-inner sp-inline-editable-element" data-id={{data.id}} data-fieldName="front_text" contenteditable="true">{{{ data.front_text }}}</div>
                         </div>
-                        <div class = "threeD-flip-back">
-                            <div class = "threeD-content-inner">{{{ data.flip_text }}}</div>
+                        <div class="threeD-flip-back">
+                            <div class="threeD-content-inner sp-inline-editable-element" data-id={{data.id}} data-fieldName="flip_text" contenteditable="true">{{{ data.flip_text }}}</div>
                         </div >
                     </div>
                 </div>
             <# } else { #>
                 <div class="sppb-flipbox-panel">
                     <div class="sppb-flipbox-front flip-box">
-                        <div class="flip-box-inner">{{{ data.front_text }}}</div>
+                        <div class="flip-box-inner sp-inline-editable-element" data-id={{data.id}} data-fieldName="front_text" contenteditable="true">{{{ data.front_text }}}</div>
                     </div>
                     <div class="sppb-flipbox-back flip-box">
-                        <div class="flip-box-inner">{{{ data.flip_text }}}</div>
+                        <div class="flip-box-inner sp-inline-editable-element" data-id={{data.id}} data-fieldName="flip_text" contenteditable="true">{{{ data.flip_text }}}</div>
                     </div>
                 </div>
             <# } #>

@@ -13,11 +13,11 @@ install/templates/style.html.twig	3b34efcf3e52e8e57c6fe06d3be94676
 install/templates/install.html.twig	0bad666fc1ec40e27a3118209f4706d4
 install/templates/update.html.twig	ffc84e083ab1f5f2ade026f5d6ab1ec2
 install/outlines.yaml	a91edc319bd97efe0dee638c4eb1226e
-gantry/theme.yaml	dc894ab31627d5b628fd3a26d335383c
+gantry/theme.yaml	5204bbd5bac0f34f9060766c0d516551
 gantry/presets.yaml	4edfd8f32f98ba3020831b1ed61db43f
 offline.php	7fd679a21d75cf105ca8afe1a2d3b720
 MD5SUMS	d41d8cd98f00b204e9800998ecf8427e
-templateDetails.xml	ba4658d16ebfa4312945b56dc8d70b57
+templateDetails.xml	49727d6dd2d29393f93fc013c0e095a8
 particles/contentcubes.yaml	286ea382c0919026540047d4e0eea53b
 particles/horizontalmenu.yaml	1916d0a5cf34d6e2ac31e736dec6db7c
 particles/totop.html.twig	b129b99b62916d5ab4b5df2985721182
@@ -26,7 +26,7 @@ particles/horizontalmenu.html.twig	af11beb3720496aaf9d52a0dcea6718e
 particles/owlcarousel.html.twig	7dcd3886128a662dff2aaa2eda9aabef
 particles/contentcubes.html.twig	9e0caa29709930da5340b13f3d0fe6bb
 particles/owlcarousel.yaml	8cdc062111b5dec46011eb7334834f1a
-particles/copyright.html.twig	b0524afc8f1f531702585117a770d2dc
+particles/copyright.html.twig	22fa1f535ef2a4a5c9ca5fac6f3980e5
 particles/copyright.yaml	d317213bf88779adbe3d89885a1b1f2c
 particles/contenttabs.html.twig	49364c62b4fddf68318449fe49cf70fc
 html/modules.php	fab91d244c6000af5b67a7d77639a9ba

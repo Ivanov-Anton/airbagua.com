@@ -9,7 +9,6 @@
  */
 
 defined('_JEXEC') or die;
-JFactory::getDocument()->addScript();
 
 // Bootstrap Gantry framework or fail gracefully (inside included file).
 $gantry = include __DIR__ . '/includes/gantry.php';
@@ -22,3 +21,4 @@ $context = array();
 
 // Render the page.
 echo $theme->render('index.html.twig', $context);
+

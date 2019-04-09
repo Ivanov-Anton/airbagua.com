@@ -11,46 +11,46 @@ defined ('_JEXEC') or die ('resticted access');
 class SppagebuilderAddonArticles extends SppagebuilderAddons{
 
 	public function render(){
-		$class = (isset($this->addon->settings->class) && $this->addon->settings->class) ? $this->addon->settings->class : '';
-		$style = (isset($this->addon->settings->style) && $this->addon->settings->style) ? $this->addon->settings->style : 'panel-default';
-		$title = (isset($this->addon->settings->title) && $this->addon->settings->title) ? $this->addon->settings->title : '';
-		$heading_selector = (isset($this->addon->settings->heading_selector) && $this->addon->settings->heading_selector) ? $this->addon->settings->heading_selector : 'h3';
+		$settings = $this->addon->settings;
+		$class = (isset($settings->class) && $settings->class) ? $settings->class : '';
+		$style = (isset($settings->style) && $settings->style) ? $settings->style : 'panel-default';
+		$title = (isset($settings->title) && $settings->title) ? $settings->title : '';
+		$heading_selector = (isset($settings->heading_selector) && $settings->heading_selector) ? $settings->heading_selector : 'h3';
 
 		// Addon options
-		$resource 		= (isset($this->addon->settings->resource) && $this->addon->settings->resource) ? $this->addon->settings->resource : 'article';
-		$catid 			= (isset($this->addon->settings->catid) && $this->addon->settings->catid) ? $this->addon->settings->catid : 0;
-		$tagids 		= (isset($this->addon->settings->tagids) && $this->addon->settings->tagids) ? $this->addon->settings->tagids : array();
-		$k2catid 		= (isset($this->addon->settings->k2catid) && $this->addon->settings->k2catid) ? $this->addon->settings->k2catid : 0;
-		$include_subcat = (isset($this->addon->settings->include_subcat)) ? $this->addon->settings->include_subcat : 1;
-		$post_type 		= (isset($this->addon->settings->post_type) && $this->addon->settings->post_type) ? $this->addon->settings->post_type : '';
-		$ordering 		= (isset($this->addon->settings->ordering) && $this->addon->settings->ordering) ? $this->addon->settings->ordering : 'latest';
-		$limit 			= (isset($this->addon->settings->limit) && $this->addon->settings->limit) ? $this->addon->settings->limit : 3;
-		$columns 		= (isset($this->addon->settings->columns) && $this->addon->settings->columns) ? $this->addon->settings->columns : 3;
-		$show_intro 	= (isset($this->addon->settings->show_intro)) ? $this->addon->settings->show_intro : 1;
-		$intro_limit 	= (isset($this->addon->settings->intro_limit) && $this->addon->settings->intro_limit) ? $this->addon->settings->intro_limit : 200;
-		$hide_thumbnail = (isset($this->addon->settings->hide_thumbnail)) ? $this->addon->settings->hide_thumbnail : 0;
-		$show_author 	= (isset($this->addon->settings->show_author)) ? $this->addon->settings->show_author : 1;
-		$show_category 	= (isset($this->addon->settings->show_category)) ? $this->addon->settings->show_category : 1;
-		$show_date 		= (isset($this->addon->settings->show_date)) ? $this->addon->settings->show_date : 1;
-		$show_readmore 	= (isset($this->addon->settings->show_readmore)) ? $this->addon->settings->show_readmore : 1;
-		$readmore_text 	= (isset($this->addon->settings->readmore_text) && $this->addon->settings->readmore_text) ? $this->addon->settings->readmore_text : 'Read More';
-		$link_articles 	= (isset($this->addon->settings->link_articles)) ? $this->addon->settings->link_articles : 0;
-		$link_catid 	= (isset($this->addon->settings->link_catid)) ? $this->addon->settings->link_catid : 0;
-		$link_k2catid 	= (isset($this->addon->settings->link_k2catid)) ? $this->addon->settings->link_k2catid : 0;
-		
+		$resource 		= (isset($settings->resource) && $settings->resource) ? $settings->resource : 'article';
+		$catid 			= (isset($settings->catid) && $settings->catid) ? $settings->catid : 0;
+		$tagids 		= (isset($settings->tagids) && $settings->tagids) ? $settings->tagids : array();
+		$k2catid 		= (isset($settings->k2catid) && $settings->k2catid) ? $settings->k2catid : 0;
+		$include_subcat = (isset($settings->include_subcat)) ? $settings->include_subcat : 1;
+		$post_type 		= (isset($settings->post_type) && $settings->post_type) ? $settings->post_type : '';
+		$ordering 		= (isset($settings->ordering) && $settings->ordering) ? $settings->ordering : 'latest';
+		$limit 			= (isset($settings->limit) && $settings->limit) ? $settings->limit : 3;
+		$columns 		= (isset($settings->columns) && $settings->columns) ? $settings->columns : 3;
+		$show_intro 	= (isset($settings->show_intro)) ? $settings->show_intro : 1;
+		$intro_limit 	= (isset($settings->intro_limit) && $settings->intro_limit) ? $settings->intro_limit : 200;
+		$hide_thumbnail = (isset($settings->hide_thumbnail)) ? $settings->hide_thumbnail : 0;
+		$show_author 	= (isset($settings->show_author)) ? $settings->show_author : 1;
+		$show_category 	= (isset($settings->show_category)) ? $settings->show_category : 1;
+		$show_date 		= (isset($settings->show_date)) ? $settings->show_date : 1;
+		$show_readmore 	= (isset($settings->show_readmore)) ? $settings->show_readmore : 1;
+		$readmore_text 	= (isset($settings->readmore_text) && $settings->readmore_text) ? $settings->readmore_text : 'Read More';
+		$link_articles 	= (isset($settings->link_articles)) ? $settings->link_articles : 0;
+		$link_catid 	= (isset($settings->link_catid)) ? $settings->link_catid : 0;
+		$link_k2catid 	= (isset($settings->link_k2catid)) ? $settings->link_k2catid : 0;
 
-		$all_articles_btn_text   = (isset($this->addon->settings->all_articles_btn_text) && $this->addon->settings->all_articles_btn_text) ? $this->addon->settings->all_articles_btn_text : 'See all posts';
-		$all_articles_btn_class  = (isset($this->addon->settings->all_articles_btn_size) && $this->addon->settings->all_articles_btn_size) ? ' sppb-btn-' . $this->addon->settings->all_articles_btn_size : '';
-		$all_articles_btn_class .= (isset($this->addon->settings->all_articles_btn_type) && $this->addon->settings->all_articles_btn_type) ? ' sppb-btn-' . $this->addon->settings->all_articles_btn_type : ' sppb-btn-default';
-		$all_articles_btn_class .= (isset($this->addon->settings->all_articles_btn_shape) && $this->addon->settings->all_articles_btn_shape) ? ' sppb-btn-' . $this->addon->settings->all_articles_btn_shape: ' sppb-btn-rounded';
-		$all_articles_btn_class .= (isset($this->addon->settings->all_articles_btn_appearance) && $this->addon->settings->all_articles_btn_appearance) ? ' sppb-btn-' . $this->addon->settings->all_articles_btn_appearance : '';
-		$all_articles_btn_class .= (isset($this->addon->settings->all_articles_btn_block) && $this->addon->settings->all_articles_btn_block) ? ' ' . $this->addon->settings->all_articles_btn_block : '';
-		$all_articles_btn_icon   = (isset($this->addon->settings->all_articles_btn_icon) && $this->addon->settings->all_articles_btn_icon) ? $this->addon->settings->all_articles_btn_icon : '';
-		$all_articles_btn_icon_position = (isset($this->addon->settings->all_articles_btn_icon_position) && $this->addon->settings->all_articles_btn_icon_position) ? $this->addon->settings->all_articles_btn_icon_position: 'left';
+		$all_articles_btn_text   = (isset($settings->all_articles_btn_text) && $settings->all_articles_btn_text) ? $settings->all_articles_btn_text : 'See all posts';
+		$all_articles_btn_class  = (isset($settings->all_articles_btn_size) && $settings->all_articles_btn_size) ? ' sppb-btn-' . $settings->all_articles_btn_size : '';
+		$all_articles_btn_class .= (isset($settings->all_articles_btn_type) && $settings->all_articles_btn_type) ? ' sppb-btn-' . $settings->all_articles_btn_type : ' sppb-btn-default';
+		$all_articles_btn_class .= (isset($settings->all_articles_btn_shape) && $settings->all_articles_btn_shape) ? ' sppb-btn-' . $settings->all_articles_btn_shape: ' sppb-btn-rounded';
+		$all_articles_btn_class .= (isset($settings->all_articles_btn_appearance) && $settings->all_articles_btn_appearance) ? ' sppb-btn-' . $settings->all_articles_btn_appearance : '';
+		$all_articles_btn_class .= (isset($settings->all_articles_btn_block) && $settings->all_articles_btn_block) ? ' ' . $settings->all_articles_btn_block : '';
+		$all_articles_btn_icon   = (isset($settings->all_articles_btn_icon) && $settings->all_articles_btn_icon) ? $settings->all_articles_btn_icon : '';
+		$all_articles_btn_icon_position = (isset($settings->all_articles_btn_icon_position) && $settings->all_articles_btn_icon_position) ? $settings->all_articles_btn_icon_position: 'left';
 
 		$output   = '';
 		//include k2 helper
-		$k2helper 			= JPATH_ROOT . '/components/com_sppagebuilder/helpers/k2.php';
+		$k2helper 		= JPATH_ROOT . '/components/com_sppagebuilder/helpers/k2.php';
 		$article_helper = JPATH_ROOT . '/components/com_sppagebuilder/helpers/articles.php';
 		$isk2installed  = self::isComponentInstalled('com_k2');
 
@@ -71,7 +71,7 @@ class SppagebuilderAddonArticles extends SppagebuilderAddons{
 		}
 
 		if (!count($items)) {
-			$output .= '<p class="alert alert-warning">' . JText::_('COM_SPPAGEBUILDER_ADDON_ARTICLE_NO_ITEMS_FOUND') . '</p>';
+			$output .= '<p class="alert alert-warning">' . JText::_('COM_SPPAGEBUILDER_NO_ITEMS_FOUND') . '</p>';
 			return $output;
 		}
 
@@ -105,21 +105,25 @@ class SppagebuilderAddonArticles extends SppagebuilderAddons{
 						if(count((array) $item->imagegallery->images)) {
 							$output .= '<div class="sppb-carousel sppb-slide" data-sppb-ride="sppb-carousel">';
 							$output .= '<div class="sppb-carousel-inner">';
-							foreach ($item->imagegallery->images as $gallery_item) {
+							foreach ($item->imagegallery->images as $key => $gallery_item) {
+								$active_class = '';
+								if($key == 0){
+									$active_class = ' active';
+								}
 								if (isset($gallery_item['thumbnail']) && $gallery_item['thumbnail']) {
-									$output .= '<div class="sppb-item">';
+									$output .= '<div class="sppb-item'.$active_class.'">';
 									$output .= '<img src="'. $gallery_item['thumbnail'] .'" alt="">';
 									$output .= '</div>';
 								} elseif (isset($gallery_item['full']) && $gallery_item['full']) {
-									$output .= '<div class="sppb-item">';
+									$output .= '<div class="sppb-item'.$active_class.'">';
 									$output .= '<img src="'. $gallery_item['full'] .'" alt="">';
 									$output .= '</div>';
 								}
 							}
 							$output	.= '</div>';
 
-							$output	.= '<a class="left sppb-carousel-control" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>';
-							$output	.= '<a class="right sppb-carousel-control" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>';
+							$output	.= '<a class="left sppb-carousel-control" role="button" data-slide="prev" aria-label="'.JText::_('COM_SPPAGEBUILDER_ARIA_PREVIOUS').'"><i class="fa fa-angle-left" aria-hidden="true"></i></a>';
+							$output	.= '<a class="right sppb-carousel-control" role="button" data-slide="next" aria-label="'.JText::_('COM_SPPAGEBUILDER_ARIA_NEXT').'"><i class="fa fa-angle-right" aria-hidden="true"></i></a>';
 
 							$output .= '</div>';
 
@@ -142,47 +146,50 @@ class SppagebuilderAddonArticles extends SppagebuilderAddons{
 						$output .= '</div>';
 					} elseif($resource != 'k2' && $item->post_format == 'link' && isset($item->link_url) && $item->link_url) {
 						$output .= '<div class="entry-link">';
-							$output .= '<a target="_blank" href="' . $item->link_url .'"><h4>' . $item->link_title .'</h4></a>';
+							$output .= '<a target="_blank" rel="noopener noreferrer" href="' . $item->link_url .'"><h4>' . $item->link_title .'</h4></a>';
 						$output .= '</div>';
 					} else {
 						if(isset($image) && $image) {
-							$output .= '<a href="'. $item->link .'" itemprop="url"><img class="sppb-img-responsive" src="'. $image .'" alt="'. $item->title .'" itemprop="thumbnailUrl"></a>';
+							$output .= '<a class="sppb-article-img-wrap" href="'. $item->link .'" itemprop="url"><img class="sppb-img-responsive" src="'. $image .'" alt="'. $item->title .'" itemprop="thumbnailUrl"></a>';
 						}
 					}
 				}
 
-				$output .= '<h3><a href="'. $item->link .'" itemprop="url">' . $item->title . '</a></h3>';
+				$output .= '<div class="sppb-article-info-wrap">';
+					$output .= '<h3><a href="'. $item->link .'" itemprop="url">' . $item->title . '</a></h3>';
 
-				if($show_author || $show_category || $show_date) {
-					$output .= '<div class="sppb-article-meta">';
+					if($show_author || $show_category || $show_date) {
+						$output .= '<div class="sppb-article-meta">';
 
-					if($show_date) {
-						$output .= '<span class="sppb-meta-date" itemprop="datePublished">' . Jhtml::_('date', $item->publish_up, 'DATE_FORMAT_LC3') . '</span>';
+						if($show_date) {
+							$output .= '<span class="sppb-meta-date" itemprop="datePublished">' . Jhtml::_('date', $item->publish_up, 'DATE_FORMAT_LC3') . '</span>';
+						}
+
+						if($show_category) {
+							if ($resource == 'k2') {
+								$item->catUrl = urldecode(JRoute::_(K2HelperRoute::getCategoryRoute($item->catid.':'.urlencode($item->category_alias))));
+							} else {
+								$item->catUrl = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug));
+							}
+							$output .= '<span class="sppb-meta-category"><a href="'. $item->catUrl .'" itemprop="genre">' . $item->category . '</a></span>';
+						}
+
+						if($show_author) {
+							$author = ( $item->created_by_alias ?  $item->created_by_alias :  $item->username);
+							$output .= '<span class="sppb-meta-author" itemprop="name">' . $author . '</span>';
+						}
+
+						$output .= '</div>';
 					}
 
-					if($show_category) {
-						if ($resource == 'k2') {
-	    					$item->catUrl = urldecode(JRoute::_(K2HelperRoute::getCategoryRoute($item->catid.':'.urlencode($item->category_alias))));
-		    			} else {
-		    				$item->catUrl = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug));
-		    			}
-						$output .= '<span class="sppb-meta-category"><a href="'. $item->catUrl .'" itemprop="genre">' . $item->category . '</a></span>';
+					if($show_intro) {
+						$output .= '<div class="sppb-article-introtext">'. mb_substr($item->introtext, 0, $intro_limit, 'UTF-8') .'...</div>';
 					}
 
-					if($show_author) {
-						$output .= '<span class="sppb-meta-author" itemprop="name">' . $item->username . '</span>';
+					if($show_readmore) {
+						$output .= '<a class="sppb-readmore" href="'. $item->link .'" itemprop="url">'. $readmore_text .'</a>';
 					}
-
-					$output .= '</div>';
-				}
-
-				if($show_intro) {
-					$output .= '<div class="sppb-article-introtext">'. Jhtml::_('string.truncate', ($item->introtext), $intro_limit) .'</div>';
-				}
-
-				if($show_readmore) {
-					$output .= '<a class="sppb-readmore" href="'. $item->link .'" itemprop="url">'. $readmore_text .'</a>';
-				}
+				$output .= '</div>'; //.sppb-article-info-wrap
 
 				$output .= '</div>';
 				$output .= '</div>';
@@ -194,9 +201,9 @@ class SppagebuilderAddonArticles extends SppagebuilderAddons{
 			if($link_articles) {
 
 				if($all_articles_btn_icon_position == 'left') {
-					$all_articles_btn_text = ($all_articles_btn_icon) ? '<i class="fa ' . $all_articles_btn_icon . '"></i> ' . $all_articles_btn_text : $all_articles_btn_text;
+					$all_articles_btn_text = ($all_articles_btn_icon) ? '<i class="fa ' . $all_articles_btn_icon . '" aria-hidden="true"></i> ' . $all_articles_btn_text : $all_articles_btn_text;
 				} else {
-					$all_articles_btn_text = ($all_articles_btn_icon) ? $all_articles_btn_text . ' <i class="fa ' . $all_articles_btn_icon . '"></i>' : $all_articles_btn_text;
+					$all_articles_btn_text = ($all_articles_btn_icon) ? $all_articles_btn_text . ' <i class="fa ' . $all_articles_btn_icon . '" aria-hidden="true"></i>' : $all_articles_btn_text;
 				}
 
 				if ($resource == 'k2') {
@@ -230,7 +237,8 @@ class SppagebuilderAddonArticles extends SppagebuilderAddons{
 		$options->button_color_hover = (isset($this->addon->settings->all_articles_btn_color_hover) && $this->addon->settings->all_articles_btn_color_hover) ? $this->addon->settings->all_articles_btn_color_hover : '';
 		$options->button_background_color = (isset($this->addon->settings->all_articles_btn_background_color) && $this->addon->settings->all_articles_btn_background_color) ? $this->addon->settings->all_articles_btn_background_color : '';
 		$options->button_background_color_hover = (isset($this->addon->settings->all_articles_btn_background_color_hover) && $this->addon->settings->all_articles_btn_background_color_hover) ? $this->addon->settings->all_articles_btn_background_color_hover : '';
-		$options->button_fontstyle = (isset($this->addon->settings->all_articles_btn_fontstyle) && $this->addon->settings->all_articles_btn_fontstyle) ? $this->addon->settings->all_articles_btn_fontstyle : '';
+		$options->button_fontstyle = (isset($this->addon->settings->all_articles_btn_font_style) && $this->addon->settings->all_articles_btn_font_style) ? $this->addon->settings->all_articles_btn_font_style : '';
+		$options->button_font_style = (isset($this->addon->settings->all_articles_btn_font_style) && $this->addon->settings->all_articles_btn_font_style) ? $this->addon->settings->all_articles_btn_font_style : '';
 		$options->button_letterspace = (isset($this->addon->settings->all_articles_btn_letterspace) && $this->addon->settings->all_articles_btn_letterspace) ? $this->addon->settings->all_articles_btn_letterspace : '';
 
 		return $css_path->render(array('addon_id' => $addon_id, 'options' => $options, 'id' => 'btn-' . $this->addon->id));

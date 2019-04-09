@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -56,7 +56,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -143,7 +143,8 @@ SpAddonsConfig::addonConfig(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_IMAGE_WIDTH'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_IMAGE_WIDTH_DESC'),
-					'std'=>200,
+                    'responsive' => true,
+                    'std'=>array('md'=>200),
 					'max'=>1000
 				),
 
@@ -151,8 +152,28 @@ SpAddonsConfig::addonConfig(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_IMAGE_HEIGHT'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_IMAGE_HEIGHT_DESC'),
-					'std'=>200,
+					'responsive' => true,
+                    'std'=>array('md'=>200),
 					'max'=>1000
+				),
+				'item_gap'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_ITEM_GAP'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_ITEM_GAP_DESC'),
+					'responsive' => true,
+                    'std'=>array('md'=>0),
+					'max'=>400
+				),
+				'item_alignment'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_ITEM_ALIGNMENT'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GALLERY_ITEM_ALIGNMENT_DESC'),
+					'values'=>array(
+						'left'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LEFT'),
+						'center'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_CENTER'),
+						'right'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
+					),
+                    'std'=>'',
 				),
 				// Repeatable Items
 				'sp_gallery_item'=>array(

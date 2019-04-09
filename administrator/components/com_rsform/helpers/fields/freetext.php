@@ -20,7 +20,7 @@ class RSFormProFieldFreeText extends RSFormProField
 			$value 		= JText::_('RSFP_PHP_CODE_PLACEHOLDER');
 			$codeIcon	= RSFormProHelper::getIcon('php');
 		} else {
-			$value = '<pre>'.$this->escape($value).'</pre>';
+			$value = '<pre class="rsfp-preview-freetext">'.$this->escape($value).'</pre>';
 		}
 		
 		$html = '<td>&nbsp;</td>';

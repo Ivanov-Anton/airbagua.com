@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -76,7 +76,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.btn { font-family: {{ VALUE }}; }'
+						'css'=>'.btn { font-family: "{{ VALUE }}"; }'
 					),
 					'depends'=>array(array('title', '!=', '')),
 				),
@@ -400,7 +400,7 @@ SpAddonsConfig::addonConfig(
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_MODAL_SELECTOR_ICON_TEXT_DESC'),
 					'std'=>'',
 					'depends'=>array(array('modal_selector', '!=' , 'button')),
-					'placeholder'=>'Intro Video'
+					'placeholder'=>'Click to view detail'
 				),
 
 				'selector_text_size'=>array(
@@ -410,6 +410,7 @@ SpAddonsConfig::addonConfig(
 					'placeholder'=>36,
 					'max'=>300,
 					'depends'=>array(array('modal_selector', '!=' , 'button')),
+					'responsive'=>true,
 				),
 
 				'selector_text_weight'=>array(

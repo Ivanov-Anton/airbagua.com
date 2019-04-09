@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -32,11 +32,32 @@ SpAddonsConfig::addonConfig(
 				),
 
 				'link'=>array(
-					'type'=>'text',
+					'type'=>'media',
+					'format'=>'attachment',
+					'hide_preview'=>true,
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LINK'),
-					'std'=> ''
+					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LINK_DESC'),
+					'std'=>'',
+					'depends'=>array(
+						array('name', '!=', ''),
+					),
 				),
 
+				'target'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET_DESC'),
+					'values'=>array(
+						''=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET_SAME_WINDOW'),
+						'_blank'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET_NEW_WINDOW'),
+					),
+
+					'depends'=>array(
+						array('name', '!=', ''),
+						array('link', '!=', ''),
+					),
+				),
+			
 				'size'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_ICON_SIZE'),

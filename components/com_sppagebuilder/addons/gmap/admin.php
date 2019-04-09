@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -52,7 +52,7 @@ $gmap_config = array(
 		'selector'=> array(
 			'type'=>'font',
 			'font'=>'{{ VALUE }}',
-			'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+			'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 		)
 	),
 
@@ -158,6 +158,37 @@ $gmap_config['infowindow'] = array(
 	'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_INFOWINDOW_DESC'),
 );
 
+$gmap_config['multi_location'] = array(
+	'type'=>'checkbox',
+	'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_MULTI_LOCATION'),
+	'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_MULTI_LOCATION_DESC'),
+	'values'=>array(
+		1=> JText::_('YES'),
+		0=> JText::_('NO'),
+	),
+	'std'=> 0
+);
+$gmap_config['multi_location_items'] = array(
+	'title'=> JText::_('COM_SPPAGEBUILDER_ADDON_MULTI_LOCATION_ITEMS'),
+	'attr'=> array(
+		'location_item'=>array(
+			'type'=>'gmap',
+			'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_LOCATION'),
+			'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_LOCATION_DESC'),
+			'std'=>'22.3435442,91.765449',
+		),
+		'location_popup_text' => array(
+			'type'=>'textarea',
+			'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_INFOWINDOW'),
+			'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_INFOWINDOW_DESC'),
+			'std'=>'Chittagong',
+		),
+	),
+	'depends'=> array(
+		array('multi_location', '!=', 0),
+	)
+);
+
 $gmap_config['height'] = array(
 	'type'=>'slider',
 	'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_HEIGHT'),
@@ -186,8 +217,8 @@ $gmap_config['zoom'] = array(
 	'type'=>'slider',
 	'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_ZOOM'),
 	'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_ZOOM_DESC'),
-	'placeholder'=>'18',
-	'std'=>'18',
+	'placeholder'=>'5',
+	'std'=>'5',
 	'max'=>25,
 	'depends'=>array(array('map', '!=', '')),
 );
@@ -200,6 +231,18 @@ $gmap_config['mousescroll'] = array(
 		'true'=>JText::_('JNO'),
 	),
 	'std'=>'true',
+	'depends'=>array(array('map', '!=', '')),
+);
+
+$gmap_config['show_controllers'] = array(
+	'type'=>'select',
+	'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_DISABLE_SHOW_CONTROLLERS'),
+	'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GMAP_DISABLE_SHOW_CONTROLLERS_DESC'),
+	'values'=>array(
+		'false'=>JText::_('JYES'),
+		'true'=>JText::_('JNO'),
+	),
+	'std'=>'false',
 	'depends'=>array(array('map', '!=', '')),
 );
 

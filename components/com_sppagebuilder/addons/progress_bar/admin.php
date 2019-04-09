@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -61,16 +61,16 @@ SpAddonsConfig::addonConfig(
 
 				'bar_background'=>array(
 					'type'=>'color',
-					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_BACKGROUND_COLOR'),
-					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_BACKGROUND_COLOR_DESC'),
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_BG_COLOR'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_BG_COLOR_DESC'),
 					'std' => '#cccccc',
 					'depends'=>array('type'=>'custom'),
 				),
 
 				'progress_bar_background'=>array(
 					'type'=>'color',
-					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_BACKGROUND_COLOR'),
-					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_BACKGROUND_COLOR_DESC'),
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_PROGRESS_BG_COLOR'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_PROGRESS_BG_COLOR_DESC'),
 					'std' => '#00c1f8',
 					'depends'=>array('type'=>'custom'),
 				),
@@ -91,12 +91,127 @@ SpAddonsConfig::addonConfig(
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_TEXT_DESC'),
 					'std'=>'',
 				),
+				'text_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_TEXT_COLOR'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+				),
+				'text_fontsize'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_TEXT_FONTSIZE'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>''),
+				),
+				'text_lineheight'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_TEXT_LINEHEIGHT'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>''),
+				),
+				'text_fontfamily'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_TEXT_FONTFAMILY'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+				),
+				'text_fontweight'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_TEXT_FONTWEIGHT'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+					'values'=>array(
+						100=>100,
+						200=>200,
+						300=>300,
+						400=>400,
+						500=>500,
+						600=>600,
+						700=>700,
+						800=>800,
+						900=>900,
+					),
+				),
 
 				'show_percentage'=>array(
 					'type'=>'checkbox',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_SHOW_PERCENTAGE'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_SHOW_PERCENTAGE_DESC'),
 					'std'=>0,
+				),
+
+				'percentage_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_PERCENT_COLOR'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+				),
+				'percentage_fontsize'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_PERCENT_FONTSIZE'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>''),
+				),
+				'percentage_lineheight'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_PERCENT_LINEHEIGHT'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>''),
+				),
+				'percentage_fontfamily'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_PERCENT_FONTFAMILY'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+				),
+				'percentage_fontweight'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PROGRESS_BAR_PERCENT_FONTWEIGHT'),
+					'depends'=>array(
+						array('show_percentage', '!=', 0),
+						array('type', '=', 'custom'),
+					),
+					'values'=>array(
+						100=>100,
+						200=>200,
+						300=>300,
+						400=>400,
+						500=>500,
+						600=>600,
+						700=>700,
+						800=>800,
+						900=>900,
+					),
 				),
 
 				'class'=>array(

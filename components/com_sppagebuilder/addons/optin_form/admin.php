@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2017 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -55,7 +55,7 @@ array(
 				'selector'=> array(
 					'type'=>'font',
 					'font'=>'{{ VALUE }}',
-					'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+					'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 				)
 			),
 
@@ -244,6 +244,27 @@ array(
 				'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_GENERAL_SETTINGS'),
 			),
 
+			'recaptcha' => array(
+				'type' => 'checkbox',
+				'title' => JText::_('COM_SPPAGEBUILDER_ADDON_SHOW_RECAPTCHA'),
+				'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_SHOW_RECAPTCHA_DESC'),
+				'std' => 0,
+			),
+
+			'show_checkbox' => array(
+				'type' => 'checkbox',
+				'title' => JText::_('COM_SPPAGEBUILDER_ADDON_SHOW_CHECKBOX'),
+				'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_SHOW_CHECKBOX_DESC'),
+				'std' => 1,
+			),
+			'checkbox_title' => array(
+				'type' => 'textarea',
+				'title' => JText::_('COM_SPPAGEBUILDER_ADDON_CHECKBOX_TITLE'),
+				'desc' => JText::_('COM_SPPAGEBUILDER_ADDON_CHECKBOX_TITLE_DESC'),
+				'std' => 'I agree with the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and I declare that I have read the information that is required in accordance with <a href="http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=uriserv:OJ.L_.2016.119.01.0001.01.ENG&amp;toc=OJ:L:2016:119:TOC" target="_blank">Article 13 of GDPR.</a>',
+				'depends' => array('show_checkbox' => 1)
+			),
+
 			// Addon Style
 			'grid'=>array(
 				'type'=>'select',
@@ -319,6 +340,13 @@ array(
 				'std'=>0,
 			),
 
+			'submit_btn_inside'=>array(
+				'type'=>'checkbox',
+				'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_INSIDE_SUBMIT'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_INSIDE_SUBMIT_DESC'),
+				'std'=>0,
+			),
+
 			//Custom Input Field
 			'custom_input'=>array(
 				'type'=>'checkbox',
@@ -374,9 +402,9 @@ array(
 				'values'=>array(
 					''=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_FULL'),
 					'top-'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_TOP'),
-					'right-'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_RIGHT'),
+					'right-'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
 					'bottom-'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_BOTTOM'),
-					'left-'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_LEFT'),
+					'left-'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LEFT'),
 				),
 				'std'=>'',
 				'depends'=>array('custom_input'=> 1, 'custom_input_borderless'=> 0),
@@ -405,8 +433,9 @@ array(
 			'custom_input_padding'=>array(
 				'type'=>'padding',
 				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
-				'std'=>'22px 15px',
+				'std'=>'22px 15px 22px 15px',
 				'depends'=>array('custom_input'=> 1),
+				'responsive'=>true,
 			),
 
 			'separator_choose_imgicon'=>array(
@@ -468,9 +497,9 @@ array(
 				'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_MEDIA_POSITION_DESC'),
 				'values'=>array(
 					'top'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_TOP'),
-					'right'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_RIGHT'),
+					'right'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_RIGHT'),
 					'bottom'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_BOTTOM'),
-					'left'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_LEFT'),
+					'left'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LEFT'),
 				),
 				'depends'=>array(array('media_type', '!=', '')),
 				'std'=>'',
@@ -500,7 +529,14 @@ array(
 				'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_CUSTOM_BUTTON'),
 				'std'=>0,
 			),
-
+			'fontsize' => array(
+				'type' => 'slider',
+				'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_FONT_SIZE'),
+				'std' => 16,
+				'max' => 200,
+				'depends' => array('use_custom_button'=>1),
+				'responsive'=>true,
+			),
 			'button_fontstyle'=>array(
 				'type'=>'select',
 				'title'=> JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_FONT_STYLE'),
@@ -717,6 +753,7 @@ array(
 					array('use_custom_button', '=', 1),
 					array('button_type', '=', 'custom')
 				),
+				'responsive'=>true,
 			),
 
 			'button_block'=>array(

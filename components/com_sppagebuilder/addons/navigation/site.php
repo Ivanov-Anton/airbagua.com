@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2017 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -12,16 +12,23 @@ class SppagebuilderAddonNavigation extends SppagebuilderAddons{
 
 	public function render() {
 
-		$class = (isset($this->addon->settings->class) && $this->addon->settings->class) ? $this->addon->settings->class : '';
-		$links = (isset($this->addon->settings->sp_link_list_item) && $this->addon->settings->sp_link_list_item) ? $this->addon->settings->sp_link_list_item : array();
-        $type = (isset($this->addon->settings->type) && $this->addon->settings->type) ? $this->addon->settings->type : "nav";
-        $align = (isset($this->addon->settings->align) && $this->addon->settings->align) ? $this->addon->settings->align : "left";
-        $icon_position = (isset($this->addon->settings->icon_position) && $this->addon->settings->icon_position) ? $this->addon->settings->icon_position : 'left';
-        $scroll_to = (isset($this->addon->settings->scroll_to) && $this->addon->settings->scroll_to) ? $this->addon->settings->scroll_to : false;
-        $sticky_menu = (isset($this->addon->settings->sticky_menu) && $this->addon->settings->sticky_menu) ? $this->addon->settings->sticky_menu : false;
-        $responsive_menu = (isset($this->addon->settings->responsive_menu)) ? $this->addon->settings->responsive_menu : true;
+        $settings = $this->addon->settings;
+		$class = (isset($settings->class) && $settings->class) ? $settings->class : '';
+		$links = (isset($settings->sp_link_list_item) && $settings->sp_link_list_item) ? $settings->sp_link_list_item : array();
+        $type = (isset($settings->type) && $settings->type) ? $settings->type : "nav";
+        $align = (isset($settings->align) && $settings->align) ? $settings->align : "left";
+        $icon_position = (isset($settings->icon_position) && $settings->icon_position) ? $settings->icon_position : 'left';
+        $scroll_to = (isset($settings->scroll_to) && $settings->scroll_to) ? $settings->scroll_to : false;
+        $scroll_to_offset = (isset($settings->scroll_to_offset)) ? $settings->scroll_to_offset : '';
+        $sticky_menu = (isset($settings->sticky_menu) && $settings->sticky_menu) ? $settings->sticky_menu : false;
+        $responsive_menu = (isset($settings->responsive_menu)) ? $settings->responsive_menu : true;
         $nav_type = "sppb-link-list-${type}";
         $nav_align = " sppb-nav-align-${align}";
+
+        $data_offset = '';
+        if($scroll_to){
+            $data_offset = 'data-offset='.$scroll_to_offset.'';
+        }
         
         $output = '';
 
@@ -35,14 +42,14 @@ class SppagebuilderAddonNavigation extends SppagebuilderAddons{
             $responsive_menu_cls = ' sppb-link-list-responsive';
         }
 
-        $output .= '<div class="sppb-link-list-wrap ' . $nav_type . $nav_align . $responsive_menu_cls . '" ' . $sticky_row_attr . '>';
+        $output .= '<div class="sppb-link-list-wrap ' . $nav_type . $nav_align . $responsive_menu_cls . '" ' . $sticky_row_attr . ' '.$data_offset.'>';
             $output .= ($responsive_menu) ? '<div class="sppb-responsive-bars"><span class="sppb-responsive-bar"></span><span class="sppb-responsive-bar"></span><span class="sppb-responsive-bar"></span></div>' : '';
             $output .= '<ul>';
             
             if(count((array) $links)){
                 foreach($links as $key => $link){
-                    $target = isset($link->target) ? 'target="' . $link->target . '"' : '';
-                    $icon = isset($link->icon) ? '<i class="fa ' . $link->icon . '"></i>' : '';
+                    $target = isset($link->target) ? 'target="' . $link->target . '" '.( $link->target === '_blank' ? 'rel="noopener noreferrer"' : '').'' : '';
+                    $icon = isset($link->icon) ? '<i class="fa ' . $link->icon . '" aria-hidden="true"></i>' : '';
                     $scroll_to_attr = ($scroll_to) ? ' data-scroll-to="true" ' : '';
                     $active = (isset($link->active) && $link->active) ? ' sppb-active' : '';
                     
@@ -67,8 +74,9 @@ class SppagebuilderAddonNavigation extends SppagebuilderAddons{
     }
     
     public function css() {
+        $settings = $this->addon->settings;
         $addon_id = '#sppb-addon-' . $this->addon->id;
-        $icon_position = (isset($this->addon->settings->icon_position) && $this->addon->settings->icon_position) ? $this->addon->settings->icon_position : 'left';
+        $icon_position = (isset($settings->icon_position) && $settings->icon_position) ? $settings->icon_position : 'left';
 
         $css = '';
 
@@ -77,132 +85,132 @@ class SppagebuilderAddonNavigation extends SppagebuilderAddons{
         $link_xs = '';
         $link_hover = '';
 
-        $link .= (isset($this->addon->settings->link_bg) && $this->addon->settings->link_bg) ? 'background-color: ' . $this->addon->settings->link_bg . ';' : '';
+        $link .= (isset($settings->link_bg) && $settings->link_bg) ? 'background-color: ' . $settings->link_bg . ';' : '';
 
-        if(isset($this->addon->settings->link_margin) && is_object($this->addon->settings->link_margin)){
-            $link .= (isset($this->addon->settings->link_margin->md) && $this->addon->settings->link_margin->md) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_margin->md, 'margin') : '';
-            $link_sm .= (isset($this->addon->settings->link_margin->sm) && $this->addon->settings->link_margin->sm) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_margin->sm, 'margin') : '';
-            $link_xs .= (isset($this->addon->settings->link_margin->xs) && $this->addon->settings->link_margin->xs) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_margin->xs, 'margin') : '';
+        if(isset($settings->link_margin) && is_object($settings->link_margin)){
+            $link .= (isset($settings->link_margin->md) && $settings->link_margin->md) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_margin->md, 'margin') : '';
+            $link_sm .= (isset($settings->link_margin->sm) && $settings->link_margin->sm) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_margin->sm, 'margin') : '';
+            $link_xs .= (isset($settings->link_margin->xs) && $settings->link_margin->xs) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_margin->xs, 'margin') : '';
         } else {
-            $link .= (isset($this->addon->settings->link_margin) && $this->addon->settings->link_margin) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_margin, 'margin') : '';
-            $link_sm .= (isset($this->addon->settings->link_margin_sm) && $this->addon->settings->link_margin_sm) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_margin_sm, 'margin') : '';
-            $link_xs .= (isset($this->addon->settings->link_margin_xs) && $this->addon->settings->link_margin_xs) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_margin_xs, 'margin') : '';
-        }
-
-        if(isset($this->addon->settings->link_padding) && is_object($this->addon->settings->link_padding)){
-            $link .= (isset($this->addon->settings->link_padding->md) && $this->addon->settings->link_padding->md) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_padding->md, 'padding') : '';
-            $link_sm .= (isset($this->addon->settings->link_padding->sm) && $this->addon->settings->link_padding->sm) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_padding->sm, 'padding') : '';
-            $link_xs .= (isset($this->addon->settings->link_padding->xs) && $this->addon->settings->link_padding->xs) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_padding->xs, 'padding') : '';
-        } else {
-            $link .= (isset($this->addon->settings->link_padding) && $this->addon->settings->link_padding) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_padding, 'padding') : '';
-            $link_sm .= (isset($this->addon->settings->link_padding_sm) && $this->addon->settings->link_padding_sm) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_padding_sm, 'padding') : '';
-            $link_xs .= (isset($this->addon->settings->link_padding_xs) && $this->addon->settings->link_padding_xs) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->link_padding_xs, 'padding') : '';
-        }
-        if(isset($this->addon->settings->link_border_radius) && is_object($this->addon->settings->link_border_radius)){
-            $link .= (isset($this->addon->settings->link_border_radius->md) && $this->addon->settings->link_border_radius->md) ? 'border-radius: ' . $this->addon->settings->link_border_radius->md . 'px;' : '';
-            $link_sm .= (isset($this->addon->settings->link_border_radius->sm) && $this->addon->settings->link_border_radius->sm) ? 'border-radius: ' . $this->addon->settings->link_border_radius->sm . 'px;' : '';
-            $link_xs .= (isset($this->addon->settings->link_border_radius->xs) && $this->addon->settings->link_border_radius->xs) ? 'border-radius: ' . $this->addon->settings->link_border_radius->xs . 'px;' : '';
-        } else {
-            $link .= (isset($this->addon->settings->link_border_radius) && $this->addon->settings->link_border_radius) ? 'border-radius: ' . $this->addon->settings->link_border_radius . 'px;' : '';
-            $link_sm .= (isset($this->addon->settings->link_border_radius_sm) && $this->addon->settings->link_border_radius_sm) ? 'border-radius: ' . $this->addon->settings->link_border_radius_sm . 'px;' : '';
-            $link_xs .= (isset($this->addon->settings->link_border_radius_xs) && $this->addon->settings->link_border_radius_xs) ? 'border-radius: ' . $this->addon->settings->link_border_radius_xs . 'px;' : '';
-        }
-        if(isset($this->addon->settings->link_fontsize) && is_object($this->addon->settings->link_fontsize)){
-            $link .= (isset($this->addon->settings->link_fontsize->md) && $this->addon->settings->link_fontsize->md) ? 'font-size: ' . $this->addon->settings->link_fontsize->md . 'px;' : '';
-            $link_sm .= (isset($this->addon->settings->link_fontsize->sm) && $this->addon->settings->link_fontsize->sm) ? 'font-size: ' . $this->addon->settings->link_fontsize->sm . 'px;' : '';
-            $link_xs .= (isset($this->addon->settings->link_fontsize->xs) && $this->addon->settings->link_fontsize->xs) ? 'font-size: ' . $this->addon->settings->link_fontsize->xs . 'px;' : '';
-        } else {
-            $link .= (isset($this->addon->settings->link_fontsize) && $this->addon->settings->link_fontsize) ? 'font-size: ' . $this->addon->settings->link_fontsize . 'px;' : '';
-            $link_sm .= (isset($this->addon->settings->link_fontsize_sm) && $this->addon->settings->link_fontsize_sm) ? 'font-size: ' . $this->addon->settings->link_fontsize_sm . 'px;' : '';
-            $link_xs .= (isset($this->addon->settings->link_fontsize_xs) && $this->addon->settings->link_fontsize_xs) ? 'font-size: ' . $this->addon->settings->link_fontsize_xs . 'px;' : '';
-        }
-        if(isset($this->addon->settings->link_lineheight) && is_object($this->addon->settings->link_lineheight)){
-            $link .= (isset($this->addon->settings->link_lineheight->md) && $this->addon->settings->link_lineheight->md) ? 'line-height: ' . $this->addon->settings->link_lineheight->md . 'px;' : '';
-            $link_sm .= (isset($this->addon->settings->link_lineheight->sm) && $this->addon->settings->link_lineheight->sm) ? 'line-height: ' . $this->addon->settings->link_lineheight->sm . 'px;' : '';
-            $link_xs .= (isset($this->addon->settings->link_lineheight->xs) && $this->addon->settings->link_lineheight->xs) ? 'line-height: ' . $this->addon->settings->link_lineheight->xs . 'px;' : '';
-        } else {
-            $link .= (isset($this->addon->settings->link_lineheight) && $this->addon->settings->link_lineheight) ? 'line-height: ' . $this->addon->settings->link_lineheight . 'px;' : '';
-            $link_sm .= (isset($this->addon->settings->link_lineheight_sm) && $this->addon->settings->link_lineheight_sm) ? 'line-height: ' . $this->addon->settings->link_lineheight_sm . 'px;' : '';
-            $link_xs .= (isset($this->addon->settings->link_lineheight_xs) && $this->addon->settings->link_lineheight_xs) ? 'line-height: ' . $this->addon->settings->link_lineheight_xs . 'px;' : '';
+            $link .= (isset($settings->link_margin) && $settings->link_margin) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_margin, 'margin') : '';
+            $link_sm .= (isset($settings->link_margin_sm) && $settings->link_margin_sm) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_margin_sm, 'margin') : '';
+            $link_xs .= (isset($settings->link_margin_xs) && $settings->link_margin_xs) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_margin_xs, 'margin') : '';
         }
 
-        if(isset($this->addon->settings->link_font_style) && is_object($this->addon->settings->link_font_style)){
-            if(isset($this->addon->settings->link_font_style->underline) && $this->addon->settings->link_font_style->underline) {
+        if(isset($settings->link_padding) && is_object($settings->link_padding)){
+            $link .= (isset($settings->link_padding->md) && $settings->link_padding->md) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_padding->md, 'padding') : '';
+            $link_sm .= (isset($settings->link_padding->sm) && $settings->link_padding->sm) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_padding->sm, 'padding') : '';
+            $link_xs .= (isset($settings->link_padding->xs) && $settings->link_padding->xs) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_padding->xs, 'padding') : '';
+        } else {
+            $link .= (isset($settings->link_padding) && $settings->link_padding) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_padding, 'padding') : '';
+            $link_sm .= (isset($settings->link_padding_sm) && $settings->link_padding_sm) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_padding_sm, 'padding') : '';
+            $link_xs .= (isset($settings->link_padding_xs) && $settings->link_padding_xs) ? SppagebuilderHelperSite::getPaddingMargin($settings->link_padding_xs, 'padding') : '';
+        }
+        if(isset($settings->link_border_radius) && is_object($settings->link_border_radius)){
+            $link .= (isset($settings->link_border_radius->md) && $settings->link_border_radius->md) ? 'border-radius: ' . $settings->link_border_radius->md . 'px;' : '';
+            $link_sm .= (isset($settings->link_border_radius->sm) && $settings->link_border_radius->sm) ? 'border-radius: ' . $settings->link_border_radius->sm . 'px;' : '';
+            $link_xs .= (isset($settings->link_border_radius->xs) && $settings->link_border_radius->xs) ? 'border-radius: ' . $settings->link_border_radius->xs . 'px;' : '';
+        } else {
+            $link .= (isset($settings->link_border_radius) && $settings->link_border_radius) ? 'border-radius: ' . $settings->link_border_radius . 'px;' : '';
+            $link_sm .= (isset($settings->link_border_radius_sm) && $settings->link_border_radius_sm) ? 'border-radius: ' . $settings->link_border_radius_sm . 'px;' : '';
+            $link_xs .= (isset($settings->link_border_radius_xs) && $settings->link_border_radius_xs) ? 'border-radius: ' . $settings->link_border_radius_xs . 'px;' : '';
+        }
+        if(isset($settings->link_fontsize) && is_object($settings->link_fontsize)){
+            $link .= (isset($settings->link_fontsize->md) && $settings->link_fontsize->md) ? 'font-size: ' . $settings->link_fontsize->md . 'px;' : '';
+            $link_sm .= (isset($settings->link_fontsize->sm) && $settings->link_fontsize->sm) ? 'font-size: ' . $settings->link_fontsize->sm . 'px;' : '';
+            $link_xs .= (isset($settings->link_fontsize->xs) && $settings->link_fontsize->xs) ? 'font-size: ' . $settings->link_fontsize->xs . 'px;' : '';
+        } else {
+            $link .= (isset($settings->link_fontsize) && $settings->link_fontsize) ? 'font-size: ' . $settings->link_fontsize . 'px;' : '';
+            $link_sm .= (isset($settings->link_fontsize_sm) && $settings->link_fontsize_sm) ? 'font-size: ' . $settings->link_fontsize_sm . 'px;' : '';
+            $link_xs .= (isset($settings->link_fontsize_xs) && $settings->link_fontsize_xs) ? 'font-size: ' . $settings->link_fontsize_xs . 'px;' : '';
+        }
+        if(isset($settings->link_lineheight) && is_object($settings->link_lineheight)){
+            $link .= (isset($settings->link_lineheight->md) && $settings->link_lineheight->md) ? 'line-height: ' . $settings->link_lineheight->md . 'px;' : '';
+            $link_sm .= (isset($settings->link_lineheight->sm) && $settings->link_lineheight->sm) ? 'line-height: ' . $settings->link_lineheight->sm . 'px;' : '';
+            $link_xs .= (isset($settings->link_lineheight->xs) && $settings->link_lineheight->xs) ? 'line-height: ' . $settings->link_lineheight->xs . 'px;' : '';
+        } else {
+            $link .= (isset($settings->link_lineheight) && $settings->link_lineheight) ? 'line-height: ' . $settings->link_lineheight . 'px;' : '';
+            $link_sm .= (isset($settings->link_lineheight_sm) && $settings->link_lineheight_sm) ? 'line-height: ' . $settings->link_lineheight_sm . 'px;' : '';
+            $link_xs .= (isset($settings->link_lineheight_xs) && $settings->link_lineheight_xs) ? 'line-height: ' . $settings->link_lineheight_xs . 'px;' : '';
+        }
+
+        if(isset($settings->link_font_style) && is_object($settings->link_font_style)){
+            if(isset($settings->link_font_style->underline) && $settings->link_font_style->underline) {
                 $link .= 'text-decoration: underline;';
             }
         
-            if(isset($this->addon->settings->link_font_style->italic) && $this->addon->settings->link_font_style->italic) {
+            if(isset($settings->link_font_style->italic) && $settings->link_font_style->italic) {
                 $link .= 'font-style: italic;';
             }
         
-            if(isset($this->addon->settings->link_font_style->uppercase) && $this->addon->settings->link_font_style->uppercase) {
+            if(isset($settings->link_font_style->uppercase) && $settings->link_font_style->uppercase) {
                 $link .= 'text-transform: uppercase;';
             }
         
-            if(isset($this->addon->settings->link_font_style->weight) && $this->addon->settings->link_font_style->weight) {
-                $link .= 'font-weight: ' . $this->addon->settings->link_font_style->weight . ';';
+            if(isset($settings->link_font_style->weight) && $settings->link_font_style->weight) {
+                $link .= 'font-weight: ' . $settings->link_font_style->weight . ';';
             }
         }
-        $link .= (isset($this->addon->settings->link_text_transform) && $this->addon->settings->link_text_transform) ? 'text-transform: ' . $this->addon->settings->link_text_transform  . '; ' : '';
-        $link .= (isset($this->addon->settings->link_letterspace) && $this->addon->settings->link_letterspace) ? 'letter-spacing:' . $this->addon->settings->link_letterspace . ';' : '';
+        $link .= (isset($settings->link_text_transform) && $settings->link_text_transform) ? 'text-transform: ' . $settings->link_text_transform  . '; ' : '';
+        $link .= (isset($settings->link_letterspace) && $settings->link_letterspace) ? 'letter-spacing:' . $settings->link_letterspace . ';' : '';
 
         if($icon_position == 'top'){
             $link .= 'text-align:center;';
         }
 
 
-        $link_hover .= (isset($this->addon->settings->link_bg_hover) && $this->addon->settings->link_bg_hover) ? 'background-color: ' . $this->addon->settings->link_bg_hover . ';' : '';
+        $link_hover .= (isset($settings->link_bg_hover) && $settings->link_bg_hover) ? 'background-color: ' . $settings->link_bg_hover . ';' : '';
 
         $link_active = '';
         $link_active_sm = '';
         $link_active_xs = '';
 
-        if(isset($this->addon->settings->link_border_radius_active) && is_object($this->addon->settings->link_border_radius_active)){
-            $link_active .= (isset($this->addon->settings->link_border_radius_active->md) && $this->addon->settings->link_border_radius_active->md) ? 'border-radius: ' . $this->addon->settings->link_border_radius_active->md . 'px;' : '';
-            $link_active_sm .= (isset($this->addon->settings->link_border_radius_active->sm) && $this->addon->settings->link_border_radius_active->sm) ? 'border-radius: ' . $this->addon->settings->link_border_radius_active->sm . 'px;' : '';
-            $link_active_xs .= (isset($this->addon->settings->link_border_radius_active->xs) && $this->addon->settings->link_border_radius_active->xs) ? 'border-radius: ' . $this->addon->settings->link_border_radius_active->xs . 'px;' : '';
+        if(isset($settings->link_border_radius_active) && is_object($settings->link_border_radius_active)){
+            $link_active .= (isset($settings->link_border_radius_active->md) && $settings->link_border_radius_active->md) ? 'border-radius: ' . $settings->link_border_radius_active->md . 'px;' : '';
+            $link_active_sm .= (isset($settings->link_border_radius_active->sm) && $settings->link_border_radius_active->sm) ? 'border-radius: ' . $settings->link_border_radius_active->sm . 'px;' : '';
+            $link_active_xs .= (isset($settings->link_border_radius_active->xs) && $settings->link_border_radius_active->xs) ? 'border-radius: ' . $settings->link_border_radius_active->xs . 'px;' : '';
         } else {
-            $link_active .= (isset($this->addon->settings->link_border_radius_active) && $this->addon->settings->link_border_radius_active) ? 'border-radius: ' . $this->addon->settings->link_border_radius_active . 'px;' : '';
-            $link_active_sm .= (isset($this->addon->settings->link_border_radius_active_sm) && $this->addon->settings->link_border_radius_active_sm) ? 'border-radius: ' . $this->addon->settings->link_border_radius_active_sm . 'px;' : '';
-            $link_active_xs .= (isset($this->addon->settings->link_border_radius_active_xs) && $this->addon->settings->link_border_radius_active_xs) ? 'border-radius: ' . $this->addon->settings->link_border_radius_active_xs . 'px;' : '';
+            $link_active .= (isset($settings->link_border_radius_active) && $settings->link_border_radius_active) ? 'border-radius: ' . $settings->link_border_radius_active . 'px;' : '';
+            $link_active_sm .= (isset($settings->link_border_radius_active_sm) && $settings->link_border_radius_active_sm) ? 'border-radius: ' . $settings->link_border_radius_active_sm . 'px;' : '';
+            $link_active_xs .= (isset($settings->link_border_radius_active_xs) && $settings->link_border_radius_active_xs) ? 'border-radius: ' . $settings->link_border_radius_active_xs . 'px;' : '';
         }
 
-        $link_active .= (isset($this->addon->settings->link_bg_active) && $this->addon->settings->link_bg_active) ? 'background-color: ' . $this->addon->settings->link_bg_active . ';' : '';
-        $link_active .= (isset($this->addon->settings->link_color_active) && $this->addon->settings->link_color_active) ? 'color: ' . $this->addon->settings->link_color_active . ';' : '';
+        $link_active .= (isset($settings->link_bg_active) && $settings->link_bg_active) ? 'background-color: ' . $settings->link_bg_active . ';' : '';
+        $link_active .= (isset($settings->link_color_active) && $settings->link_color_active) ? 'color: ' . $settings->link_color_active . ';' : '';
 
         // Icon Style
         $link_icon = '';
         $link_icon_sm = '';
         $link_icon_xs = '';
-        if(isset($this->addon->settings->icon_size) && is_object($this->addon->settings->icon_size)){
-            $link_icon .= (isset($this->addon->settings->icon_size->md) && $this->addon->settings->icon_size->md) ? 'font-size: ' . $this->addon->settings->icon_size->md . 'px;line-height: ' . $this->addon->settings->icon_size->md . 'px;' : '';
-            $link_icon_sm .= (isset($this->addon->settings->icon_size->sm) && $this->addon->settings->icon_size->sm) ? 'font-size: ' . $this->addon->settings->icon_size->sm . 'px;line-height: ' . $this->addon->settings->icon_size->sm . 'px;' : '';
-            $link_icon_xs .= (isset($this->addon->settings->icon_size->xs) && $this->addon->settings->icon_size->xs) ? 'font-size: ' . $this->addon->settings->icon_size->xs . 'px;line-height: ' . $this->addon->settings->icon_size->xs . 'px;' : '';
+        if(isset($settings->icon_size) && is_object($settings->icon_size)){
+            $link_icon .= (isset($settings->icon_size->md) && $settings->icon_size->md) ? 'font-size: ' . $settings->icon_size->md . 'px;line-height: ' . $settings->icon_size->md . 'px;' : '';
+            $link_icon_sm .= (isset($settings->icon_size->sm) && $settings->icon_size->sm) ? 'font-size: ' . $settings->icon_size->sm . 'px;line-height: ' . $settings->icon_size->sm . 'px;' : '';
+            $link_icon_xs .= (isset($settings->icon_size->xs) && $settings->icon_size->xs) ? 'font-size: ' . $settings->icon_size->xs . 'px;line-height: ' . $settings->icon_size->xs . 'px;' : '';
         } else {
-            $link_icon .= (isset($this->addon->settings->icon_size) && $this->addon->settings->icon_size) ? 'font-size: ' . $this->addon->settings->icon_size . 'px;line-height: ' . $this->addon->settings->icon_size . 'px;' : '';
-            $link_icon_sm .= (isset($this->addon->settings->icon_size_sm) && $this->addon->settings->icon_size_sm) ? 'font-size: ' . $this->addon->settings->icon_size_sm . 'px;line-height: ' . $this->addon->settings->icon_size_sm . 'px;' : '';
-            $link_icon_xs .= (isset($this->addon->settings->icon_size_xs) && $this->addon->settings->icon_size_xs) ? 'font-size: ' . $this->addon->settings->icon_size_xs . 'px;ine-height: ' . $this->addon->settings->icon_size_xs . 'px;' : '';
+            $link_icon .= (isset($settings->icon_size) && $settings->icon_size) ? 'font-size: ' . $settings->icon_size . 'px;line-height: ' . $settings->icon_size . 'px;' : '';
+            $link_icon_sm .= (isset($settings->icon_size_sm) && $settings->icon_size_sm) ? 'font-size: ' . $settings->icon_size_sm . 'px;line-height: ' . $settings->icon_size_sm . 'px;' : '';
+            $link_icon_xs .= (isset($settings->icon_size_xs) && $settings->icon_size_xs) ? 'font-size: ' . $settings->icon_size_xs . 'px;ine-height: ' . $settings->icon_size_xs . 'px;' : '';
         }
 
-        if(isset($this->addon->settings->icon_margin) && is_object($this->addon->settings->icon_margin)){
-            $link_icon .= (isset($this->addon->settings->icon_margin->md) && $this->addon->settings->icon_margin->md) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->icon_margin->md, 'margin') : '';
-            $link_icon_sm .= (isset($this->addon->settings->icon_margin->sm) && $this->addon->settings->icon_margin->sm) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->icon_margin->sm, 'margin') : '';
-            $link_icon_xs .= (isset($this->addon->settings->icon_margin->xs) && $this->addon->settings->icon_margin->xs) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->icon_margin->xs, 'margin') : '';
+        if(isset($settings->icon_margin) && is_object($settings->icon_margin)){
+            $link_icon .= (isset($settings->icon_margin->md) && $settings->icon_margin->md) ? SppagebuilderHelperSite::getPaddingMargin($settings->icon_margin->md, 'margin') : '';
+            $link_icon_sm .= (isset($settings->icon_margin->sm) && $settings->icon_margin->sm) ? SppagebuilderHelperSite::getPaddingMargin($settings->icon_margin->sm, 'margin') : '';
+            $link_icon_xs .= (isset($settings->icon_margin->xs) && $settings->icon_margin->xs) ? SppagebuilderHelperSite::getPaddingMargin($settings->icon_margin->xs, 'margin') : '';
         } else {
-            $link_icon .= (isset($this->addon->settings->icon_margin) && $this->addon->settings->icon_margin) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->icon_margin, 'margin') : '';
-            $link_icon_sm .= (isset($this->addon->settings->icon_margin_sm) && $this->addon->settings->icon_margin_sm) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->icon_margin_sm, 'margin') : '';
-            $link_icon_xs .= (isset($this->addon->settings->icon_margin_xs) && $this->addon->settings->icon_margin_xs) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->icon_margin_xs, 'margin') : '';
+            $link_icon .= (isset($settings->icon_margin) && $settings->icon_margin) ? SppagebuilderHelperSite::getPaddingMargin($settings->icon_margin, 'margin') : '';
+            $link_icon_sm .= (isset($settings->icon_margin_sm) && $settings->icon_margin_sm) ? SppagebuilderHelperSite::getPaddingMargin($settings->icon_margin_sm, 'margin') : '';
+            $link_icon_xs .= (isset($settings->icon_margin_xs) && $settings->icon_margin_xs) ? SppagebuilderHelperSite::getPaddingMargin($settings->icon_margin_xs, 'margin') : '';
         }
 
         $responsive_bars = '';
-        $responsive_bars .= (isset($this->addon->settings->responsive_bar_bg) && $this->addon->settings->responsive_bar_bg) ? 'background-color: ' . $this->addon->settings->responsive_bar_bg . ';' : '';
+        $responsive_bars .= (isset($settings->responsive_bar_bg) && $settings->responsive_bar_bg) ? 'background-color: ' . $settings->responsive_bar_bg . ';' : '';
         $responsive_bars_active = '';
-        $responsive_bars_active .= (isset($this->addon->settings->responsive_bar_bg_active) && $this->addon->settings->responsive_bar_bg_active) ? 'background-color: ' . $this->addon->settings->responsive_bar_bg_active . ';' : '';
+        $responsive_bars_active .= (isset($settings->responsive_bar_bg_active) && $settings->responsive_bar_bg_active) ? 'background-color: ' . $settings->responsive_bar_bg_active . ';' : '';
 
         $responsive_bar = '';
-        $responsive_bar .= (isset($this->addon->settings->responsive_bar_color) && $this->addon->settings->responsive_bar_color) ? 'background-color: ' . $this->addon->settings->responsive_bar_color . ';' : '';
+        $responsive_bar .= (isset($settings->responsive_bar_color) && $settings->responsive_bar_color) ? 'background-color: ' . $settings->responsive_bar_color . ';' : '';
         $responsive_bar_active = '';
-        $responsive_bar_active .= (isset($this->addon->settings->responsive_bar_color_active) && $this->addon->settings->responsive_bar_color_active) ? 'background-color: ' . $this->addon->settings->responsive_bar_color_active . ';' : '';
+        $responsive_bar_active .= (isset($settings->responsive_bar_color_active) && $settings->responsive_bar_color_active) ? 'background-color: ' . $settings->responsive_bar_color_active . ';' : '';
 
         if($link){
             $css .=  $addon_id . ' li a{' . $link . '}';

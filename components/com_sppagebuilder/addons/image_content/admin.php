@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -100,7 +100,7 @@ array(
 				'selector'=> array(
 					'type'=>'font',
 					'font'=>'{{ VALUE }}',
-					'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+					'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 				),
 				'depends'=>array(array('title', '!=', '')),
 			),
@@ -179,7 +179,7 @@ array(
 				'selector'=> array(
 					'type'=>'font',
 					'font'=>'{{ VALUE }}',
-					'css'=>'.btn { font-family: {{ VALUE }}; }'
+					'css'=>'.sppb-btn { font-family: "{{ VALUE }}"; }'
 				),
 				'depends'=> array(
 					array('button_text', '!=', ''),
@@ -225,6 +225,7 @@ array(
 				'depends'=> array(
 					array('button_text', '!=', ''),
 				),
+				'std' => '#'
 			),
 
 			'button_target'=>array(

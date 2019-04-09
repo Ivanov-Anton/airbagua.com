@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -49,6 +49,13 @@ SpAddonsConfig::addonConfig(
 					'depends'=>array(array('title', '!=', '')),
 				),
 
+				'title_text_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TITLE_TEXT_COLOR'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_TITLE_TEXT_COLOR_DESC'),
+					'depends'=>array(array('title', '!=', '')),
+				),
+
 				'title_font_family'=>array(
 					'type'=>'fonts',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TITLE_FONT_FAMILY'),
@@ -57,7 +64,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -103,13 +110,6 @@ SpAddonsConfig::addonConfig(
 						'10px'=> '10px'
 					),
 					'std'=>'0',
-					'depends'=>array(array('title', '!=', '')),
-				),
-
-				'title_text_color'=>array(
-					'type'=>'color',
-					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TITLE_TEXT_COLOR'),
-					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_TITLE_TEXT_COLOR_DESC'),
 					'depends'=>array(array('title', '!=', '')),
 				),
 
@@ -177,6 +177,34 @@ SpAddonsConfig::addonConfig(
 					'depends'=>array(array('review', '!=', '')),
 				),
 
+				'review_font_family'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_FONT_FAMILY'),
+					'depends'=>array(array('review', '!=', '')),
+					'selector'=> array(
+						'type'=>'font',
+						'font'=>'{{ VALUE }}',
+						'css'=>'.sppb-addon-testimonial-review { font-family: "{{ VALUE }}"; }'
+					)
+				),
+
+				'review_fontweight'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_FONTWEIGHT'),
+					'values'=>array(
+						100=>100,
+						200=>200,
+						300=>300,
+						400=>400,
+						500=>500,
+						600=>600,
+						700=>700,
+						800=>800,
+						900=>900,
+					),
+					'depends'=>array(array('review', '!=', '')),
+				),
+
 				'review_line_height'=>array(
 					'type'=>'slider',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_REVIEW_LINE_HEIGHT'),
@@ -191,7 +219,17 @@ SpAddonsConfig::addonConfig(
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_REVIEW_COLOR'),
 					'depends'=>array(array('review', '!=', '')),
 				),
-
+				'review_margin'=>array(
+					'type'=>'margin',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_MARGIN'),
+					'responsive'=>true,
+					'std'=>array('md'=>'','sm'=>'','xs'=>''),
+				),
+				//Name Options
+				'name_separator'=>array(
+					'type'=>'separator',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_PERSON_NAME_COMPANY_OPTION'),
+				),
 				'name'=>array(
 					'type'=>'text',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_NAME'),
@@ -199,11 +237,97 @@ SpAddonsConfig::addonConfig(
 					'std'=>'John Doe'
 				),
 
+				'name_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_NAME_COLOR'),
+				),
+				'name_font_size'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_NAME_FONTSIZE'),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>'','sm'=>'','xs'=>''),
+				),
+				'name_font_style'=>array(
+					'type'=>'fontstyle',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_NAME_FONTSTYLE'),
+				),
+				'name_font_family'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_NAME_FONT_FAMILY'),
+					'selector'=> array(
+						'type'=>'font',
+						'font'=>'{{ VALUE }}',
+						'css'=>'.sppb-addon-testimonial-client { font-family: "{{ VALUE }}"; }'
+					)
+				),
+				'name_line_height'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_NAME_LINEHEIGHT'),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>'','sm'=>'','xs'=>''),
+				),
+				'name_margin'=>array(
+					'type'=>'margin',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_MARGIN'),
+					'responsive'=>true,
+					'std'=>array('md'=>'0px 0px 0px 0px','sm'=>'0px 0px 0px 0px','xs'=>'0px 0px 0px 0px'),
+				),
+				//Company Options
 				'company'=>array(
 					'type'=>'text',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_COMPANY'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_COMPANY_DESC'),
 					'std'=>  'CEO, JoomShaper',
+				),
+
+				'company_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_COMPANY_COLOR'),
+				),
+				'company_font_size'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_COMPANY_FONTSIZE'),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>'','sm'=>'','xs'=>''),
+				),
+				'company_font_style'=>array(
+					'type'=>'fontstyle',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_COMPANY_FONTSTYLE'),
+				),
+				'company_font_family'=>array(
+					'type'=>'fonts',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_COMPANY_FONT_FAMILY'),
+					'selector'=> array(
+						'type'=>'font',
+						'font'=>'{{ VALUE }}',
+						'css'=>'.sppb-addon-testimonial-client-url { font-family: "{{ VALUE }}"; }'
+					)
+				),
+				'company_line_height'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_COMPANY_LINEHEIGHT'),
+					'max'=>100,
+					'responsive'=>true,
+					'std'=>array('md'=>'','sm'=>'','xs'=>''),
+				),
+
+				'designation_position'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_NAME_DESIGNATION_POSITION'),
+					'values'=>array(
+						'top'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_TOP'),
+						'bottom'=>JText::_('COM_SPPAGEBUILDER_ADDON_OPTIN_POSITION_BOTTOM'),
+					),
+					'std'=>'bottom'
+				),
+
+				//Avatar
+				'avatar_separator'=>array(
+					'type'=>'separator',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_AVATAR_OPTIONS'),
 				),
 
 				'avatar'=>array(
@@ -232,13 +356,37 @@ SpAddonsConfig::addonConfig(
 					'std' => 'sppb-avatar-circle'
 				),
 
+				'avatar_dis_block'=>array(
+					'type'=>'checkbox',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_AVATAR_BLOCK'),
+					'std'=>0,
+				),
+
+				'avatar_margin'=>array(
+					'type'=>'margin',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_AVATAR_MARGIN'),
+					'responsive'=>true,
+					'std'=>array('md'=>'','sm'=>'','xs'=>''),
+				),
+
 				'link'=>array(
 					'type'=>'text',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_URL'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_URL_DESC'),
 					'std' => 'http://www.joomshaper.com'
 				),
-
+				'link_target'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LINK_NEWTAB'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LINK_NEWTAB_DESC'),
+					'values'=>array(
+						''=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET_SAME_WINDOW'),
+						'_blank'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET_NEW_WINDOW'),
+					),
+					'depends'=> array(
+						array('link', '!=', ''),
+					)
+				),
 				'alignment'=>array(
 					'type'=>'select',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_CONTENT_ALIGNMENT'),
@@ -250,7 +398,61 @@ SpAddonsConfig::addonConfig(
 					),
 					'std'=>'sppb-text-center',
 				),
-
+				//Rating
+				'rating_separator'=>array(
+					'type'=>'separator',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_RATING_OPTIONS'),
+				),
+				'client_rating_enable'=>array(
+					'type'=>'checkbox',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_RATING_ENABLE'),
+					'std'=>0
+				),
+				'client_rating'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_RATING'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_RATING_DESC'),
+					'depends'=>array(
+						array('client_rating_enable', '=', 1),
+					),
+					'max'=>5,
+					'min'=>1,
+					'std'=>5,
+				),
+				'client_rating_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_RATING_COLOR'),
+					'depends'=>array(
+						array('client_rating_enable', '=', 1),
+					),
+					'std'=>''
+				),
+				'client_unrated_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_UNRATED_COLOR'),
+					'depends'=>array(
+						array('client_rating_enable', '=', 1),
+					),
+					'std'=>''
+				),
+				'client_rating_fontsize'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_RATING_FONTSIZE'),
+					'depends'=>array(
+						array('client_rating_enable', '=', 1),
+					),
+					'responsive'=>true,
+					'std'=>array('md'=>16),
+				),
+				'client_rating_margin'=>array(
+					'type'=>'margin',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_CLIENT_RATING_MARGIN'),
+					'depends'=>array(
+						array('client_rating_enable', '=', 1),
+					),
+					'responsive'=>true,
+					'std'=>'10px 5px 10px 5px',
+				),
 				'class'=>array(
 					'type'=>'text',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CLASS'),

@@ -1,0 +1,57 @@
+/* message */
+#sc_speedcache_msg,
+#sc_speedcache_msg.visible {
+    display: none;
+}
+
+body > #sc_speedcache_msg {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    padding: 13px 10px;
+    width: 20%;
+    min-height: 16px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFFFFF;
+    z-index: 1200;
+    font-size: 13px;
+}
+
+body > #sc_speedcache_msg a {
+    color: #CCCCCC;
+}
+
+body > #sc_speedcache_msg.visible {
+    display: inline;
+}
+
+body > #sc_speedcache_msg.btn-successs {
+    background-color: #2E2E2E;
+}
+
+body > #sc_speedcache_msg.btn-warning {
+    background-color: #f89406;
+}
+
+body > #sc_speedcache_msg.btn-danger {
+    background-color: #9d261d;
+}
+
+body > #sc_speedcache_msg img {
+    vertical-align: sub;
+}
+
+body > #sc_speedcache_msg .close-notification {
+    margin-left: 15px;
+    color: #666666;
+}
+
+body > #sc_speedcache_msg .close-notification:hover {
+    color: #ffffff;
+}
+
+.sc-image-loading {
+    margin-bottom: 1px;
+    display: none;
+}

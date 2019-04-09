@@ -26,17 +26,17 @@ class SppagebuilderViewMedia extends JViewLegacy {
 		}
 
 		$input = JFactory::getApplication()->input;
-    $layout = $input->get('layout', 'browse', 'STRING');
-    $this->date = $input->post->get('date', NULL, 'STRING');
-    $this->start = $input->post->get('start', 0, 'INT');
-    $this->search = $input->post->get('search', NULL, 'STRING');
-    $this->limit = 18;
+		$layout = $input->get('layout', 'browse', 'STRING');
+		$this->date = $input->post->get('date', NULL, 'STRING');
+		$this->start = $input->post->get('start', 0, 'INT');
+		$this->search = $input->post->get('search', NULL, 'STRING');
+		$this->limit = 18;
 
-  	$model = $this->getModel();
-    $this->items = $model->getItems();
-    $this->filters = $model->getDateFilters($this->date, $this->search);
-    $this->total = $model->getTotalMedia($this->date, $this->search);
-    $this->categories = $model->getMediaCategories();
+		$model = $this->getModel();
+		$this->items = $model->getItems();
+		$this->filters = $model->getDateFilters($this->date, $this->search);
+		$this->total = $model->getTotalMedia($this->date, $this->search);
+		$this->categories = $model->getMediaCategories();
 
 		JToolBarHelper::title(JText::_('SP Page Builder - Media'));
 

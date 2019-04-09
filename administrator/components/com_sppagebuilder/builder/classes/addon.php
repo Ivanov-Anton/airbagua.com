@@ -162,7 +162,7 @@ class SpPageBuilderAddonHelper {
 
 		if(!file_exists($addonFullPath)){
 			return array(
-				'html' => '<div class="remove-addon-notice"><h4>Addon files maybe remove or exists.</h4></div>',
+				'html' => '<div class="remove-addon-notice"><h4>Addon files have been removed or don’t exist in the current template or your site.</h4></div>',
 				'assets' => ''
 			);
 		}

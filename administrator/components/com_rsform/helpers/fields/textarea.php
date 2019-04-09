@@ -60,9 +60,9 @@ class RSFormProFieldTextarea extends RSFormProField
 		$additional 	= '';
 		
 		if ($editor) {
-			$this->addScriptDeclaration('RSFormPro.Editors['.json_encode($name).'] = function() { try { return '.$this->getEditor()->getContent($name).' } catch (e) {} };');
+			$this->addScriptDeclaration('RSFormPro.Editors['.json_encode($name).'] = function() { try { return '.$this->getEditor()->getContent($id).' } catch (e) {} };');
 
-			return $this->getEditor()->display($name, $this->escape($value), $cols*10, $rows*10, $cols, $rows, true, $id, null, null,
+			return $this->getEditor()->display($name, $this->escape($value), $cols*10, $rows*10, $cols, $rows, $this->getProperty('WYSIWYGBUTTONS', 'NO'), $id, null, null,
 				array('relative_urls' => '0',
 				'cleanup_save' => '0',
 				'cleanup_startup' => '0',
@@ -118,15 +118,31 @@ class RSFormProFieldTextarea extends RSFormProField
 		
 		if ($count)
 		{
-			$this->addCounter($html, $maxlength);
+			$this->addCounter($html, $maxlength, $this->countString($value));
 		}
 		
 		return $html;
 	}
+
+	protected function countString($value)
+    {
+        if (function_exists('mb_strlen'))
+        {
+            return mb_strlen($value, 'UTF-8');
+        }
+        elseif (function_exists('utf8_decode'))
+        {
+            return strlen(utf8_decode($value));
+        }
+        else
+        {
+            return strlen($value);
+        }
+    }
 	
-	protected function addCounter(&$html, $maxlength = 0)
+	protected function addCounter(&$html, $maxlength = 0, $start = 0)
 	{
-		$html .= '<p id="rsfp-counter-' . $this->componentId . '">0' . ($maxlength > 0 ? '/' . $maxlength : '') . '</p>';
+		$html .= '<p id="rsfp-counter-' . $this->componentId . '">' . $start . ($maxlength > 0 ? '/' . $maxlength : '') . '</p>';
 	}
 	
 	// @desc Overridden here because we need to make sure VALIDATIONRULE is not 'password'

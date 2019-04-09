@@ -50,6 +50,40 @@ class RSFormProFieldJqueryCalendar extends RSFormProField
 		
 		if (!empty($hidden[$hiddenName])) {
 			$hiddenValue = preg_replace('#[^0-9\/\s\:]+#i', '', $hidden[$hiddenName]);
+		} else {
+			if (!empty($value)) {
+				// Let's allow the 'now' keyword
+				if (strtolower($value) == 'now')
+				{
+					$value = JFactory::getDate('now')->format($format);
+				}
+				if (JFactory::getLanguage()->getTag() != 'en-GB')
+				{
+					require_once JPATH_ADMINISTRATOR.'/components/com_rsform/helpers/calendar.php';
+
+					$value = RSFormProCalendar::fixValue($value, $format);
+				}
+				// Try to create a date to see if it's valid
+				$date = JFactory::getDate()->createFromFormat($format, $value);
+				if ($date !== false)
+				{
+					$hiddenDateFormat = 'm/d/Y';
+					if ($this->getProperty('TIMEPICKER', 'NO')) {
+						// in case the user leaves the input empty and save the settings
+						$timepickerformat = trim($this->getProperty('TIMEPICKERFORMAT', 'H:i'));
+						if (empty($timepickerformat)) {
+							$timepickerformat = 'H:i';
+						}
+						$hiddenDateFormat .= ' '.$timepickerformat;
+					}
+					$hiddenValue = $date->format($hiddenDateFormat);
+				}
+				else
+				{
+					$value = '';
+					$hiddenValue = '';
+				}
+			}
 		}
 		
 		// set the calendar script
@@ -64,6 +98,8 @@ class RSFormProFieldJqueryCalendar extends RSFormProField
 			'maxDate' 			 => $this->isCode($this->getProperty('MAXDATEJQ', '')),
 			'minTime' 	 		 => $this->isCode($this->getProperty('MINTIMEJQ', '')),
 			'maxTime' 			 => $this->isCode($this->getProperty('MAXTIMEJQ', '')),
+			'allowDateRe' 		 => $this->getProperty('ALLOWDATERE', ''),
+			'allowDates' 		 => $this->isCode($this->getProperty('ALLOWDATES', '')),
 			'timeStep' 			 => $this->getProperty('TIMESTEP', ''),
 			'validationCalendar' => $this->getProperty('VALIDATIONCALENDAR', ''),
 			'formId' 			 => $this->formId,
@@ -141,6 +177,7 @@ class RSFormProFieldJqueryCalendar extends RSFormProField
 				  ' id="hiddenjQcal'.$this->customId.'"'.
 				  ' type="hidden"'.
 				  ' name="hidden['.$this->formId.'_'.$id.']"'.
+				  ' value="' . $this->escape($hiddenValue) .'"'.
 				  ' />';
 		
 		$html = $this->setFieldOutput($input, $button, $container, $hidden, $layout);

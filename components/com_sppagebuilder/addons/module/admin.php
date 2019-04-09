@@ -57,7 +57,7 @@ array(
 				'selector'=> array(
 					'type'=>'font',
 					'font'=>'{{ VALUE }}',
-					'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+					'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 				)
 			),
 

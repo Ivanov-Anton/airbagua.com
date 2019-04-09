@@ -2,11 +2,13 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
 defined ('_JEXEC') or die ('Restricted access');
+jimport('joomla.filesystem.file');
+use Joomla\Utilities\ArrayHelper;
 
 class SppagebuilderControllerPage extends JControllerForm {
 
@@ -14,46 +16,49 @@ class SppagebuilderControllerPage extends JControllerForm {
 		parent::__construct($config);
 	}
 
+	protected function allowAdd($data = array())
+	{
+		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
+		$allow = null;
+		if ($categoryId)
+		{
+			// If the category has been passed in the data or URL check it.
+			$allow = JFactory::getUser()->authorise('core.create', 'com_sppagebuilder.category.' . $categoryId);
+		}
+		if ($allow === null)
+		{
+			// In the absense of better information, revert to the component permissions.
+			return parent::allowAdd();
+		}
+		return $allow;
+	}
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
-
-		// Check general edit permission first.
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
+		{
+			return parent::allowEdit($data, $key);
+		}
+		// Check edit on the record asset (explicit or inherited)
 		if ($user->authorise('core.edit', 'com_sppagebuilder.page.' . $recordId))
 		{
 			return true;
 		}
-
-		// Fallback on edit.own.
-		// First test if the permission is available.
+		// Check edit own on the record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', 'com_sppagebuilder.page.' . $recordId))
 		{
-			// Now test the owner is the user.
-			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
-			if (empty($ownerId) && $recordId)
+			// Existing record already has an owner, get it
+			$record = $this->getModel()->getItem($recordId);
+			if (empty($record))
 			{
-				// Need to do a lookup from the model.
-				$record = $this->getModel()->getItem($recordId);
-
-				if (empty($record))
-				{
-					return false;
-				}
-
-				$ownerId = $record->created_by;
+				return false;
 			}
-
-			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId)
-			{
-				return true;
-			}
+			// Grant if current user is owner of the record
+			return $user->id == $record->created_by;
 		}
-
-		// Since there is no asset tracking, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		return false;
 	}
 
 	public function save($key = null, $urlVar = null) {
@@ -183,18 +188,36 @@ class SppagebuilderControllerPage extends JControllerForm {
 				$this->holdEditId($context, $recordId);
 				$app->setUserState('com_sppagebuilder.edit.page.data', null);
 
+				// Delete generated CSS file
+				$css_folder_path = JPATH_ROOT . '/media/com_sppagebuilder/css';
+				$css_file_path = $css_folder_path . '/page-'. $recordId .'.css';
+				if(file_exists($css_file_path)) {
+					JFile::delete($css_file_path);
+				}
+
 				// Redirect back to the edit screen.
 				$output['redirect'] = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
 				$siteApp = JApplication::getInstance('site');
 				$siteRouter = $siteApp->getRouter();
 				$Itemid = SppagebuilderHelper::getMenuId($recordId);
-
+				// Get item language code
+				$lang_code = (isset($data['language']) && $data['language'] && explode('-',$data['language'])[0])? explode('-',$data['language'])[0] : '';
+				
+				// Preview URL
 				$preview = 'index.php?option=com_sppagebuilder&view=page&id=' . $recordId . $Itemid;
 				$output['preview_url'] = str_replace('/administrator', '', $siteRouter->build($preview));
+				if($lang_code && $lang_code !== '*' ){
+					$output['preview_url'] = str_replace('/index.php/', '/index.php/' . $lang_code . '/', $output['preview_url']);
+				}
 
-				$front_link = 'index.php?option=com_sppagebuilder&view=form&tmpl=componenet&layout=edit&id=' . $recordId . $Itemid;
+				// Frontend Editing URL
+				$front_link = 'index.php?option=com_sppagebuilder&view=form&tmpl=component&layout=edit&id=' . $recordId . $Itemid;
 				$output['frontend_editor_url'] = str_replace('/administrator', '', $siteRouter->build($front_link));
+				if($lang_code && $lang_code !== '*' ){
+					$output['frontend_editor_url'] = str_replace('/index.php/', '/index.php/' . $lang_code . '/', $output['frontend_editor_url']);
+				}
 				$output['id'] = $recordId;
+
 				break;
 
 			default:
@@ -280,6 +303,42 @@ class SppagebuilderControllerPage extends JControllerForm {
 		$id = $input->get('id', '', 'INT');
 
 		die($model->deleteAddon($id));
+	}
+
+	public function createNew() {
+		$pageId = 0;
+		$model = $this->getModel('Page');
+		$output = array();
+		$output['status'] = false;
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
+		$user = JFactory::getUser();
+		$authorised = $user->authorise('core.create', 'com_sppagebuilder');
+		
+		if (!$authorised) {
+			$output['message'] = JText::_('JERROR_ALERTNOAUTHOR');
+			die(json_encode($output));
+		}
+
+		$title = trim(htmlspecialchars($input->post->get('title', '', 'STRING')));
+		$extension = htmlspecialchars($input->post->get('extension', '', 'STRING'));
+		$extension_view = htmlspecialchars($input->post->get('extension_view', '', 'STRING'));
+		$view_id = $input->post->get('view_id', 0, 'INT');
+
+		if($view_id && $title) {
+			$id = $model->createBrandNewPage($title, $extension, $extension_view, $view_id);
+			$pageId = $id;
+			$appSite = JApplication::getInstance('site');
+			$router = $appSite->getRouter();
+			$front_link = 'index.php?option=com_sppagebuilder&view=form&tmpl=componenet&layout=edit&extension='. $extension .'&extension_view='. $extension_view .'&id=' . $pageId;
+			$sefURI = str_replace('/administrator', '', $router->build($front_link));
+			$output['status'] = true;
+			$output['url'] = $sefURI;
+			die(json_encode($output));
+		}
+
+		die(json_encode($output));
 	}
 
 }

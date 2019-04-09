@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -112,7 +112,7 @@ SpAddonsConfig::addonConfig(
 							'selector'=> array(
 								'type'=>'font',
 								'font'=>'{{ VALUE }}',
-								'css'=>' h2 { font-family: {{ VALUE }}; }'
+								'css'=>' h2 { font-family: "{{ VALUE }}"; }'
 							)
 						),
 
@@ -161,12 +161,12 @@ SpAddonsConfig::addonConfig(
 
 						'content_font_family'=>array(
 							'type'=>'fonts',
-							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_CONTENT_FONT_FAMILY'),
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_FONT_FAMILY'),
 							'depends'=>array(array('content', '!=', '')),
 							'selector'=> array(
 								'type'=>'font',
 								'font'=>'{{ VALUE }}',
-								'css'=>' .sppb-carousel-pro-text .sppb-carousel-content { font-family: {{ VALUE }}; }'
+								'css'=>' .sppb-carousel-pro-text .sppb-carousel-content { font-family: "{{ VALUE }}"; }'
 							)
 						),
 
@@ -201,7 +201,7 @@ SpAddonsConfig::addonConfig(
 
 						'content_margin'=>array(
 							'type'=>'margin',
-							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_CONTENT_MARGIN'),
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_MARGIN'),
 							'std'=>array('md'=>'0px 0px 0px 0px', 'sm'=>'0px 0px 0px 0px', 'xs'=>'0px 0px 0px 0px'),
 							'responsive' => true
 						),
@@ -229,7 +229,7 @@ SpAddonsConfig::addonConfig(
 							'selector'=> array(
 								'type'=>'font',
 								'font'=>'{{ VALUE }}',
-								'css'=>'.sppb-carousel-pro-text .sppb-btn { font-family: {{ VALUE }}; }'
+								'css'=>'.sppb-carousel-pro-text .sppb-btn { font-family: "{{ VALUE }}"; }'
 							)
 						),
 

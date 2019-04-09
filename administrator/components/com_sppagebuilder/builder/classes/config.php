@@ -23,8 +23,15 @@ class SpAddonsConfig {
 		} else {
 			$addon = self::str_replace_first('sp_', '', $attributes['addon_name']);
 
-			if (!isset($attributes['icon']) || !$attributes['icon']) {
-				$attributes['icon'] = self::getIcon($addon);
+			$app = JFactory::getApplication();
+			$com_option = $app->input->get('option','','STR');
+			$com_view = $app->input->get('view','','STR');
+			$com_id = $app->input->get('id',0,'INT');
+
+			if($app->isAdmin() || ( $com_option == 'com_sppagebuilder' && $com_view == 'form' && $com_id)){
+				if (!isset($attributes['icon']) || !$attributes['icon']) {
+					$attributes['icon'] = self::getIcon($addon);
+				}
 			}
 
 			if(is_array($attributes['attr'])) {

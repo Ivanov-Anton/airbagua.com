@@ -47,7 +47,9 @@ class  plgSystemSppagebuilder extends JPlugin {
       $doc->addStylesheet( JURI::base(true) . '/components/com_sppagebuilder/assets/css/react-select.css' );
       $doc->addStylesheet( JURI::base(true) . '/components/com_sppagebuilder/assets/css/sppagebuilder.css' );
       $doc->addScript( JURI::root(true) . '/plugins/system/sppagebuilder/assets/js/init.js' );
-      $doc->addScript( JURI::root(true) . '/media/editors/tinymce/tinymce.min.js' );
+      if (JFactory::getConfig()->get('editor') === 'tinymce') {
+        $doc->addScript( JURI::root(true) . '/media/editors/tinymce/tinymce.min.js' );
+      }
       $doc->addScript( JURI::base(true) . '/components/com_sppagebuilder/assets/js/script.js' );
       $doc->addScriptdeclaration('var pagebuilder_base="' . JURI::root() . '";');
 
@@ -67,9 +69,13 @@ class  plgSystemSppagebuilder extends JPlugin {
       $addons_list    = SpAddonsConfig::$addons;
       $globalDefault = SpPgaeBuilderBase::getSettingsDefaultValue($global_attributes);
 
+      JPluginHelper::importPlugin( 'system' );
+	    $dispatcher = JEventDispatcher::getInstance();
+
       foreach ( $addons_list as $key => &$addon ) {
         $new_default_value = SpPgaeBuilderBase::getSettingsDefaultValue($addon['attr']);
         $addon['default'] = array_merge($new_default_value['default'], $globalDefault['default']);
+        $results = $dispatcher->trigger( 'onBeforeAddonConfigure', array($key, &$addon) );
       }
 
       $row_default_value = SpPgaeBuilderBase::getSettingsDefaultValue($rowSettings['attr']);
@@ -200,7 +206,7 @@ class  plgSystemSppagebuilder extends JPlugin {
     $db->setQuery($query);
     $result = $db->loadObject();
 
-    if(count($result)) {
+    if($result) {
       return $result;
     }
 

@@ -170,6 +170,57 @@ $row_settings = array(
 
 		'style' => array(
 
+			'section_height_option'=>array(
+				'type'=>'select',
+				'title'=>JText::_('COM_SPPAGEBUILDER_ROW_HEIGHT_SELECTOR'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_ROW_HEIGHT_SELECTOR_DESC'),
+				'values'=>array(
+					'win-height'=>JText::_('COM_SPPAGEBUILDER_ROW_WIN_HEIGHT'),
+					'height'=>JText::_('COM_SPPAGEBUILDER_ROW_HEIGHT'),
+				),
+			),
+
+			'section_height'=>array(
+				'type'=>'slider',
+				'title'=>JText::_('COM_SPPAGEBUILDER_ROW_HEIGHT_OPTION'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_ROW_HEIGHT_OPTION_DESC'),
+				'depends'=>array(
+					array('section_height_option', '=', 'height'),
+				),
+				'max'=>3000,
+				'responsive' => true,
+			),
+
+			'section_overflow_x'=>array(
+				'type'=>'select',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERFLOW_X'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERFLOW_X_DESC'),
+				'depends'=>array(
+					array('section_height_option', '=', 'height'),
+				),
+				'values'=>array(
+					'auto'=>'Auto',
+					'hidden'=>'Hidden',
+					'initial'=>'Initial',
+					'scroll'=>'Scroll',
+				),
+			),
+
+			'section_overflow_y'=>array(
+				'type'=>'select',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERFLOW_Y'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERFLOW_Y_DESC'),
+				'depends'=>array(
+					array('section_height_option', '=', 'height'),
+				),
+				'values'=>array(
+					'auto'=>'Auto',
+					'hidden'=>'Hidden',
+					'initial'=>'Initial',
+					'scroll'=>'Scroll',
+				),
+			),
+
 			'padding'=>array(
 				'type'=>'padding',
 				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
@@ -264,18 +315,7 @@ $row_settings = array(
 					array('background_type', '=', 'image')
 				)
 			),
-
-			'overlay'=>array(
-				'type'=>'color',
-				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY'),
-				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY_DESC'),
-				'depends'=>array(
-					array('background_type', '!=', 'none'),
-					array('background_type', '!=', 'color'),
-					array('background_type', '!=', 'gradient'),
-				)
-			),
-
+			
 			'background_repeat'=>array(
 				'type'=>'select',
 				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT'),
@@ -312,6 +352,7 @@ $row_settings = array(
 			'background_attachment'=>array(
 				'type'=>'select',
 				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_DESC'),
 				'values'=>array(
 					'fixed'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_FIXED'),
 					'scroll'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_SCROLL'),
@@ -345,8 +386,6 @@ $row_settings = array(
 				)
 			),
 
-			
-
 			'external_background_video'=>array(
 				'type'=>'checkbox',
 				'title'=>JText::_('COM_SPPAGEBUILDER_ROW_BACKGROUND_EXTERNAL_VIDEO_ENABLE'),
@@ -356,7 +395,6 @@ $row_settings = array(
 					array('background_type', '=', 'video'),
 				)
 			),
-
 
 			'background_video_mp4'=>array(
 				'type'=>'media',
@@ -387,6 +425,145 @@ $row_settings = array(
 				)
 			),
 
+			'video_loop'=> array(
+				'type'=> 'checkbox',
+				'title'=> JText::_('COM_SPPAGEBUILDER_ROW_VIDEO_LOOP'),
+				'desc'=> JText::_('COM_SPPAGEBUILDER_ROW_VIDEO_LOOP_DESC'),
+				'std'=> 1,
+				'depends'=>array(
+					array('background_type', '=', 'video'),
+					array('external_background_video', '!=', 1),
+				)
+			),
+
+			'overlay_separator'=>array(
+				'type'=>'separator',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY_OPTIONS'),
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+				),
+			),
+
+			'overlay_type'=>array(
+				'type'=>'buttons',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_CHOOSE'),
+				'std'=>'overlay_none',
+				'values'=>array(
+					array(
+						'label' => 'None',
+						'value' => 'overlay_none'
+					),
+					array(
+						'label' => 'Color',
+						'value' => 'overlay_color'
+					),
+					array(
+						'label' => 'Gradient',
+						'value' => 'overlay_gradient'
+					),
+					array(
+						'label' => 'Pattern',
+						'value' => 'overlay_pattern'
+					)
+				),
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+				),
+			),
+
+			'overlay'=>array(
+				'type'=>'color',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY_DESC'),
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('overlay_type', '=', 'overlay_color'),
+				)
+			),
+
+			'gradient_overlay'=>array(
+				'type'=>'gradient',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_GRADIENT'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_GRADIENT_DESC'),
+				'std'=> array(
+					"color" => "rgba(127, 0, 255, 0.8)",
+					"color2" => "rgba(225, 0, 255, 0.7)",
+					"deg" => "45",
+					"type" => "linear"
+				),
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('overlay_type', '=', 'overlay_gradient'),
+				)
+			),
+
+			'pattern_overlay'=>array(
+				'type'=>'media',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_DESC'),
+				'std'=> '',
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('overlay_type', '=', 'overlay_pattern'),
+				)
+			),
+
+			'overlay_pattern_color'=>array(
+				'type'=>'color',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_COLOR'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_COLOR_DESC'),
+				'std'=> '',
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('overlay_type', '=', 'overlay_pattern'),
+					array('pattern_overlay', '!=', ''),
+				)
+			),
+
+			'blend_mode'=>array(
+				'type'=>'select',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BLEND_MODE'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BLEND_MODE_DESC'),
+				'values'=>array(
+					'normal'=>'Normal',
+					'color'=>'Color',
+					'color-burn'=>'Color Burn',
+					'color-dodge'=>'Color Dodge',
+					'darken'=>'Darken',
+					'difference'=>'Difference',
+					'exclusion'=>'Exclusion',
+					'hard-light'=>'Hard Light',
+					'hue'=>'Hue',
+					'lighten'=>'Lighten',
+					'luminosity'=>'Luminosity',
+					'multiply'=>'Multiply',
+					'overlay'=>'Overlay',
+					'saturation'=>'Saturation',
+					'screen'=>'Screen',
+					'soft-light'=>'Soft Light',
+				),
+				'std'=>'normal',
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('background_type', '!=', 'video'),
+					array('overlay_type', '!=', 'overlay_none'),
+				)
+			),
+
 			'separator_shape_top'=>array(
 				'type'=>'separator',
 				'title'=>JText::_('COM_SPPAGEBUILDER_ROW_TOP_SHAPE')
@@ -403,17 +580,26 @@ $row_settings = array(
 				'type'=>'select',
 				'title'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE'),
 				'values'=>array(
+					'bell'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_BELL'),
+					'brushed'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_BRUSHED'),
 					'clouds-flat'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_CLOUDS_FLAT'),
 					'clouds-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_CLOUDS_OPACITY'),
+					'drip'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_DRIP'),
+					'hill'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_HILL'),
+					'hill-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_HILL_WAVE'),
+					'line-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_LINE_WAVE'),
 					'paper-torn'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_PAPER_TORN'),
 					'pointy-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_POINTY_WAVE'),
 					'rocky-mountain'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_ROCKY_MOUNTAIN'),
+					'shaggy'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SHAGGY'),
 					'single-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SINGLE_WAVE'),
 					'slope-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SLOPE_OPACITY'),
 					'slope'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SLOPE'),
+					'swirl'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SWIRL'),
+					'wavy-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_WAVY_OPACITY'),
 					'waves3-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_WAVES3_OPACITY'),
-					'drip'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_DRIP'),
 					'turning-slope'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_TURNING_SLOPE'),
+					'zigzag-sharp'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_ZIGZAG_SHARP'),
 				),
 				'std'=>'clouds-flat',
 				'depends'=>array(
@@ -462,7 +648,9 @@ $row_settings = array(
 				'desc'		=> JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_FLIP_DESC'),
 				'std'		=> false,
 				'depends'=>array(
-					array('show_top_shape','=',1)
+					array('show_top_shape','=',1),
+					array('shape_name','!=','bell'),
+					array('shape_name','!=','zigzag-sharp'),
 				)
 			),
 			'shape_invert' 		=> array(
@@ -475,6 +663,12 @@ $row_settings = array(
 					array('shape_name','!=','slope-opacity'),
 					array('shape_name','!=','waves3-opacity'),
 					array('shape_name','!=','paper-torn'),
+					array('shape_name','!=','hill-wave'),
+					array('shape_name','!=','line-wave'),
+					array('shape_name','!=','swirl'),
+					array('shape_name','!=','wavy-opacity'),
+					array('shape_name','!=','zigzag-sharp'),
+					array('shape_name','!=','brushed'),
 				)
 			),
 			'shape_to_front' 		=> array(
@@ -503,17 +697,26 @@ $row_settings = array(
 				'type'=>'select',
 				'title'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE'),
 				'values'=>array(
+					'bell'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_BELL'),
+					'brushed'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_BRUSHED'),
 					'clouds-flat'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_CLOUDS_FLAT'),
 					'clouds-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_CLOUDS_OPACITY'),
+					'drip'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_DRIP'),
+					'hill'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_HILL'),
+					'hill-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_HILL_WAVE'),
+					'line-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_LINE_WAVE'),
 					'paper-torn'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_PAPER_TORN'),
 					'pointy-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_POINTY_WAVE'),
 					'rocky-mountain'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_ROCKY_MOUNTAIN'),
+					'shaggy'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SHAGGY'),
 					'single-wave'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SINGLE_WAVE'),
 					'slope-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SLOPE_OPACITY'),
 					'slope'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SLOPE'),
+					'swirl'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_SWIRL'),
+					'wavy-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_WAVY_OPACITY'),
 					'waves3-opacity'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_WAVES3_OPACITY'),
-					'drip'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_DRIP'),
 					'turning-slope'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_TURNING_SLOPE'),
+					'zigzag-sharp'=>JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_ZIGZAG_SHARP'),
 				),
 				'std'=>'clouds-opacity',
 				'depends'=>array(
@@ -562,7 +765,9 @@ $row_settings = array(
 				'desc'		=> JText::_('COM_SPPAGEBUILDER_ROW_SHAPE_FLIP_DESC'),
 				'std'		=> false,
 				'depends'=>array(
-					array('show_bottom_shape','=',1)
+					array('show_bottom_shape','=',1),
+					array('shape_name','!=','bell'),
+					array('shape_name','!=','zigzag-sharp'),
 				)
 			),
 			'bottom_shape_invert' 		=> array(
@@ -575,6 +780,12 @@ $row_settings = array(
 					array('bottom_shape_name','!=','slope-opacity'),
 					array('bottom_shape_name','!=','waves3-opacity'),
 					array('bottom_shape_name','!=','paper-torn'),
+					array('bottom_shape_name','!=','hill-wave'),
+					array('bottom_shape_name','!=','line-wave'),
+					array('bottom_shape_name','!=','swirl'),
+					array('shape_name','!=','wavy-opacity'),
+					array('shape_name','!=','zigzag-sharp'),
+					array('shape_name','!=','brushed'),
 				)
 			),
 			'bottom_shape_to_front' 		=> array(

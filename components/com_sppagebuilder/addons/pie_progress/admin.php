@@ -72,6 +72,11 @@ SpAddonsConfig::addonConfig(
                         'max' => 100,
                         'std' => 5
                     ),
+                    'animation_duration' => array(
+                        'type' => 'number',
+                        'title' => JText::_('COM_SPPAGEBUILDER_ANIMATION_DURATION'),
+                        'desc' => JText::_('COM_SPPAGEBUILDER_ANIMATION_DURATION_DESC'),
+                    ),
                     'separator_icon' => array(
                         'type' => 'separator',
                         'title' => JText::_('Icon'),
@@ -127,7 +132,7 @@ SpAddonsConfig::addonConfig(
                         'selector' => array(
                             'type' => 'font',
                             'font' => '{{ VALUE }}',
-                            'css' => '.sppb-addon-title { font-family: {{ VALUE }}; }'
+                            'css' => '.sppb-addon-title { font-family: "{{ VALUE }}"; }'
                         )
                     ),
                     'title_fontsize' => array(
@@ -204,7 +209,7 @@ SpAddonsConfig::addonConfig(
                         'selector' => array(
                             'type' => 'font',
                             'font' => '{{ VALUE }}',
-                            'css' => '.sppb-addon-title { font-family: {{ VALUE }}; }'
+                            'css' => '.sppb-addon-title { font-family: "{{ VALUE }}"; }'
                         )
                     ),
                     'text' => array(
@@ -220,7 +225,7 @@ SpAddonsConfig::addonConfig(
                         'selector' => array(
                             'type' => 'font',
                             'font' => '{{ VALUE }}',
-                            'css' => '.sppb-addon-text { font-family: {{ VALUE }}; }'
+                            'css' => '.sppb-addon-text { font-family: "{{ VALUE }}"; }'
                         )
                     ),
                     'class' => array(

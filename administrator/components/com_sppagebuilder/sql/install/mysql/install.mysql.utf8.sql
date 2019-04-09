@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `#__sppagebuilder` (
   `modified_by` bigint(20) NOT NULL DEFAULT '0',
   `checked_out` int(10) NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `attribs` varchar(5120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '[]',
   `og_title` varchar(255) NOT NULL,
   `og_image` varchar(255) NOT NULL,
   `og_description` varchar(255) NOT NULL,

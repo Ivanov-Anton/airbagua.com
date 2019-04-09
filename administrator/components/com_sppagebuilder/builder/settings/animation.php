@@ -12,7 +12,6 @@ $animation_names = array(
 		array( 'value' => '', 'label' => 'Select Animation' ),
 		array( 'value' => 'fadeIn', 'label' => 'fadeIn' ),
 		array( 'value' => 'fadeInDown', 'label' => 'fadeInDown' ),
-		array( 'value' => 'fadeInDown', 'label' => 'fadeInDown' ),
 		array( 'value' => 'fadeInDownBig', 'label' => 'fadeInDownBig' ),
 		array( 'value' => 'fadeInLeft', 'label' => 'fadeInLeft' ),
 		array( 'value' => 'fadeInLeftBig', 'label' => 'fadeInLeftBig' ),

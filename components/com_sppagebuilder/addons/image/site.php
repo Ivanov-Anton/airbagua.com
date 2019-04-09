@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -11,20 +11,20 @@ defined ('_JEXEC') or die ('Restricted access');
 class SppagebuilderAddonImage extends SppagebuilderAddons{
 
 	public function render() {
-
-		$class = (isset($this->addon->settings->class) && $this->addon->settings->class) ? $this->addon->settings->class : '';
-		$title = (isset($this->addon->settings->title) && $this->addon->settings->title) ? $this->addon->settings->title : '';
-		$title_position = (isset($this->addon->settings->title_position) && $this->addon->settings->title_position) ? $this->addon->settings->title_position : 'top';
-		$heading_selector = (isset($this->addon->settings->heading_selector) && $this->addon->settings->heading_selector) ? $this->addon->settings->heading_selector : 'h3';
+		$settings = $this->addon->settings;
+		$class = (isset($settings->class) && $settings->class) ? $settings->class : '';
+		$title = (isset($settings->title) && $settings->title) ? $settings->title : '';
+		$title_position = (isset($settings->title_position) && $settings->title_position) ? $settings->title_position : 'top';
+		$heading_selector = (isset($settings->heading_selector) && $settings->heading_selector) ? $settings->heading_selector : 'h3';
 
 		//Options
-		$image = (isset($this->addon->settings->image) && $this->addon->settings->image) ? $this->addon->settings->image : '';
-		$alt_text = (isset($this->addon->settings->alt_text) && $this->addon->settings->alt_text) ? $this->addon->settings->alt_text : '';
-		$position = (isset($this->addon->settings->position) && $this->addon->settings->position) ? $this->addon->settings->position : '';
-		$link = (isset($this->addon->settings->link) && $this->addon->settings->link) ? $this->addon->settings->link : '';
-		$target = (isset($this->addon->settings->target) && $this->addon->settings->target) ? 'target="' . $this->addon->settings->target . '"' : '';
-		$open_lightbox = (isset($this->addon->settings->open_lightbox) && $this->addon->settings->open_lightbox) ? $this->addon->settings->open_lightbox : 0;
-		$image_overlay = (isset($this->addon->settings->overlay_color) && $this->addon->settings->overlay_color) ? 1 : 0;
+		$image = (isset($settings->image) && $settings->image) ? $settings->image : '';
+		$alt_text = (isset($settings->alt_text) && $settings->alt_text) ? $settings->alt_text : '';
+		$position = (isset($settings->position) && $settings->position) ? $settings->position : '';
+		$link = (isset($settings->link) && $settings->link) ? $settings->link : '';
+		$target = (isset($settings->target) && $settings->target) ? 'rel="noopener noreferrer" target="' . $settings->target . '"' : '';
+		$open_lightbox = (isset($settings->open_lightbox) && $settings->open_lightbox) ? $settings->open_lightbox : 0;
+		$image_overlay = (isset($settings->overlay_color) && $settings->overlay_color) ? 1 : 0;
 
 		$output = '';
 
@@ -62,8 +62,8 @@ class SppagebuilderAddonImage extends SppagebuilderAddons{
 			}
 
 			$output  .= '</div>';
-			$output  .= '</div>';
 			$output .= ($title && $title_position == 'bottom') ? '<'.$heading_selector.' class="sppb-addon-title">' . $title . '</'.$heading_selector.'>' : '';
+			$output  .= '</div>';
 			$output  .= '</div>';
 		}
 
@@ -80,16 +80,32 @@ class SppagebuilderAddonImage extends SppagebuilderAddons{
 
 	public function css() {
 		$addon_id = '#sppb-addon-' . $this->addon->id;
-		$open_lightbox = (isset($this->addon->settings->open_lightbox) && $this->addon->settings->open_lightbox) ? $this->addon->settings->open_lightbox : 0;
-		$style = (isset($this->addon->settings->overlay_color) && $this->addon->settings->overlay_color) ? 'background-color: ' . $this->addon->settings->overlay_color . ';' : '';
-		$style_img = (isset($this->addon->settings->border_radius) && $this->addon->settings->border_radius) ? 'border-radius: ' . $this->addon->settings->border_radius . 'px;' : '';
+		$settings = $this->addon->settings;
+		$open_lightbox = (isset($settings->open_lightbox) && $settings->open_lightbox) ? $settings->open_lightbox : 0;
+		$style = (isset($settings->overlay_color) && $settings->overlay_color) ? 'background-color: ' . $settings->overlay_color . ';' : '';
+		$style_img = (isset($settings->border_radius) && $settings->border_radius) ? 'border-radius: ' . $settings->border_radius . 'px;' : '';
+		$title_padding = (isset($settings->title_padding) && trim($settings->title_padding)) ? $settings->title_padding : '';
+		$title_padding_sm = (isset($settings->title_padding_sm) && trim($settings->title_padding_sm)) ? $settings->title_padding_sm : '';
+		$title_padding_xs = (isset($settings->title_padding_xs) && trim($settings->title_padding_xs)) ? $settings->title_padding_xs : '';
 
 		$css = '';
 		if($open_lightbox && $style) {
-			$css .= $addon_id . ' .sppb-addon-image-overlay{' . $style . '}';
+			$css .= $addon_id . ' .sppb-addon-image-overlay{';
+				$css .= $style;
+				$css .= $style_img;
+			$css .= '}';
 		}
 
 		$css .= $addon_id . ' img{' . $style_img . '}';
+		if($title_padding){
+			$css .= $addon_id . ' .sppb-addon-title{padding: ' . $title_padding . '}';
+		}
+		if($title_padding_sm){
+			$css .= '@media (min-width: 768px) and (max-width: 991px) {' .$addon_id. ' .sppb-addon-title{padding: ' .$title_padding_sm . '}}';
+		}
+		if($title_padding_xs){
+			$css .= '@media (max-width: 767px) {' .$addon_id. ' .sppb-addon-title{padding: ' . $title_padding_xs . '}}';
+		}
 
 		return $css;
 
@@ -117,16 +133,38 @@ class SppagebuilderAddonImage extends SppagebuilderAddons{
 			<# if(open_lightbox && data.overlay_color){ #>
 				#sppb-addon-{{ data.id }} .sppb-addon-image-overlay{
 					background-color: {{ data.overlay_color }};
+					border-radius: {{ data.border_radius }}px;
 				}
 			<# } #>
 
 			#sppb-addon-{{ data.id }} img{
 				border-radius: {{ data.border_radius }}px;
 			}
+			#sppb-addon-{{ data.id }} .sppb-addon-title{
+				<# if(_.isObject(data.title_padding)) { #>
+					padding:{{data.title_padding.md}};
+				<# } else { #>
+					padding:{{data.title_padding}};
+				<# } #>
+			}
+			@media (min-width: 768px) and (max-width: 991px) {
+				<# if(_.isObject(data.title_padding)) { #>
+					#sppb-addon-{{ data.id }} .sppb-addon-title{
+						padding: {{data.title_padding.sm}};
+					}
+				<# } #>
+			}
+			@media (max-width: 767px) {
+				<# if(_.isObject(data.title_padding)) { #>
+					#sppb-addon-{{ data.id }} .sppb-addon-title{
+						padding: {{data.title_padding.xs}};
+					}
+				<# } #>
+			}
 		</style>
 		<# if(data.image){ #>
 			<div class="sppb-addon sppb-addon-single-image {{ data.position }} {{ data.class }}">
-				<# if( !_.isEmpty( data.title ) && data.title_position != "bottom" ){ #><{{ data.heading_selector }} class="sppb-addon-title">{{ data.title }}</{{ data.heading_selector }}><# } #>
+				<# if( !_.isEmpty( data.title ) && data.title_position != "bottom" ){ #><{{ data.heading_selector }} class="sppb-addon-title sp-inline-editable-element" data-id={{data.id}} data-fieldName="title" contenteditable="true">{{ data.title }}</{{ data.heading_selector }}><# } #>
 				<div class="sppb-addon-content">
 					<div class="sppb-addon-single-image-container">
 						<# if(image_overlay && open_lightbox) { #>
@@ -151,8 +189,8 @@ class SppagebuilderAddonImage extends SppagebuilderAddons{
 						<# } #>
 
 					</div>
+					<# if( !_.isEmpty( data.title ) && data.title_position == "bottom" ){ #><{{ data.heading_selector }} class="sppb-addon-title">{{ data.title }}</{{ data.heading_selector }}><# } #>
 				</div>
-				<# if( !_.isEmpty( data.title ) && data.title_position == "bottom" ){ #><{{ data.heading_selector }} class="sppb-addon-title">{{ data.title }}</{{ data.heading_selector }}><# } #>
 			</div>
 		<# } #>
 		';

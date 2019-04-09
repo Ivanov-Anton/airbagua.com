@@ -1,49 +1,58 @@
 <?php
 /**
- * @version     3.1.x
- * @package     Simple Image Gallery Pro
- * @author      JoomlaWorks - http://www.joomlaworks.net
- * @copyright   Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
- * @license     http://www.joomlaworks.net/license
+ * @version    3.6.x
+ * @package    Simple Image Gallery Pro
+ * @author     JoomlaWorks - https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
+ * @license    https://www.joomlaworks.net/license
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
-$relName = 'fancybox-button';
-$extraClass = 'fancybox-button';
+/* Fancybox v3.5.5 released on 13/12/2018 */
+$extraClass = 'fancybox-gallery';
+$customLinkAttributes = 'data-fancybox="gallery'.$gal_id.'"';
 
-$stylesheets = array(
-	'fancybox/jquery.fancybox.css?v=2.1.5',
-	'fancybox/helpers/jquery.fancybox-buttons.css?v=2.1.5',
-	'fancybox/helpers/jquery.fancybox-thumbs.css?v=2.1.5'
-);
-$stylesheetDeclarations = array();
-$scripts = array(
-	'fancybox/lib/jquery.mousewheel-3.0.6.pack.js',
-	'fancybox/jquery.fancybox.pack.js?v=2.1.5',
-	'fancybox/helpers/jquery.fancybox-buttons.js?v=2.1.5',
-	'fancybox/helpers/jquery.fancybox-thumbs.js?v=2.1.5'
-);
+$stylesheets = array('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.5/dist/jquery.fancybox.min.css');
 
-if(!defined('PE_FANCYBOX_LOADED')){
-	define('PE_FANCYBOX_LOADED', true);
-	$scriptDeclarations = array('
-		jQuery.noConflict();
-		jQuery(function($) {
-			$("a.fancybox-button").fancybox({
-				//padding: 0,
-				//fitToView	: false,
-				helpers		: {
-					title	: { type : \'inside\' }, // options: over, inside, outside, float
-					buttons	: {}
-				},
-				afterLoad : function() {
-					this.title = \'<b class="fancyboxCounter">Image \' + (this.index + 1) + \' of \' + this.group.length + \'</b>\' + (this.title ? this.title : \'\');
-				}
-			});
-		});
+if (!defined('PE_FANCYBOX_CSS_LOADED')) {
+    define('PE_FANCYBOX_CSS_LOADED', true);
+    $stylesheetDeclarations = array('
+		/* Custom for SIGPro */
+		b.fancyboxCounter {margin-right:10px;}
 	');
 } else {
-	$scriptDeclarations = array();
+    $stylesheetDeclarations = array();
+}
+
+$scripts = array('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.5/dist/jquery.fancybox.min.js');
+
+if (!defined('PE_FANCYBOX_JS_LOADED')) {
+    define('PE_FANCYBOX_JS_LOADED', true);
+    $scriptDeclarations = array('
+        (function($) {
+            $(document).ready(function() {
+                $(\'a.fancybox-gallery\').fancybox({
+                    buttons: [
+                        \'slideShow\',
+                        \'fullScreen\',
+                        \'thumbs\',
+                        \'share\',
+                        //\'download\',
+                        //\'zoom\',
+                        \'close\'
+                    ],
+                    beforeShow: function(instance, current) {
+                        if (current.type === \'image\') {
+                            var title = current.opts.$orig.attr(\'title\');
+                            current.opts.caption = (title.length ? \'<b class="fancyboxCounter">'.JText::_('JW_SIGP_PLG_POPUP_IMAGE').' \' + (current.index + 1) + \' '.JText::_('JW_SIGP_PLG_POPUP_OF').' \' + instance.group.length + \'</b>\' + \' | \' + title : \'\');
+                        }
+                    }
+                });
+            });
+        })(jQuery);
+	');
+} else {
+    $scriptDeclarations = array();
 }

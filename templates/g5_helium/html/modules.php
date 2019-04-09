@@ -11,10 +11,9 @@
 
 defined('_JEXEC') or die;
 
-// Gantry Specific Module Chrome fa-instagram
+// Gantry Specific Module Chrome
 function modChrome_gantry($module, &$params, &$attribs)
 {
-
 	$moduleTag      = $params->get('module_tag', 'div');
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT|ENT_SUBSTITUTE, 'UTF-8');
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);

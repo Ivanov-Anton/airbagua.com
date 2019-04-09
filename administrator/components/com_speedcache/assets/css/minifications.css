@@ -1,0 +1,429 @@
+div#filter-switch-minifications fieldset div.switch-toggle.well {
+    background-color: #eee;
+    border: medium none;
+    border-radius: 2px;
+    box-shadow: none;
+}
+
+div#filter-switch-minifications fieldset div.switch-toggle.well label.all {
+    background-color: #2196f3;
+    border: medium none;
+    border-radius: 2px 0 0 2px;
+    box-shadow: none;
+    color: #fff;
+}
+
+#page-description {
+    font-size: 13px;
+    margin-bottom: 30px;
+}
+
+#filter-minifications {
+    margin: 30px 0;
+}
+
+#filter-minifications .filter-title {
+    font-size: 20px;
+    margin-right: 30px;
+    float: left;
+    padding-top: 5px;
+}
+
+#filter-switch-minifications {
+    display: inline-block;
+    width: 35%;
+    float:left;
+}
+
+#scan-minifications {
+    margin-left: 70px;
+    display: inline;
+    float: left;
+}
+#filter-minify-search{
+    margin-left: 20px;
+    float:left;
+}
+#filter-minify-search button{
+    border-right : none ;
+}
+#filter-minify-search input[type="text"],#filter-minify-search button{
+    -webkit-border-radius:0px;
+    -moz-border-radius:0px;
+    border-radius:0;
+}
+
+div#scan-minifications div.pull-right a#scan-asset.material-button {
+    margin: 0 10px;
+}
+
+#scan-minifications #scan-asset {
+    font-size: 13px;
+    text-transform: uppercase;
+    text-align: center;
+    width: 125px;
+}
+.material-button .icon-minifications{
+    vertical-align: middle;
+    padding:0 10px 3px 0;
+}
+.pull-middle {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Filename Extensions Icons */
+
+span.sc-filename-extension {
+    border-radius: 5px;
+    display: block;
+    float: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    line-height: 35px;
+    height: 35px;
+    margin-right: 20px;
+    text-align: center;
+    width: 35px;
+    color: #ffffff;
+}
+
+span.sc-filename-extension-font {
+    background-color: #7AD03A;
+    color: #fff;
+}
+
+span.sc-filename-extension-css {
+    background-color: #27A8DE;
+    color: #fff;
+}
+
+span.sc-filename-extension-js {
+    background-color: #FECF2F;
+    color: #fff;
+}
+
+.switch-optimization {
+    display: inline-block;
+}
+
+/*button switch*/
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 26px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #409740;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #00CC00;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.table th,
+.table td {
+    vertical-align: middle !important;
+}
+
+.minify-select-all {
+    font-weight: bold;
+    font-size: 15px;
+    display: inline-block;
+    margin-bottom: 0px;
+    padding-right: 20px;
+    min-width: 130px;
+}
+
+div#scan-minifications div.pull-right.hidden-phone.switch-optimization label.switch {
+    vertical-align: middle;
+}
+
+/*switch filter*/
+
+.switch-toggle a,
+.switch-light span span {
+    display: none;
+}
+
+/* Radio Switch
+   */
+
+.switch-toggle {
+    position: relative;
+    display: block;
+    /* For callout panels in foundation
+      */
+    padding: 0 !important;
+    /* 2 items
+       */
+    /* 3 items
+       */
+    /* 4 items
+       */
+    /* 5 items
+       */
+    /* 6 items
+       */
+}
+
+.switch-toggle::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.switch-toggle *,
+.switch-toggle *:before,
+.switch-toggle *:after {
+    box-sizing: border-box;
+}
+
+.switch-toggle a {
+    display: block;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+.switch-toggle label,
+.switch-toggle > span {
+    /* breathing room for bootstrap/foundation classes.
+       */
+    line-height: 2em;
+    vertical-align: middle;
+}
+
+@media only screen {
+    .switch-toggle input {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+    }
+
+    .switch-toggle input + label {
+        font-size: 15px !important;
+        font-weight: bold !important;
+        position: relative;
+        z-index: 2;
+        display: block;
+        float: left;
+        padding: 0 0.5em;
+        margin: 0;
+        text-align: center;
+    }
+
+    .switch-toggle a {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0;
+        z-index: 1;
+        width: 10px;
+        height: 100%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(4),
+    .switch-toggle label:nth-child(2):nth-last-child(4) ~ label,
+    .switch-toggle label:nth-child(2):nth-last-child(4) ~ a {
+        width: 50%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(4) ~ input:checked:nth-child(3) + label ~ a {
+        left: 50%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(6),
+    .switch-toggle label:nth-child(2):nth-last-child(6) ~ label,
+    .switch-toggle label:nth-child(2):nth-last-child(6) ~ a {
+        width: 33.33%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(6) ~ input:checked:nth-child(3) + label ~ a {
+        left: 33.33%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(6) ~ input:checked:nth-child(5) + label ~ a {
+        left: 66.66%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(8),
+    .switch-toggle label:nth-child(2):nth-last-child(8) ~ label,
+    .switch-toggle label:nth-child(2):nth-last-child(8) ~ a {
+        width: 25%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(8) ~ input:checked:nth-child(3) + label ~ a {
+        left: 25%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(8) ~ input:checked:nth-child(5) + label ~ a {
+        left: 50%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(8) ~ input:checked:nth-child(7) + label ~ a {
+        left: 75%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(10),
+    .switch-toggle label:nth-child(2):nth-last-child(10) ~ label,
+    .switch-toggle label:nth-child(2):nth-last-child(10) ~ a {
+        width: 20%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(10) ~ input:checked:nth-child(3) + label ~ a {
+        left: 20%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(10) ~ input:checked:nth-child(5) + label ~ a {
+        left: 40%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(10) ~ input:checked:nth-child(7) + label ~ a {
+        left: 60%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(10) ~ input:checked:nth-child(9) + label ~ a {
+        left: 80%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(12),
+    .switch-toggle label:nth-child(2):nth-last-child(12) ~ label,
+    .switch-toggle label:nth-child(2):nth-last-child(12) ~ a {
+        width: 16.6%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(12) ~ input:checked:nth-child(3) + label ~ a {
+        left: 16.6%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(12) ~ input:checked:nth-child(5) + label ~ a {
+        left: 33.2%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(12) ~ input:checked:nth-child(7) + label ~ a {
+        left: 49.8%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(12) ~ input:checked:nth-child(9) + label ~ a {
+        left: 66.4%;
+    }
+
+    .switch-toggle label:nth-child(2):nth-last-child(12) ~ input:checked:nth-child(11) + label ~ a {
+        left: 83%;
+    }
+}
+
+/* Bugfix for older Webkit, including mobile Webkit. Adapted from
+ * http://css-tricks.com/webkit-sibling-bug/
+ */
+
+@media only screen and (-webkit-max-device-pixel-ratio: 2) and (max-device-width: 80em) {
+    .switch-light,
+    .switch-toggle {
+        -webkit-animation: webkitSiblingBugfix infinite 1s;
+    }
+}
+
+@-webkit-keyframes webkitSiblingBugfix {
+    from {
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+}
+
+.well {
+    margin-bottom: 0px !important;
+}
+
+label.sc-font-minifications {
+    background-color: #7AD03A;
+    color: #fff;
+}
+
+label.sc-css-minifications {
+    background-color: #27A8DE;
+    color: #fff;
+}
+
+label.sc-js-minifications {
+    background-color: #FECF2F;
+    color: #fff;
+}
+
+#scan-minifications-error span{
+    font-size: 15px;
+}
+
+#groupFileField table .group-label{
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#groupFileField table tr td:first-child{
+    width: 300px;
+}
+
+/* CDN STYLE */
+#cdn-configuration table tr td:first-child{
+    width: 20%;
+}
+#cdn-configuration table tr td:first-child label{
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+    margin-left: 10px;
+}

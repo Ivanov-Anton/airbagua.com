@@ -2,7 +2,7 @@
 return [
     '@class' => 'Gantry\\Component\\File\\CompiledYamlFile',
     'filename' => '/home/dobrod/airbagua.com/www/templates/g5_helium/custom/config/10/layout.yaml',
-    'modified' => 1533075756,
+    'modified' => 1554756585,
     'data' => [
         'version' => 2,
         'preset' => [
@@ -84,7 +84,8 @@ return [
             'header' => [
                 'attributes' => [
                     'boxed' => '',
-                    'class' => ''
+                    'class' => '',
+                    'variations' => ''
                 ]
             ],
             'intro' => [
@@ -165,66 +166,80 @@ return [
                     'autoplaySpeed' => '4000',
                     'items' => [
                         0 => [
+                            'class' => '',
                             'image' => 'gantry-media://intro/000.jpg',
                             'title' => '',
                             'desc' => '',
                             'link' => '',
                             'linktext' => '',
                             'buttonclass' => 'button-outline',
+                            'disable' => '0',
                             'name' => '1'
                         ],
                         1 => [
+                            'class' => '',
                             'image' => 'gantry-media://intro/001.jpg',
                             'title' => '',
                             'desc' => '',
                             'link' => '',
                             'linktext' => '',
                             'buttonclass' => 'button-outline',
+                            'disable' => '0',
                             'name' => '2'
                         ],
                         2 => [
+                            'class' => '',
                             'image' => 'gantry-media://intro/002.jpg',
                             'title' => '',
                             'desc' => '',
                             'link' => '',
                             'linktext' => '',
                             'buttonclass' => 'button-outline',
+                            'disable' => '0',
                             'name' => '3'
                         ],
                         3 => [
+                            'class' => '',
                             'image' => 'gantry-media://intro/003.jpg',
                             'title' => '',
                             'desc' => '',
                             'link' => '',
                             'linktext' => '',
                             'buttonclass' => 'button-outline',
+                            'disable' => '0',
                             'name' => '4'
                         ],
                         4 => [
+                            'class' => '',
                             'image' => 'gantry-media://intro/004.jpg',
                             'title' => '',
                             'desc' => '',
                             'link' => '',
                             'linktext' => '',
                             'buttonclass' => 'button-outline',
+                            'disable' => '0',
                             'name' => '5'
                         ],
                         5 => [
+                            'class' => '',
                             'image' => 'gantry-media://intro/005.jpg',
                             'title' => '',
                             'desc' => '',
                             'link' => '',
                             'linktext' => '',
                             'buttonclass' => 'button-outline',
+                            'disable' => '0',
                             'name' => '6'
                         ],
                         6 => [
+                            'class' => '',
                             'image' => 'gantry-media://intro/006.jpg',
                             'title' => '',
                             'desc' => '',
                             'link' => '',
                             'linktext' => '',
                             'buttonclass' => 'button-outline',
+                            'disable' => '0',
                             'name' => '7'
                         ]
                     ]
@@ -310,7 +325,7 @@ return [
                 'attributes' => [
                     'url' => '',
                     'target' => '_self',
-                    'image' => 'gantry-media://manutenção-veicular.png',
+                    'image' => 'gantry-media://445646.jpg',
                     'link' => '0',
                     'svg' => '',
                     'class' => ''

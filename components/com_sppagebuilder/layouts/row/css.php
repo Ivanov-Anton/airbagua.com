@@ -11,12 +11,51 @@ defined ('_JEXEC') or die ('Restricted access');
 $options = $displayData['options'];
 
 $doc 					= JFactory::getDocument();
-$row_id     			= (isset($options->id) && $options->id )? $options->id : 'section-id-'.$options->dynamicId;
+$row_id     			= (isset($options->id) && $options->id ) ? $options->id : 'section-id-'.$options->dynamicId;
 
 $row_styles = '';
 $style ='';
 $style_sm ='';
 $style_xs ='';
+
+if(isset($options->section_height)){
+	if(is_object($options->section_height)){
+		if(isset($options->section_height->md) && $options->section_height->md){
+			if($options->section_height_option=='height'){
+				$style .= 'height:'.$options->section_height->md.'px;';
+			}
+		}
+			
+		if (isset($options->section_height->sm) && $options->section_height->sm){
+			if($options->section_height_option=='height'){
+				$style_sm .= 'height:'.$options->section_height->sm.'px;';
+			}
+		}
+			
+		if (isset($options->section_height->xs) && $options->section_height->xs){
+			if($options->section_height_option=='height'){
+				$style_xs .= 'height:'.$options->section_height->xs.'px;';
+			}
+		}
+	} else {
+		if ($options->section_height) {
+			if($options->section_height_option=='height'){
+				$style .= 'height:'.$options->section_height.'px;';
+			}
+		}
+	}
+}
+
+if(isset($options->section_overflow_x) && $options->section_overflow_x && (isset($options->section_height) && is_object($options->section_height))){
+	$style .= 'overflow-x:'.$options->section_overflow_x.';';
+}
+if(isset($options->section_overflow_y) && $options->section_overflow_y && (isset($options->section_height) && is_object($options->section_height))){
+	$style .= 'overflow-y:'.$options->section_overflow_y.';';
+}
+
+if(isset($options->section_height_option) && $options->section_height_option=='win-height'){
+	$style .= 'min-height: 100vh;';
+}
 
 if( isset( $options->padding ) ){
 	if( is_object( $options->padding ) ){
@@ -50,7 +89,7 @@ if(isset($options->background_type)){
 		} else {
 			$style .= 'background-image:url('. JURI::base(true) . '/' . $options->background_image.');';
 		}
-	
+
 		if (isset($options->background_repeat) && $options->background_repeat) $style .= 'background-repeat:'.$options->background_repeat.';';
 		if (isset($options->background_size) && $options->background_size) $style .= 'background-size:'.$options->background_size.';';
 		if (isset($options->background_attachment) && $options->background_attachment) $style .= 'background-attachment:'.$options->background_attachment.';';
@@ -87,7 +126,7 @@ if(isset($options->background_type)){
 		} else {
 			$style .= 'background-image:url('. JURI::base(true) . '/' . $options->background_image.');';
 		}
-	
+
 		if (isset($options->background_repeat) && $options->background_repeat) $style .= 'background-repeat:'.$options->background_repeat.';';
 		if (isset($options->background_size) && $options->background_size) $style .= 'background-size:'.$options->background_size.';';
 		if (isset($options->background_attachment) && $options->background_attachment) $style .= 'background-attachment:'.$options->background_attachment.';';
@@ -95,7 +134,16 @@ if(isset($options->background_type)){
 	
 	}
 }
-
+//Add background image as video preload
+if((isset($options->background_type) && $options->background_type == 'video') && (isset($options->background_image) && $options->background_image)){
+	$row_styles .= '.sp-page-builder .page-content #' . $row_id . '{';
+		if(strpos($options->background_image, "http://") !== false || strpos($options->background_image, "https://") !== false){
+			$row_styles .= 'background-image:url(' . $options->background_image.');background-repeat:no-repeat;background-size:cover;background-position:center center;';
+		} else {
+			$row_styles .= 'background-image:url('. JURI::base(true) . '/' . $options->background_image.');background-repeat:no-repeat;background-size:cover;background-position:center center;';
+		}
+		$row_styles .= '}';
+}
 if($style) {
 	$row_styles .= '.sp-page-builder .page-content #' . $row_id . '{'. $style .'}';
 }
@@ -109,12 +157,125 @@ if($style_xs) {
 
 // Overlay
 if(isset($options->background_type)){
-	if (($options->background_type == 'image' || $options->background_type == 'video') && isset($options->overlay) && $options->overlay) {
-		$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {background-color: '. $options->overlay .'}';
+	if ($options->background_type == 'image' || $options->background_type == 'video') {
+		if(!isset($options->overlay_type)){
+			$options->overlay_type = 'overlay_color';
+		}
+		if(isset($options->overlay) && $options->overlay && $options->overlay_type == 'overlay_color'){
+			$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {background-color: '. $options->overlay .'}';
+		}
+		if(isset($options->gradient_overlay) && $options->gradient_overlay && $options->overlay_type == 'overlay_gradient'){
+			$overlay_radialPos = (isset($options->gradient_overlay->radialPos) && !empty($options->gradient_overlay->radialPos)) ? $options->gradient_overlay->radialPos : 'center center';
+	
+			$overlay_gradientColor = (isset($options->gradient_overlay->color) && !empty($options->gradient_overlay->color)) ? $options->gradient_overlay->color : '';
+		
+			$overlay_gradientColor2 = (isset($options->gradient_overlay->color2) && !empty($options->gradient_overlay->color2)) ? $options->gradient_overlay->color2 : '';
+		
+			$overlay_gradientDeg = (isset($options->gradient_overlay->deg) && !empty($options->gradient_overlay->deg)) ? $options->gradient_overlay->deg : '0';
+		
+			$overlay_gradientPos = (isset($options->gradient_overlay->pos) && !empty($options->gradient_overlay->pos)) ? $options->gradient_overlay->pos : '0';
+		
+			$overlay_gradientPos2 = (isset($options->gradient_overlay->pos2) && !empty($options->gradient_overlay->pos2)) ? $options->gradient_overlay->pos2 : '100';
+		
+			if(isset($options->gradient_overlay->type) && $options->gradient_overlay->type == 'radial'){
+				$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+					background: radial-gradient(at '. $overlay_radialPos .', '. $overlay_gradientColor .' '. $overlay_gradientPos .'%, '. $overlay_gradientColor2 .' '. $overlay_gradientPos2 . '%) transparent;
+				}';
+				
+			} else {
+				$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+					background: linear-gradient('. $overlay_gradientDeg .'deg, '. $overlay_gradientColor .' '. $overlay_gradientPos .'%, '. $overlay_gradientColor2 .' '. $overlay_gradientPos2 .'%) transparent;
+				}';
+			}
+		}
+		if(isset($options->pattern_overlay) && $options->pattern_overlay && $options->overlay_type == 'overlay_pattern'){
+			if(strpos($options->pattern_overlay, "http://") !== false || strpos($options->pattern_overlay, "https://") !== false){
+				$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+					background-image:url(' . $options->pattern_overlay.');
+					background-attachment: scroll;
+				}';
+				if(isset($options->overlay_pattern_color)){
+					$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+						background-color:' . $options->overlay_pattern_color.';
+					}';
+				}
+			} else {
+				$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+					background-image:url('. JURI::base(true) . '/' . $options->pattern_overlay.');
+					background-attachment: scroll;
+				}';
+				if(isset($options->overlay_pattern_color)){
+					$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+						background-color:' . $options->overlay_pattern_color.';
+					}';
+				}
+			}
+		}
 	}
 } else {
-	if (isset($options->overlay) && $options->overlay) {
+	if(!isset($options->overlay_type)){
+		$options->overlay_type = 'overlay_color';
+	}
+	if(isset($options->overlay) && $options->overlay && $options->overlay_type == 'overlay_color'){
 		$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {background-color: '. $options->overlay .'}';
+	}
+	if(isset($options->gradient_overlay) && $options->gradient_overlay && $options->overlay_type == 'overlay_gradient'){
+		$overlay_radialPos = (isset($options->gradient_overlay->radialPos) && !empty($options->gradient_overlay->radialPos)) ? $options->gradient_overlay->radialPos : 'center center';
+
+		$overlay_gradientColor = (isset($options->gradient_overlay->color) && !empty($options->gradient_overlay->color)) ? $options->gradient_overlay->color : '';
+	
+		$overlay_gradientColor2 = (isset($options->gradient_overlay->color2) && !empty($options->gradient_overlay->color2)) ? $options->gradient_overlay->color2 : '';
+	
+		$overlay_gradientDeg = (isset($options->gradient_overlay->deg) && !empty($options->gradient_overlay->deg)) ? $options->gradient_overlay->deg : '0';
+	
+		$overlay_gradientPos = (isset($options->gradient_overlay->pos) && !empty($options->gradient_overlay->pos)) ? $options->gradient_overlay->pos : '0';
+	
+		$overlay_gradientPos2 = (isset($options->gradient_overlay->pos2) && !empty($options->gradient_overlay->pos2)) ? $options->gradient_overlay->pos2 : '100';
+	
+		if(isset($options->gradient_overlay->type) && $options->gradient_overlay->type == 'radial'){
+			$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+				background: radial-gradient(at '. $overlay_radialPos .', '. $overlay_gradientColor .' '. $overlay_gradientPos .'%, '. $overlay_gradientColor2 .' '. $overlay_gradientPos2 . '%) transparent;
+			}';
+			
+		} else {
+			$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+				background: linear-gradient('. $overlay_gradientDeg .'deg, '. $overlay_gradientColor .' '. $overlay_gradientPos .'%, '. $overlay_gradientColor2 .' '. $overlay_gradientPos2 .'%) transparent;
+			}';
+		}
+	}
+	if(isset($options->pattern_overlay) && $options->pattern_overlay && $options->overlay_type == 'overlay_pattern'){
+		if(strpos($options->pattern_overlay, "http://") !== false || strpos($options->pattern_overlay, "https://") !== false){
+			$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+				background-image:url(' . $options->pattern_overlay.');
+				background-attachment: scroll;
+			}';
+			if(isset($options->overlay_pattern_color)){
+				$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+					background-color:' . $options->overlay_pattern_color.';
+				}';
+			}
+		} else {
+			$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+				background-image:url('. JURI::base(true) . '/' . $options->pattern_overlay.');
+				background-attachment: scroll;
+			}';
+			if(isset($options->overlay_pattern_color)){
+				$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+					background-color:' . $options->overlay_pattern_color.';
+				}';
+			}
+		}
+	}
+}
+
+//Blend Mode
+if(isset($options->background_type) && $options->background_type){
+	if ($options->background_type == 'image') {
+		if (isset($options->blend_mode) && $options->blend_mode) {
+			$row_styles .= '.sp-page-builder .page-content #' . $row_id . ' > .sppb-row-overlay {
+				mix-blend-mode:' . $options->blend_mode .';
+			}';
+		}
 	}
 }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="system" method="upgrade">
+	<name>SpeedCache</name>
+	<author>Joomunited</author>
+	<creationDate>May 2016</creationDate>
+	<copyright>Joomunited.</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<authorEmail>contact@joomunited.com</authorEmail>
+	<authorUrl>www.joomunited.com</authorUrl>
+	<version>2.5.2</version>
+	<description>Joomunited Speedcache main plugin</description>
+	<files>
+		<filename plugin="speedcache">speedcache.php</filename>
+		<folder>minifications</folder>
+		<folder>lazy_loading</folder>
+		<folder>cdn_integration</folder>
+		<folder>ajax_load_modules</folder>
+		<folder>Mobile-Detect-2.8.25</folder>
+	</files>
+	<config>
+	
+	</config>
+</extension>

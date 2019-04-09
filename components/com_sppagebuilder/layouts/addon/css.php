@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -59,6 +59,9 @@ if(!isset($addon->settings->global_background_type) && isset($addon->settings->g
 
         if(isset($addon->settings->global_background_attachment) && $addon->settings->global_background_attachment) {
             $addon_css .= "\tbackground-attachment: " . $addon->settings->global_background_attachment . ";\n";
+        }
+        if(isset($addon->settings->global_background_position) && $addon->settings->global_background_position) {
+            $addon_css .= "background-position:" . $addon->settings->global_background_position . ";";
         }
     }
 } else if(isset($addon->settings->global_background_type)) {
@@ -126,7 +129,7 @@ if(isset($addon->settings->global_boxshadow) && $addon->settings->global_boxshad
 // Border
 if(isset($addon->settings->global_user_border) && $addon->settings->global_user_border) {
     
-    if (is_object($addon->settings->global_border_width)) {
+    if (isset($addon->settings->global_border_width) && is_object($addon->settings->global_border_width)) {
         $addon_css .= isset($addon->settings->global_border_width->md) && $addon->settings->global_border_width->md ? "border-width: " . $addon->settings->global_border_width->md . "px;\n" : "";
     } else {
         $addon_css .= isset($addon->settings->global_border_width) && $addon->settings->global_border_width ? "border-width: " . $addon->settings->global_border_width . "px;\n" : "";
@@ -168,7 +171,7 @@ if(isset($addon->settings->global_padding)){
 }
 
 if(isset($addon->settings->use_global_width) && $addon->settings->use_global_width && isset($addon->settings->global_width) && $addon->settings->global_width){
-    $addon_css .= "width: " . $addon->settings->global_width . "%;\n";
+    $addon_css .= "width: " . (int) $addon->settings->global_width . "%;\n";
 }
 
 if(isset($addon->settings->global_use_overlay) && $addon->settings->global_use_overlay){
@@ -178,12 +181,78 @@ if(isset($addon->settings->global_use_overlay) && $addon->settings->global_use_o
 if($addon_css) {
     $inlineCSS .= $addon_id ." {\n" . $addon_css . "}\n";
 }
-
-if(isset($addon->settings->global_use_overlay) && $addon->settings->global_use_overlay && isset($addon->settings->global_background_overlay) && $addon->settings->global_background_overlay){
+if(!isset($addon->settings->global_overlay_type)){
+    $addon->settings->global_overlay_type = 'overlay_color';
+}
+if(isset($addon->settings->global_use_overlay) && $addon->settings->global_use_overlay && isset($addon->settings->global_background_overlay) && $addon->settings->global_background_overlay && $addon->settings->global_overlay_type == 'overlay_color'){
     $inlineCSS .= $addon_id ." .sppb-addon-overlayer { background-color: {$addon->settings->global_background_overlay}; }\n";
 }
 if(isset($addon->settings->global_use_overlay) && $addon->settings->global_use_overlay){
     $inlineCSS .= $addon_id ." > .sppb-addon { position: relative; }\n";
+}
+
+// Overlay
+if(isset($addon->settings->global_background_type)){
+	if ($addon->settings->global_background_type == 'image') {
+		if(isset($addon->settings->global_gradient_overlay) && $addon->settings->global_overlay_type == 'overlay_gradient'){
+			$overlay_radialPos = (isset($addon->settings->global_gradient_overlay->radialPos) && !empty($addon->settings->global_gradient_overlay->radialPos)) ? $addon->settings->global_gradient_overlay->radialPos : 'center center';
+	
+			$overlay_gradientColor = (isset($addon->settings->global_gradient_overlay->color) && !empty($addon->settings->global_gradient_overlay->color)) ? $addon->settings->global_gradient_overlay->color : '';
+		
+			$overlay_gradientColor2 = (isset($addon->settings->global_gradient_overlay->color2) && !empty($addon->settings->global_gradient_overlay->color2)) ? $addon->settings->global_gradient_overlay->color2 : '';
+		
+			$overlay_gradientDeg = (isset($addon->settings->global_gradient_overlay->deg) && !empty($addon->settings->global_gradient_overlay->deg)) ? $addon->settings->global_gradient_overlay->deg : '0';
+		
+			$overlay_gradientPos = (isset($addon->settings->global_gradient_overlay->pos) && !empty($addon->settings->global_gradient_overlay->pos)) ? $addon->settings->global_gradient_overlay->pos : '0';
+		
+			$overlay_gradientPos2 = (isset($addon->settings->global_gradient_overlay->pos2) && !empty($addon->settings->global_gradient_overlay->pos2)) ? $addon->settings->global_gradient_overlay->pos2 : '100';
+		
+			if(isset($addon->settings->global_gradient_overlay->type) && $addon->settings->global_gradient_overlay->type == 'radial'){
+				$inlineCSS .= $addon_id .' .sppb-addon-overlayer {
+					background: radial-gradient(at '. $overlay_radialPos .', '. $overlay_gradientColor .' '. $overlay_gradientPos .'%, '. $overlay_gradientColor2 .' '. $overlay_gradientPos2 . '%) transparent;
+				}';
+				
+			} else {
+				$inlineCSS .= $addon_id .' .sppb-addon-overlayer {
+					background: linear-gradient('. $overlay_gradientDeg .'deg, '. $overlay_gradientColor .' '. $overlay_gradientPos .'%, '. $overlay_gradientColor2 .' '. $overlay_gradientPos2 .'%) transparent;
+				}';
+			}
+		}
+		if(isset($addon->settings->global_pattern_overlay) && $addon->settings->global_overlay_type == 'overlay_pattern'){
+			if(strpos($addon->settings->global_pattern_overlay, "http://") !== false || strpos($addon->settings->global_pattern_overlay, "https://") !== false){
+				$inlineCSS .= $addon_id .' .sppb-addon-overlayer {
+					background-image:url(' . $addon->settings->global_pattern_overlay.');
+					background-attachment: scroll;
+				}';
+				if(isset($addon->settings->global_overlay_pattern_color)){
+					$inlineCSS .= $addon_id .' .sppb-addon-overlayer {
+						background-color:' . $addon->settings->global_overlay_pattern_color.';
+					}';
+				}
+			} else {
+				$inlineCSS .= $addon_id .' .sppb-addon-overlayer {
+					background-image:url('. JURI::base() . '/' . $addon->settings->global_pattern_overlay.');
+					background-attachment: scroll;
+				}';
+				if(isset($addon->settings->global_overlay_pattern_color)){
+					$inlineCSS .= $addon_id .' .sppb-addon-overlayer {
+						background-color:' . $addon->settings->global_overlay_pattern_color.';
+					}';
+				}
+			}
+		}
+	}
+}
+
+//Blend Mode
+if(isset($addon->settings->global_background_type) && $addon->settings->global_background_type){
+	if ($addon->settings->global_background_type == 'image') {
+		if (isset($addon->settings->blend_mode) && $addon->settings->blend_mode) {
+			$inlineCSS .= $addon_id .' .sppb-addon-overlayer {
+				mix-blend-mode:' . $addon->settings->blend_mode .';
+			}';
+		}
+	}
 }
 
 if($addon_link_css) {
@@ -316,6 +385,7 @@ $inlineCSS .= "@media (min-width: 768px) and (max-width: 991px) {";
             $inlineCSS .= $addon_id ." .sppb-addon-title {\n" . $title_style_sm . "}\n";
         }
     }
+
 $inlineCSS .= "}";
 
 // Responsive Phone
@@ -347,6 +417,7 @@ $inlineCSS .= "@media (max-width: 767px) {";
             $inlineCSS .= $addon_id ." .sppb-addon-title {\n" . $title_style_xs . "}\n";
         }
     }
+
 $inlineCSS .= "}";
 
 

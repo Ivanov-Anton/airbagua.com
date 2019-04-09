@@ -2,7 +2,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -69,6 +69,15 @@ SpAddonsConfig::addonConfig(
                     'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_LINK_LIST_ENABLE_SCROLL_TO'),
                     'std'=>0
                 ),
+                'scroll_to_offset'=>array(
+                    'type'=>'slider',
+                    'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_LINK_LIST_ENABLE_SCROLL_TO_OFFSET'),
+                    'depends'=>array(
+                        array('scroll_to', '=', 1),
+                    ),
+                    'max'=> 2000,
+                    'min'=> -2000,
+                ),
                 'sticky_menu'=>array(
                     'type'=>'checkbox',
                     'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_LINK_LIST_ENABLE_STICKY'),
@@ -122,7 +131,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-link-list-wrap ul li a { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-link-list-wrap ul li a { font-family: "{{ VALUE }}"; }'
 					)
 				),
 				'link_fontsize'=>array(

@@ -2,7 +2,7 @@
 return [
     '@class' => 'Gantry\\Component\\File\\CompiledYamlFile',
     'filename' => '/home/dobrod/airbagua.com/www/templates/g5_helium/gantry/presets.yaml',
-    'modified' => 1547580537,
+    'modified' => 1552425395,
     'data' => [
         'preset1' => [
             'image' => 'gantry-admin://images/preset1.png',

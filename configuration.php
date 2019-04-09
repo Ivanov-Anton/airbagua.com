@@ -39,9 +39,9 @@ class JConfig {
 	public $smtphost = 'localhost';
 	public $smtpsecure = 'none';
 	public $smtpport = '25';
-	public $caching = '0';
+	public $caching = '1';
 	public $cache_handler = 'file';
-	public $cachetime = '15';
+	public $cachetime = '30';
 	public $cache_platformprefix = '0';
 	public $MetaDesc = 'AirBag';
 	public $MetaKeys = '';

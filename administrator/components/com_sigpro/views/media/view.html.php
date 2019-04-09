@@ -1,23 +1,27 @@
 <?php
 /**
- * @version     3.1.x
- * @package     Simple Image Gallery Pro
- * @author      JoomlaWorks - http://www.joomlaworks.net
- * @copyright   Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
- * @license     http://www.joomlaworks.net/license
+ * @version    3.6.x
+ * @package    Simple Image Gallery Pro
+ * @author     JoomlaWorks - https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
+ * @license    https://www.joomlaworks.net/license
  */
 
 // no direct access
-defined('_JEXEC') or die ;
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.view');
 
 class SigProViewMedia extends SigProView
 {
+    function display($tpl = null)
+    {
+        $application = JFactory::getApplication();
+        $user = JFactory::getUser();
+        $document = JFactory::getDocument();
+        $token = version_compare(JVERSION, '2.5', 'ge') ? JSession::getFormToken() : JUtility::getToken();
+        $this->assignRef('token', $token);
 
-	public function display($tpl = null)
-	{
-		$mainframe = JFactory::getApplication();
-		//$mainframe->enqueueMessage(JText::_('COM_SIGPRO_MEDIA_MANAGER_INFO'));
-		parent::display($tpl);
-	}
-
+        parent::display($tpl);
+    }
 }

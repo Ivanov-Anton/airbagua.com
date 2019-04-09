@@ -10,6 +10,8 @@ defined ('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controller');
 
+jimport('joomla.filesystem.folder');
+
 class SppagebuilderController extends JControllerLegacy {
 
 	protected $default_view = 'pages';
@@ -28,6 +30,14 @@ class SppagebuilderController extends JControllerLegacy {
 		}
 
 		return parent::display();
+	}
+
+	public function resetcss() {
+		$css_folder_path = JPATH_ROOT . '/media/com_sppagebuilder/css';
+		if(JFolder::exists($css_folder_path)) {
+			JFolder::delete($css_folder_path);
+		}
+		die();
 	}
 
 	public function export(){

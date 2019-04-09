@@ -201,20 +201,28 @@ class SppagebuilderModelPages extends JModelList
 		$items = parent::getItems();
 		if(is_array($items) && count($items)) {
 			foreach ($items as $key => &$item) {
+				// get menu id
 				$Itemid = SppagebuilderHelper::getMenuId($item->id);
 				$item->link = 'index.php?option=com_sppagebuilder&task=page.edit&id=' . $item->id;
-				$preview = 'index.php?option=com_sppagebuilder&view=page&id=' . $item->id . $Itemid;
-				$sefURI = str_replace('/administrator', '', $router->build($preview));
-				$item->preview = $sefURI;
+				$preview_link = 'index.php?option=com_sppagebuilder&view=page&id=' . $item->id;
 
-				$lang = '';
-				if (isset($item->language) && $item->language != '*') {
-					$lang_array = explode('-',$item->language);
-					$lang = '&lang='.$lang_array[0];
+				if ($item->language && $item->language !== '*' && JLanguageMultilang::isEnabled()) {
+					$preview_link .= '&lang=' . $item->language;
 				}
 
-				$front_link = 'index.php?option=com_sppagebuilder&view=form&tmpl=componenet&layout=edit&id=' . $item->id . $Itemid.$lang;
-				$sefURI = str_replace('/administrator', '', $router->build($front_link));
+				// Preview URL
+				$preview_link .= $Itemid;
+				$sefURI = str_replace('/administrator', '', $router->build($preview_link));
+				$item->preview = $sefURI;
+
+				// Frontend Editing URL
+				$front_link = 'index.php?option=com_sppagebuilder&view=form&tmpl=component&layout=edit&id=' . $item->id;
+				if ($item->language && $item->language !== '*' && JLanguageMultilang::isEnabled()) {
+					$front_link .= '&lang=' . $item->language;
+				}
+				$front_link .= $Itemid;
+
+				$sefURI = str_replace('/administrator', '', $router->build($front_link));	
 				$item->frontend_edit = $sefURI;
 			}
 		}

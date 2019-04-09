@@ -1,0 +1,27 @@
+.configs-title label{
+    font-size: 18px;
+    line-height: 18px;
+    border-bottom: solid 1px #000;
+    padding-bottom: 13px;
+    font-weight: bold;
+}
+
+.configs-type-button {
+    padding-top: 13px;
+}
+
+.configs-type-button button {
+    padding: 10px 35px;
+    text-transform: uppercase;
+}
+
+.configs-type-button .click-to {
+    margin-right: 20px;
+}
+.configs-type {
+    margin-top: 25px;
+}
+
+.configs-type label.notice-text {
+    margin-bottom: 10px;
+}

@@ -3,7 +3,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2018 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
  */
 //no direct accees
@@ -12,46 +12,50 @@ defined('_JEXEC') or die('Restricted access');
 class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
 
     public function render() {
+        $settings = $this->addon->settings;
 
         //Addon Options
-        $class = (isset($this->addon->settings->class) && $this->addon->settings->class) ? $this->addon->settings->class : '';
-        $icon_items = (isset($this->addon->settings->sp_icons_group_item) && $this->addon->settings->sp_icons_group_item) ? $this->addon->settings->sp_icons_group_item : '';
+        $class = (isset($settings->class) && $settings->class) ? $settings->class : '';
+        $icon_items = (isset($settings->sp_icons_group_item) && $settings->sp_icons_group_item) ? $settings->sp_icons_group_item : '';
 
-        $alignment = (isset($this->addon->settings->icon_alignment) && $this->addon->settings->icon_alignment) ? ' ' . $this->addon->settings->icon_alignment : '';
+        $alignment = (isset($settings->icon_alignment) && $settings->icon_alignment) ? ' ' . $settings->icon_alignment : '';
 
         $output = '';
         $output .= '<div class="sppb-addon sppb-addon-icons-group ' . $class . '">';
         $output .= '<ul class="sppb-icons-group-list">';
-        foreach ($icon_items as $key => $icon_item) {
-            $key ++;
+        if(is_array($icon_items) && count($icon_items) > 0){
+            foreach ($icon_items as $key => $icon_item) {
+                $key ++;
 
-            $icon_class = (isset($icon_item->icon_class) && $icon_item->icon_class !== '') ? $icon_item->icon_class : ' ';
+                $icon_class = (isset($icon_item->icon_class) && $icon_item->icon_class !== '') ? ' ' .$icon_item->icon_class : '';
+                $title = (isset($icon_item->title) && $icon_item->title) ? $icon_item->title : 'Icon group item';
 
-            $icon_id = $this->addon->id + $key;
+                $icon_id = $this->addon->id + $key;
 
-            $output .= '<li id="icon-' . $icon_id . '" class="' . $icon_class . ' ' . $alignment . '">';
-            $item_url = ((isset($icon_item->icon_link) && $icon_item->icon_link !== '')) ? $icon_item->icon_link : '#';
+                $output .= '<li id="icon-' . $icon_id . '" class="'.$icon_class.'' . $alignment . '">';
+                $item_url = ((isset($icon_item->icon_link) && $icon_item->icon_link !== '')) ? $icon_item->icon_link : '#';
 
-            if ($icon_item->icon_link) {
-                $output .= '<a href="' . $icon_item->icon_link . '">';
-            }
-            if (isset($icon_item->label_position) && $icon_item->show_label !== 0 && $icon_item->label_position == 'top') {
-                $output .= '<span class="sppb-icons-label-text">' . $icon_item->label_text . '</span>';
-            }
-            if (isset($icon_item->icon_name)) {
-                $output .= '<i class="fa ' . $icon_item->icon_name . ' "></i>';
-            }
-            if (isset($icon_item->label_position) && $icon_item->show_label !== 0 && $icon_item->label_position == 'right') {
-                $output .= '<span class="sppb-icons-label-text right">' . $icon_item->label_text . '</span>';
-            }
-            if (isset($icon_item->label_position) && $icon_item->show_label !== 0 && $icon_item->label_position == 'bottom') {
-                $output .= '<span class="sppb-icons-label-text">' . $icon_item->label_text . '</span>';
-            }
-            if ($icon_item->icon_link) {
-                $output .= '</a>';
-            }
+                if ($icon_item->icon_link) {
+                    $output .= '<a href="' . $icon_item->icon_link . '" aria-label="'.strip_tags($title).'"'.(isset($icon_item->link_open_new_window) && $icon_item->link_open_new_window ? ' rel="noopener noreferrer" target="_blank"' : '').'>';
+                }
+                if (isset($icon_item->label_position) && $icon_item->show_label !== 0 && $icon_item->label_position == 'top') {
+                    $output .= '<span class="sppb-icons-label-text">' . $icon_item->label_text . '</span>';
+                }
+                if (isset($icon_item->icon_name)) {
+                    $output .= '<i class="fa ' . $icon_item->icon_name . ' " aria-hidden="true" title="'.$title.'"></i>';
+                }
+                if (isset($icon_item->label_position) && $icon_item->show_label !== 0 && $icon_item->label_position == 'right') {
+                    $output .= '<span class="sppb-icons-label-text right">&nbsp;' . $icon_item->label_text . '</span>';
+                }
+                if (isset($icon_item->label_position) && $icon_item->show_label !== 0 && $icon_item->label_position == 'bottom') {
+                    $output .= '<span class="sppb-icons-label-text">' . $icon_item->label_text . '</span>';
+                }
+                if ($icon_item->icon_link) {
+                    $output .= '</a>';
+                }
 
-            $output .= '</li>';
+                $output .= '</li>';
+            }
         }
         $output .= '</ul>';
         $output .= '</div>';
@@ -61,9 +65,10 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
 
     public function css() {
         $addon_id = '#sppb-addon-' . $this->addon->id;
+        $settings = $this->addon->settings;
 
         $styles = array();
-        foreach ($this->addon->settings->sp_icons_group_item as $key => $addon_item) {
+        foreach ($settings->sp_icons_group_item as $key => $addon_item) {
             $key ++;
 
             // Normal
@@ -79,61 +84,17 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
             $gutter_reset_sm = '';
             $gutter_reset_xs = '';
 
-            $label_style = '';
-            $label_style_sm = '';
-            $label_style_xs = '';
-
-            //Label style margin
-            if (isset($addon_item->label_margin) && trim($addon_item->label_margin) != "") {
-                $margin_md = '';
-                $margins = explode(' ', $addon_item->label_margin);
-                foreach ($margins as $margin) {
-                    if (empty(trim($margin))) {
-                        $margin_md .= ' 0';
-                    } else {
-                        $margin_md .= ' ' . $margin;
-                    }
-                }
-                $label_style .= "margin: " . $margin_md . ";\n";
-            }
-            if (isset($addon_item->label_margin_sm) && trim($addon_item->label_margin_sm) != "") {
-                $margin_sm_full = '';
-                $margins_sm = explode(' ', $addon_item->label_margin_sm);
-                foreach ($margins_sm as $margin_sm) {
-                    if (empty(trim($margin_sm))) {
-                        $margin_sm_full .= ' 0';
-                    } else {
-                        $margin_sm_full .= ' ' . $margin_sm;
-                    }
-                }
-                $label_style_sm .= "margin: " . $margin_sm_full . ";\n";
-            }
-
-            if (isset($addon_item->label_margin_xs) && trim($addon_item->label_margin_xs) != "") {
-                $margin_xs_full = '';
-                $margins_xs = explode(' ', $addon_item->label_margin_xs);
-                foreach ($margins_xs as $margin_xs) {
-                    if (empty(trim($margin_xs))) {
-                        $margin_xs_full .= ' 0';
-                    } else {
-                        $margin_xs_full .= ' ' . $margin_xs;
-                    }
-                }
-                $label_style_xs .= "margin: " . $margin_xs_full . ";\n";
-            }
-
-
             $icon_style .= (isset($addon_item->height) && $addon_item->height) ? 'height: ' . $addon_item->height . 'px;' : '';
             $icon_style_sm .= (isset($addon_item->height_sm) && $addon_item->height_sm) ? 'height: ' . $addon_item->height_sm . 'px;' : '';
             $icon_style_xs .= (isset($addon_item->height_xs) && $addon_item->height_xs) ? 'height: ' . $addon_item->height_xs . 'px;' : '';
 
-            $icon_style .= (isset($this->addon->settings->margin) && $this->addon->settings->margin) ? 'margin: ' . $this->addon->settings->margin . 'px;' : '';
-            $icon_style_sm .= (isset($this->addon->settings->margin_sm) && $this->addon->settings->margin_sm) ? 'margin: ' . $this->addon->settings->margin_sm . 'px;' : '';
-            $icon_style_xs .= (isset($this->addon->settings->margin_xs) && $this->addon->settings->margin_xs) ? 'margin: ' . $this->addon->settings->margin_xs . 'px;' : '';
+            $icon_style .= (isset($settings->margin) && $settings->margin) ? 'margin: ' . $settings->margin . 'px;' : '';
+            $icon_style_sm .= (isset($settings->margin_sm) && $settings->margin_sm) ? 'margin: ' . $settings->margin_sm . 'px;' : '';
+            $icon_style_xs .= (isset($settings->margin_xs) && $settings->margin_xs) ? 'margin: ' . $settings->margin_xs . 'px;' : '';
 
-            $gutter_reset .= (isset($this->addon->settings->margin) && $this->addon->settings->margin) ? 'margin: -' . $this->addon->settings->margin . 'px;' : '';
-            $gutter_reset_sm .= (isset($this->addon->settings->margin_sm) && $this->addon->settings->margin_sm) ? 'margin: -' . $this->addon->settings->margin_sm . 'px;' : '';
-            $gutter_reset_xs .= (isset($this->addon->settings->margin_xs) && $this->addon->settings->margin_xs) ? 'margin: -' . $this->addon->settings->margin_xs . 'px;' : '';
+            $gutter_reset .= (isset($settings->margin) && $settings->margin) ? 'margin: -' . $settings->margin . 'px;' : '';
+            $gutter_reset_sm .= (isset($settings->margin_sm) && $settings->margin_sm) ? 'margin: -' . $settings->margin_sm . 'px;' : '';
+            $gutter_reset_xs .= (isset($settings->margin_xs) && $settings->margin_xs) ? 'margin: -' . $settings->margin_xs . 'px;' : '';
 
             $icon_style .= (isset($addon_item->padding) && $addon_item->padding) ? 'padding: ' . $addon_item->padding . ';' : '';
             $icon_style_sm .= (isset($addon_item->padding_sm) && $addon_item->padding_sm) ? 'padding: ' . $addon_item->padding_sm . ';' : '';
@@ -156,13 +117,39 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
             $icon_style_sm .= (isset($addon_item->border_radius_sm) && $addon_item->border_radius_sm) ? 'border-radius: ' . $addon_item->border_radius_sm . 'px;' : '';
             $icon_style_xs .= (isset($addon_item->border_radius_xs) && $addon_item->border_radius_xs) ? 'border-radius: ' . $addon_item->border_radius_xs . 'px;' : '';
 
-            $font_size .= (isset($this->addon->settings->size) && $this->addon->settings->size) ? 'font-size: ' . $this->addon->settings->size . 'px;' : '';
-            $font_size_sm .= (isset($this->addon->settings->size_sm) && $this->addon->settings->size_sm) ? 'font-size: ' . $this->addon->settings->size_sm . 'px;' : '';
-            $font_size_xs .= (isset($this->addon->settings->size_xs) && $this->addon->settings->size_xs) ? 'font-size: ' . $this->addon->settings->size_xs . 'px;' : '';
-
-            $label_style .= (isset($addon_item->label_size) && $addon_item->label_size) ? 'font-size: ' . $addon_item->label_size . 'px; line-height: 1.2;' : '';
-            $label_style_sm .= (isset($addon_item->label_size_sm) && $addon_item->label_size_sm) ? 'font-size: ' . $addon_item->label_size_sm . 'px; line-height: 1.2;' : '';
-            $label_style_xs .= (isset($addon_item->label_size_xs) && $addon_item->label_size_xs) ? 'font-size: ' . $addon_item->label_size_xs . 'px; line-height: 1.2;' : '';
+            $font_size .= (isset($settings->size) && $settings->size) ? 'font-size: ' . $settings->size . 'px;' : '';
+            $font_size_sm .= (isset($settings->size_sm) && $settings->size_sm) ? 'font-size: ' . $settings->size_sm . 'px;' : '';
+            $font_size_xs .= (isset($settings->size_xs) && $settings->size_xs) ? 'font-size: ' . $settings->size_xs . 'px;' : '';
+            //Label style
+            $label_style = '';
+            $label_style .= (isset($addon_item->label_size) && $addon_item->label_size) ? 'font-size: ' . $addon_item->label_size . 'px;' : '';
+            $label_style .= (isset($addon_item->label_lineheight) && $addon_item->label_lineheight) ? 'line-height: ' . $addon_item->label_lineheight . 'px;' : '';
+            $label_style .= (isset($addon_item->label_letterspace) && $addon_item->label_letterspace) ? 'letter-spacing: ' . $addon_item->label_letterspace . ';' : '';
+            //label font style object
+            $label_font_style = (isset($addon_item->label_font_style) && $addon_item->label_font_style) ? $addon_item->label_font_style : '';
+            if(isset($label_font_style->underline) && $label_font_style->underline){
+                $label_style .= 'text-decoration:underline;';
+            }
+            if(isset($label_font_style->italic) && $label_font_style->italic){
+                $label_style .= 'font-style:italic;';
+            }
+            if(isset($label_font_style->uppercase) && $label_font_style->uppercase){
+                $label_style .= 'text-transform:uppercase;';
+            }
+            if(isset($label_font_style->weight) && $label_font_style->weight){
+                $label_style .= 'font-weight:'.$label_font_style->weight.';';
+            }
+            $label_style .= (isset($addon_item->label_margin) && trim($addon_item->label_margin)) ? 'margin: ' . $addon_item->label_margin . ';' : '';
+            //Label Tablet style
+            $label_style_sm = '';
+            $label_style_sm .= (isset($addon_item->label_size_sm) && $addon_item->label_size_sm) ? 'font-size: ' . $addon_item->label_size_sm . 'px;' : '';
+            $label_style_sm .= (isset($addon_item->label_lineheight_sm) && $addon_item->label_lineheight_sm) ? 'line-height: ' . $addon_item->label_lineheight_sm . 'px;' : '';
+            $label_style_sm .= (isset($addon_item->label_margin_sm) && trim($addon_item->label_margin_sm)) ? 'margin:' . $addon_item->label_margin_sm . ';' : '';
+            //Label Mobile style
+            $label_style_xs = '';
+            $label_style_xs .= (isset($addon_item->label_size_xs) && $addon_item->label_size_xs) ? 'font-size: ' . $addon_item->label_size_xs . 'px;' : '';
+            $label_style_xs .= (isset($addon_item->label_lineheight_xs) && $addon_item->label_lineheight_xs) ? 'line-height: ' . $addon_item->label_lineheight_xs . 'px;' : '';
+            $label_style_xs .= (isset($addon_item->label_margin_xs) && trim($addon_item->label_margin_xs)) ? 'margin:' . $addon_item->label_margin_xs . ';' : '';
 
             $icon_id = $this->addon->id + $key;
 
@@ -174,42 +161,39 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
             $icon_style_hover .= (isset($addon_item->hover_color) && $addon_item->hover_color) ? 'color: ' . $addon_item->hover_color . ';' : '';
             $icon_style_hover .= (isset($addon_item->hover_background) && $addon_item->hover_background) ? 'background-color: ' . $addon_item->hover_background . ';' : '';
             $icon_style_hover .= (isset($addon_item->hover_border_color) && $addon_item->hover_border_color) ? 'border-color: ' . $addon_item->hover_border_color . ';' : '';
-
-            $icon_style_hover .= (isset($addon_item->hover_border_width) && $addon_item->hover_border_width) ? 'border-width: ' . $addon_item->hover_border_width . 'px;' : '';
-            $icon_style_hover_sm .= (isset($addon_item->hover_border_width_sm) && $addon_item->hover_border_width_sm) ? 'border-width: ' . $addon_item->hover_border_width_sm . 'px;' : '';
-            $icon_style_hover_xs .= (isset($addon_item->hover_border_width_xs) && $addon_item->hover_border_width_xs) ? 'border-width: ' . $addon_item->hover_border_width_xs . 'px;' : '';
-
-            $icon_style_hover .= (isset($addon_item->hover_border_radius) && $addon_item->hover_border_radius) ? 'border-radius: ' . $addon_item->hover_border_radius . 'px;' : '';
-            $icon_style_hover_sm .= (isset($addon_item->hover_border_radius_sm) && $addon_item->hover_border_radius_sm) ? 'border-radius: ' . $addon_item->hover_border_radius_sm . 'px;' : '';
-            $icon_style_hover_xs .= (isset($addon_item->hover_border_radius_xs) && $addon_item->hover_border_radius_xs) ? 'border-radius: ' . $addon_item->hover_border_radius_xs . 'px;' : '';
-
+            //Item Display
+            $item_display = (isset($settings->item_display) && $settings->item_display) ? 'display: ' . $settings->item_display . ';' : 'display:inline-block;';
 
             $css = '';
             if ($icon_style) {
                 $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' a {';
                 $css .= $icon_style;
                 $css .= $font_size;
-                $css .= "\n" . '}' . "\n";
+                $css .= '}';
             }
 
             if ($gutter_reset) {
                 $css .= $addon_id . ' .sppb-icons-group-list {';
                 $css .= $gutter_reset;
-                $css .= "\n" . '}' . "\n";
+                $css .= '}';
             }
 
             if ($label_style) {
                 $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' .sppb-icons-label-text {';
                 $css .= $label_style;
-                $css .= "\n" . '}' . "\n";
+                $css .= '}';
             }
-
+            if ($item_display) {
+                $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . '{';
+                $css .= $item_display;
+                $css .= '}';
+            }
 
             // Hover
             if ($icon_style_hover) {
                 $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' a:hover {';
                 $css .= $icon_style_hover;
-                $css .= "\n" . '}' . "\n";
+                $css .= '}';
             }
             if (!empty($icon_style_hover_sm) || !empty($icon_style_sm) || !empty($font_size_sm)) {
                 $css .= '@media (min-width: 768px) and (max-width: 991px) {';
@@ -217,26 +201,26 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
                     $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' a {';
                     $css .= $icon_style_sm;
                     $css .= $font_size_sm;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
 
                 if ($gutter_reset_sm) {
                     $css .= $addon_id . ' .sppb-icons-group-list {';
                     $css .= $gutter_reset_sm;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
 
                 if ($label_style_sm) {
                     $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' .sppb-icons-label-text {';
                     $css .= $label_style_sm;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
 
                 // Hover
                 if ($icon_style_hover_sm) {
                     $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' a:hover {';
                     $css .= $icon_style_hover_sm;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
                 $css .= '}';
             }
@@ -246,26 +230,26 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
                     $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' a {';
                     $css .= $icon_style_xs;
                     $css .= $font_size_xs;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
 
                 if ($gutter_reset_xs) {
                     $css .= $addon_id . ' .sppb-icons-group-list {';
                     $css .= $gutter_reset_xs;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
 
                 if ($label_style_xs) {
                     $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' .sppb-icons-label-text {';
                     $css .= $label_style_xs;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
 
                 // Hover
                 if ($icon_style_hover_xs) {
                     $css .= $addon_id . ' .sppb-icons-group-list li#icon-' . $icon_id . ' a:hover {';
                     $css .= $icon_style_hover_xs;
-                    $css .= "\n" . '}' . "\n";
+                    $css .= '}';
                 }
                 $css .= '}';
             }
@@ -299,6 +283,9 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
                         margin: {{ data.margin.md }}px;
                     <# } else { #>
                         margin: {{ data.margin }}px;
+                    <# } #>
+                    <# if(data.item_display){ #>
+                        display: {{data.item_display}};
                     <# } #>
                 }
                 #sppb-addon-{{data.id}} .sppb-icons-group-list li#icon-{{icon_id}} a {
@@ -349,8 +336,32 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
                         font-size: {{ addon_item.label_size.md }}px;
                     <# } else { #>
                         font-size: {{ addon_item.label_size }}px;
-                    <# } #>
-
+                    <# }
+                    if(addon_item.label_letterspace){ #>
+                        letter-spacing: {{ addon_item.label_letterspace }};
+                    <# }
+                    if(_.isObject(addon_item.label_lineheight)){ #>
+                        line-height: {{ addon_item.label_lineheight.md }}px;
+                    <# } else { #>
+                        line-height: {{ addon_item.label_lineheight }}px;
+                    <# }
+                    if(_.isObject(addon_item.label_font_style)){
+						if(addon_item.label_font_style.underline){ #>
+							text-decoration:underline;
+						<# }
+						if(addon_item.label_font_style.italic){
+						#>
+							font-style:italic;
+						<# }
+						if(addon_item.label_font_style.uppercase){
+						#>
+							text-transform:uppercase;
+						<# }
+						if(addon_item.label_font_style.weight){
+						#>
+							font-weight:{{addon_item.label_font_style.weight}};
+						<# }
+					} #>
                     <# if(_.isObject(addon_item.label_margin)){ #>
                         margin: {{ addon_item.label_margin.md }};
                     <# } else { #>
@@ -361,18 +372,6 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
                     background-color: {{addon_item.hover_background}};
                     color: {{addon_item.hover_color}};
                     border-color: {{addon_item.hover_border_color}};
-                    border-color: {{addon_item.hover_border_color}};
-                    <# if(_.isObject(addon_item.hover_border_width)){ #>
-                        border-width: {{ addon_item.hover_border_width.md }};
-                    <# } else { #>
-                        border-width: {{ addon_item.hover_border_width }};
-                    <# } #>
-                    <# if(_.isObject(addon_item.hover_border_radius)){ #>
-                        border-radius: {{ addon_item.hover_border_radius.md }};
-                    <# } else { #>
-                        border-radius: {{ addon_item.hover_border_radius }};
-                    <# } #>
-
                 }
                 @media (min-width: 768px) and (max-width: 991px) {
                     #sppb-addon-{{data.id}} .sppb-icons-group-list {
@@ -411,14 +410,9 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
                         <# } #>
                         <# if(_.isObject(addon_item.label_margin)){ #>
                             margin: {{ addon_item.label_margin.sm }};
-                        <# } #>
-                    }
-                    #sppb-addon-{{data.id}} .sppb-icons-group-list li#icon-{{icon_id}} a:hover {
-                        <# if(_.isObject(addon_item.hover_border_width)){ #>
-                            border-width: {{ addon_item.hover_border_width.sm }};
-                        <# } #>
-                        <# if(_.isObject(addon_item.hover_border_radius)){ #>
-                            border-radius: {{ addon_item.hover_border_radius.sm }};
+                        <# }
+                        if(_.isObject(addon_item.label_lineheight)){ #>
+                            line-height: {{ addon_item.label_lineheight.sm }}px;
                         <# } #>
                     }
                 }
@@ -459,14 +453,9 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
                         <# } #>
                         <# if(_.isObject(addon_item.label_margin)){ #>
                             margin: {{ addon_item.label_margin.xs }};
-                        <# } #>
-                    }
-                    #sppb-addon-{{data.id}} .sppb-icons-group-list li#icon-{{icon_id}} a:hover {
-                        <# if(_.isObject(addon_item.hover_border_width)){ #>
-                            border-width: {{ addon_item.hover_border_width.xs }};
-                        <# } #>
-                        <# if(_.isObject(addon_item.hover_border_radius)){ #>
-                            border-radius: {{ addon_item.hover_border_radius.xs }};
+                        <# }
+                        if(_.isObject(addon_item.label_lineheight)){ #>
+                            line-height: {{ addon_item.label_lineheight.xs }}px;
                         <# } #>
                     }
                 }
@@ -495,7 +484,7 @@ class SppagebuilderAddonIcons_group extends SppagebuilderAddons {
 
                     if (icon_item.icon_link) {
                     #>
-                        <a href="{{icon_item.icon_link}}">
+                        <a href="{{icon_item.icon_link}}" <# if(icon_item.link_open_new_window) { #> rel="noopener noreferrer" target="_blank" <# } #> >
                     <# }
                     if (!_.isEmpty(icon_item.label_position) && icon_item.show_label !== 0 && icon_item.label_position == "top") {
                     #>

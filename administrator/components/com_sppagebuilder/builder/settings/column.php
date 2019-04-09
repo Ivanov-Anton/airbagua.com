@@ -74,16 +74,6 @@ $column_settings = array(
 				)
 			),
 
-			'overlay'=>array(
-				'type'=>'color',
-				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY'),
-				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY_DESC'),
-				'depends'=>array(
-					array('background_type', '=', 'image'),
-					array('background_image', '!=', '')
-				)
-			),
-
 			'background_repeat'=>array(
 				'type'=>'select',
 				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_REPEAT'),
@@ -120,6 +110,7 @@ $column_settings = array(
 			'background_attachment'=>array(
 				'type'=>'select',
 				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_DESC'),
 				'values'=>array(
 					'fixed'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_FIXED'),
 					'scroll'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_ATTACHMENT_SCROLL'),
@@ -150,6 +141,126 @@ $column_settings = array(
 				'depends'=>array(
 					array('background_type', '=', 'image'),
 					array('background_image', '!=', '')
+				)
+			),
+
+			'overlay_type'=>array(
+				'type'=>'buttons',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_CHOOSE'),
+				'std'=>'overlay_color',
+				'values'=>array(
+					array(
+						'label' => 'None',
+						'value' => 'overlay_none'
+					),
+					array(
+						'label' => 'Color',
+						'value' => 'overlay_color'
+					),
+					array(
+						'label' => 'Gradient',
+						'value' => 'overlay_gradient'
+					),
+					array(
+						'label' => 'Pattern',
+						'value' => 'overlay_pattern'
+					)
+				),
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+				),
+			),
+
+			'overlay'=>array(
+				'type'=>'color',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_OVERLAY_DESC'),
+				'depends'=>array(
+					array('background_type', '=', 'image'),
+					array('background_image', '!=', ''),
+					array('overlay_type', '=', 'overlay_color'),
+				)
+			),
+
+			'gradient_overlay'=>array(
+				'type'=>'gradient',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_GRADIENT'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_GRADIENT_DESC'),
+				'std'=> array(
+					"color" => "rgba(127, 0, 255, 0.8)",
+					"color2" => "rgba(225, 0, 255, 0.7)",
+					"deg" => "45",
+					"type" => "linear"
+				),
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('overlay_type', '=', 'overlay_gradient'),
+					array('background_image', '!=', '')
+				)
+			),
+
+			'pattern_overlay'=>array(
+				'type'=>'media',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_DESC'),
+				'std'=> '',
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('overlay_type', '=', 'overlay_pattern'),
+					array('background_image', '!=', '')
+				)
+			),
+
+			'overlay_pattern_color'=>array(
+				'type'=>'color',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_COLOR'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_OVERLAY_PATTERN_COLOR_DESC'),
+				'std'=> '',
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('overlay_type', '=', 'overlay_pattern'),
+					array('pattern_overlay', '!=', ''),
+					array('background_image', '!=', '')
+				)
+			),
+
+			'blend_mode'=>array(
+				'type'=>'select',
+				'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BLEND_MODE'),
+				'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BLEND_MODE_DESC'),
+				'values'=>array(
+					'normal'=>'Normal',
+					'color'=>'Color',
+					'color-burn'=>'Color Burn',
+					'color-dodge'=>'Color Dodge',
+					'darken'=>'Darken',
+					'difference'=>'Difference',
+					'exclusion'=>'Exclusion',
+					'hard-light'=>'Hard Light',
+					'hue'=>'Hue',
+					'lighten'=>'Lighten',
+					'luminosity'=>'Luminosity',
+					'multiply'=>'Multiply',
+					'overlay'=>'Overlay',
+					'saturation'=>'Saturation',
+					'screen'=>'Screen',
+					'soft-light'=>'Soft Light',
+				),
+				'std'=>'normal',
+				'depends'=>array(
+					array('background_type', '!=', 'none'),
+					array('background_type', '!=', 'color'),
+					array('background_type', '!=', 'gradient'),
+					array('background_type', '!=', 'video'),
+					array('overlay_type', '!=', 'overlay_none'),
 				)
 			),
 
@@ -266,6 +377,51 @@ $column_settings = array(
 					'std'		=> '',
 				),
 
+				'order_separator'=>array(
+					'type'=>'separator',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_COLUMN_ORDER_OPTIONS')
+				),
+				'tablet_order'=> array(
+					'type'=> 'select',
+					'title'=> JText::_('COM_SPPAGEBUILDER_GLOBAL_COLUMN_ORDER_TABLET'),
+					'desc'=> JText::_('COM_SPPAGEBUILDER_GLOBAL_COLUMN_ORDER_TABLET_DESC'),
+					'values'=> array(
+						'1' => '1',
+						'2' => '2',
+						'3' => '3',
+						'4' => '4',
+						'5' => '5',
+						'6' => '6',
+						'7' => '7',
+						'8' => '8',
+						'9' => '9',
+						'10' => '10',
+						'11' => '11',
+						'12' => '12',
+					),
+					'std'=> '',
+				),
+				'mobile_order'=> array(
+					'type'=> 'select',
+					'title'=> JText::_('COM_SPPAGEBUILDER_GLOBAL_COLUMN_ORDER_MOBILE'),
+					'desc'=> JText::_('COM_SPPAGEBUILDER_GLOBAL_COLUMN_ORDER_MOBILE_DESC'),
+					'values'=> array(
+						'1' => '1',
+						'2' => '2',
+						'3' => '3',
+						'4' => '4',
+						'5' => '5',
+						'6' => '6',
+						'7' => '7',
+						'8' => '8',
+						'9' => '9',
+						'10' => '10',
+						'11' => '11',
+						'12' => '12',
+					),
+					'std'=> '',
+				),
+
 				'separator'=>array(
 					'type'=>'separator',
 					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_VISIBILITY_OPTIONS')
@@ -315,5 +471,5 @@ $column_settings = array(
 					'placeholder'=>'300',
 				),
 			),
-			)
-		);
+	)
+);

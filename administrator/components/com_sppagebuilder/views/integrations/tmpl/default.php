@@ -49,7 +49,14 @@ $userId		= $user->get('id');
 									if($this->item->state == 0) {
 										$class = "installed";
 									} else if ($this->item->state == 1) {
-										$class = "enabled";
+										$xml = JFactory::getXML(JPATH_SITE .'/plugins/'. $item->plugin->group . '/'. $item->plugin->name .'/'. $item->plugin->name .'.xml');
+										$plug_version = (string)$xml->version;
+										
+										if( $item->version > $plug_version ) {
+											$class = "update";
+										} else {
+											$class = "enabled";
+										}
 									}
 								}
 							}
@@ -64,6 +71,7 @@ $userId		= $user->get('id');
 											<i class="fa fa-check-circle"></i><?php echo $item->title; ?>
 											<div class="sp-pagebuilder-btns">
 												<a class="sp-pagebuilder-btn sp-pagebuilder-btn-success sp-pagebuilder-btn-sm sp-pagebuilder-btn-install" href="#"><i></i>Install</a>
+												<a class="sp-pagebuilder-btn sp-pagebuilder-btn-warning sp-pagebuilder-btn-sm sp-pagebuilder-btn-update" href="#"><i></i>Update</a>
 												<a class="sp-pagebuilder-btn sp-pagebuilder-btn-primary sp-pagebuilder-btn-sm sp-pagebuilder-btn-enable" href="#"><i></i>Enable</a>
 												<a class="sp-pagebuilder-btn sp-pagebuilder-btn-default sp-pagebuilder-btn-sm sp-pagebuilder-btn-disable" href="#"><i></i>Disable</a>
 												<a class="sp-pagebuilder-btn sp-pagebuilder-btn-danger sp-pagebuilder-btn-sm sp-pagebuilder-btn-uninstall" href="#"><i></i>Uninstall</a>

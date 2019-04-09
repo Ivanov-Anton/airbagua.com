@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.0" type="plugin" method="upgrade" group="content">
+    <name>SpeedCache Content</name>
+    <author>Joomunited</author>
+    <creationDate>May 2016</creationDate>
+    <copyright>Joomunited.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>contact@joomunited.com</authorEmail>
+    <authorUrl>www.joomunited.com</authorUrl>
+    <version>2.5.2</version>
+    <description>Joomunited's speed cache plugin</description>
+
+    <files>
+        <filename plugin="speedcache_content">speedcache_content.php</filename>
+        <filename>index.html</filename>
+        <folder>forms</folder>
+    </files>
+
+    <config>
+
+    </config>
+
+</extension>

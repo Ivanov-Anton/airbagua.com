@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 
@@ -12,53 +12,52 @@ defined ('_JEXEC') or die ('Restricted access');
 class SppagebuilderAddonBlocknumber extends SppagebuilderAddons{
 
 	public function render() {
-
-		$class  	= (isset($this->addon->settings->class) && $this->addon->settings->class) ? $this->addon->settings->class : '';
-		$title  	= (isset($this->addon->settings->title) && $this->addon->settings->title) ? $this->addon->settings->title : '';
-		$heading_selector = (isset($this->addon->settings->heading_selector) && $this->addon->settings->heading_selector) ? $this->addon->settings->heading_selector : '';
-		$text     	= (isset($this->addon->settings->text) && $this->addon->settings->text) ? $this->addon->settings->text : '';
-		$number     = (isset($this->addon->settings->number) && $this->addon->settings->number) ? $this->addon->settings->number : '';
-		$alignment  = (isset($this->addon->settings->alignment) && $this->addon->settings->alignment) ? $this->addon->settings->alignment : '';
-		$heading  	= (isset($this->addon->settings->heading) && $this->addon->settings->heading) ? $this->addon->settings->heading : '';
+		$settings = $this->addon->settings;
+		$class  	= (isset($settings->class) && $settings->class) ? $settings->class : '';
+		$title  	= (isset($settings->title) && $settings->title) ? $settings->title : '';
+		$heading_selector = (isset($settings->heading_selector) && $settings->heading_selector) ? $settings->heading_selector : '';
+		$text     	= (isset($settings->text) && $settings->text) ? $settings->text : '';
+		$number     = (isset($settings->number) && $settings->number) ? $settings->number : '';
+		$alignment  = (isset($settings->alignment) && $settings->alignment) ? $settings->alignment : '';
+		$heading  	= (isset($settings->heading) && $settings->heading) ? $settings->heading : '';
 
 		if ($number) {
 			$block_number = '<span class="sppb-blocknumber-number">' . $number . '</span>';
 		}
+		//Output start
+		$output  = '';
+		$output  .= '<div class="sppb-addon sppb-addon-blocknumber ' . $class . '">';
 
-		if($text) {
-			$output  = '<div class="sppb-addon sppb-addon-blocknumber ' . $class . '">';
-
-			if($title) {
-				$output  .= '<' . $heading_selector . ' class="sppb-addon-title">' . $title .'</' . $heading_selector . '>';
-			}
-
-			$output .= '<div class="sppb-addon-content">';
-			$output .= '<div class="sppb-blocknumber sppb-media">';
-			if( $alignment =='center' ) {
-				if ($number) {
-					$output .= '<div class="sppb-text-center">'.$block_number.'</div>';
-				}
-				$output .= '<div class="sppb-media-body sppb-text-center">';
-				if($heading) $output .= '<h3 class="sppb-media-heading">'.$heading.'</h3>';
-				$output .= $text;
-			} else {
-				if ($number) {
-					$output .= '<div class="pull-'.$alignment.'">'.$block_number.'</div>';
-				}
-				$output .= '<div class="sppb-media-body sppb-text-'. $alignment .'">';
-				if($heading) $output .= '<h3 class="sppb-media-heading">'.$heading.'</h3>';
-				$output .= $text;
-			}
-
-			$output .= '</div>'; //.sppb-media-body
-			$output .= '</div>'; //.sppb-media
-			$output .= '</div>'; //.sppb-addon-content
-			$output .= '</div>'; //.sppb-addon-blocknumber
-
-			return $output;
+		if($title) {
+			$output  .= '<' . $heading_selector . ' class="sppb-addon-title">' . $title .'</' . $heading_selector . '>';
 		}
 
-		return ;
+		$output .= '<div class="sppb-addon-content">';
+		$output .= '<div class="sppb-blocknumber sppb-media">';
+		if( $alignment =='center' ) {
+			if ($number) {
+				$output .= '<div class="sppb-text-center">'.$block_number.'</div>';
+			}
+			$output .= '<div class="sppb-media-body sppb-text-center">';
+			if($heading) $output .= '<h3 class="sppb-media-heading">'.$heading.'</h3>';
+			if($text) {
+				$output .= $text;
+			}
+		} else {
+			if ($number) {
+				$output .= '<div class="pull-'.$alignment.'">'.$block_number.'</div>';
+			}
+			$output .= '<div class="sppb-media-body sppb-text-'. $alignment .'">';
+			if($heading) $output .= '<h3 class="sppb-media-heading">'.$heading.'</h3>';
+			$output .= $text;
+		}
+
+		$output .= '</div>'; //.sppb-media-body
+		$output .= '</div>'; //.sppb-media
+		$output .= '</div>'; //.sppb-addon-content
+		$output .= '</div>'; //.sppb-addon-blocknumber
+		
+		return $output;
 	}
 
 	public function css() {
@@ -141,28 +140,28 @@ class SppagebuilderAddonBlocknumber extends SppagebuilderAddons{
 			}
 		</style>
 		<div class="sppb-addon sppb-addon-blocknumber {{ data.class }}">
-			<# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-addon-title">{{{ data.title }}}</{{ data.heading_selector }}><# } #>
+			<# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-addon-title sp-inline-editable-element" data-id={{data.id}} data-fieldName="title" contenteditable="true">{{{ data.title }}}</{{ data.heading_selector }}><# } #>
 			<div class="sppb-addon-content">
 				<div class="sppb-blocknumber sppb-media">
 					<# if( data.alignment == "center" ) { #>
 						<# if(data.number){ #>
-							<div class="sppb-text-center"><span class="sppb-blocknumber-number">{{ data.number }}</span></div>
+							<div class="sppb-text-center"><span class="sppb-blocknumber-number sp-inline-editable-element" data-id={{data.id}} data-fieldName="number" contenteditable="true">{{ data.number }}</span></div>
 						<# } #>
 						<div class="sppb-media-body sppb-text-center">
 							<# if(data.heading){ #>
-								<h3 class="sppb-media-heading">{{{ data.heading }}}</h3>
+								<h3 class="sppb-media-heading sp-inline-editable-element" data-id={{data.id}} data-fieldName="heading" contenteditable="true">{{{ data.heading }}}</h3>
 							<# } #>
-							{{ data.text }}
+							<div class="sp-inline-editable-element" data-id={{data.id}} data-fieldName="text" contenteditable="true">{{ data.text }}</div>
 						</div>
 					<# } else { #>
 						<# if(data.number){ #>
-							<div class="pull-{{ data.alignment }}"><span class="sppb-blocknumber-number">{{ data.number }}</span></div>
+							<div class="pull-{{ data.alignment }}"><span class="sppb-blocknumber-number sp-inline-editable-element" data-id={{data.id}} data-fieldName="number" contenteditable="true">{{ data.number }}</span></div>
 						<# } #>
 						<div class="sppb-media-body sppb-text-{{ data.alignment }}">
 							<# if(data.heading){ #>
-								<h3 class="sppb-media-heading">{{{ data.heading }}}</h3>
+								<h3 class="sppb-media-heading sp-inline-editable-element" data-id={{data.id}} data-fieldName="heading" contenteditable="true">{{{ data.heading }}}</h3>
 							<# } #>
-							{{ data.text }}
+							<div class="sp-inline-editable-element" data-id={{data.id}} data-fieldName="text" contenteditable="true">{{ data.text }}</div>
 						</div>
 					<# } #>
 				</div>

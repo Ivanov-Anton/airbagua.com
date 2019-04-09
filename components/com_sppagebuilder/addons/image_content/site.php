@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -11,33 +11,33 @@ defined ('_JEXEC') or die ('Restricted access');
 class SppagebuilderAddonImage_content extends SppagebuilderAddons{
 
 	public function render() {
-
-		$class = (isset($this->addon->settings->class) && $this->addon->settings->class) ? $this->addon->settings->class : '';
-		$title = (isset($this->addon->settings->title) && $this->addon->settings->title) ? $this->addon->settings->title : '';
-		$heading_selector = (isset($this->addon->settings->heading_selector) && $this->addon->settings->heading_selector) ? $this->addon->settings->heading_selector : 'h3';
+		$settings = $this->addon->settings;
+		$class = (isset($settings->class) && $settings->class) ? $settings->class : '';
+		$title = (isset($settings->title) && $settings->title) ? $settings->title : '';
+		$heading_selector = (isset($settings->heading_selector) && $settings->heading_selector) ? $settings->heading_selector : 'h3';
 
 		//Options
-		$image = (isset($this->addon->settings->image) && $this->addon->settings->image) ? $this->addon->settings->image : '';
-		$image_width = (isset($this->addon->settings->image_width) && $this->addon->settings->image_width) ? $this->addon->settings->image_width : '';
-		$image_alignment = (isset($this->addon->settings->image_alignment) && $this->addon->settings->image_alignment) ? $this->addon->settings->image_alignment : '';
-		$text = (isset($this->addon->settings->text) && $this->addon->settings->text) ? $this->addon->settings->text : '';
-		$button_text = (isset($this->addon->settings->button_text) && $this->addon->settings->button_text) ? $this->addon->settings->button_text : '';
-		$button_url = (isset($this->addon->settings->button_url) && $this->addon->settings->button_url) ? $this->addon->settings->button_url : '';
-		$button_classes = (isset($this->addon->settings->button_size) && $this->addon->settings->button_size) ? ' sppb-btn-' . $this->addon->settings->button_size : '';
-		$button_classes .= (isset($this->addon->settings->button_type) && $this->addon->settings->button_type) ? ' sppb-btn-' . $this->addon->settings->button_type : '';
-		$button_classes .= (isset($this->addon->settings->button_shape) && $this->addon->settings->button_shape) ? ' sppb-btn-' . $this->addon->settings->button_shape: ' sppb-btn-rounded';
-		$button_classes .= (isset($this->addon->settings->button_appearance) && $this->addon->settings->button_appearance) ? ' sppb-btn-' . $this->addon->settings->button_appearance : '';
-		$button_classes .= (isset($this->addon->settings->button_block) && $this->addon->settings->button_block) ? ' ' . $this->addon->settings->button_block : '';
-		$button_icon = (isset($this->addon->settings->button_icon) && $this->addon->settings->button_icon) ? $this->addon->settings->button_icon : '';
-		$button_icon_position = (isset($this->addon->settings->button_icon_position) && $this->addon->settings->button_icon_position) ? $this->addon->settings->button_icon_position: 'left';
-		$button_position = (isset($this->addon->settings->button_position) && $this->addon->settings->button_position) ? $this->addon->settings->button_position : '';
-		$button_attribs = (isset($this->addon->settings->button_target) && $this->addon->settings->button_target) ? ' target="' . $this->addon->settings->button_target . '"' : '';
-		$button_attribs .= (isset($this->addon->settings->button_url) && $this->addon->settings->button_url) ? ' href="' . $this->addon->settings->button_url . '"' : '';
+		$image = (isset($settings->image) && $settings->image) ? $settings->image : '';
+		$image_width = (isset($settings->image_width) && $settings->image_width) ? $settings->image_width : '';
+		$image_alignment = (isset($settings->image_alignment) && $settings->image_alignment) ? $settings->image_alignment : '';
+		$text = (isset($settings->text) && $settings->text) ? $settings->text : '';
+		$button_text = (isset($settings->button_text) && $settings->button_text) ? $settings->button_text : '';
+		$button_url = (isset($settings->button_url) && $settings->button_url) ? $settings->button_url : '';
+		$button_classes = (isset($settings->button_size) && $settings->button_size) ? ' sppb-btn-' . $settings->button_size : '';
+		$button_classes .= (isset($settings->button_type) && $settings->button_type) ? ' sppb-btn-' . $settings->button_type : '';
+		$button_classes .= (isset($settings->button_shape) && $settings->button_shape) ? ' sppb-btn-' . $settings->button_shape: ' sppb-btn-rounded';
+		$button_classes .= (isset($settings->button_appearance) && $settings->button_appearance) ? ' sppb-btn-' . $settings->button_appearance : '';
+		$button_classes .= (isset($settings->button_block) && $settings->button_block) ? ' ' . $settings->button_block : '';
+		$button_icon = (isset($settings->button_icon) && $settings->button_icon) ? $settings->button_icon : '';
+		$button_icon_position = (isset($settings->button_icon_position) && $settings->button_icon_position) ? $settings->button_icon_position: 'left';
+		$button_position = (isset($settings->button_position) && $settings->button_position) ? $settings->button_position : '';
+		$button_attribs = (isset($settings->button_target) && $settings->button_target) ? ' rel="noopener noreferrer" target="' . $settings->button_target . '"' : '';
+		$button_attribs .= (isset($settings->button_url) && $settings->button_url) ? ' href="' . $settings->button_url . '"' : '';
 
 		if($button_icon_position == 'left') {
-			$button_text = ($button_icon) ? '<i class="fa ' . $button_icon . '"></i> ' . $button_text : $button_text;
+			$button_text = ($button_icon) ? '<i class="fa ' . $button_icon . '" aria-hidden="true"></i> ' . $button_text : $button_text;
 		} else {
-			$button_text = ($button_icon) ? $button_text . ' <i class="fa ' . $button_icon . '"></i>' : $button_text;
+			$button_text = ($button_icon) ? $button_text . ' <i class="fa ' . $button_icon . '" aria-hidden="true"></i>' : $button_text;
 		}
 
 		$button_output = !empty($button_text) ? '<a' . $button_attribs . ' id="btn-'. $this->addon->id .'" class="sppb-btn' . $button_classes . '">' . $button_text . '</a>' : '';
@@ -54,9 +54,9 @@ class SppagebuilderAddonImage_content extends SppagebuilderAddons{
 
 			//Image
 			if(strpos($image, 'http://') !== false || strpos($image, 'https://') !== false){
-				$output .= '<div style="background-image: url(' . $image . ');" class="sppb-image-holder">';
+				$output .= '<div class="sppb-image-holder" style="background-image: url(' . $image . ');" role="img" aria-label="'. strip_tags($title) .'">';
 			} else {
-				$output .= '<div style="background-image: url(' . JURI::base(true) . '/' . $image . ');" class="sppb-image-holder">';
+				$output .= '<div class="sppb-image-holder" style="background-image: url(' . JURI::base(true) . '/' . $image . ');" role="img" aria-label="'. strip_tags($title) .'">';
 			}
 			$output .= '</div>';
 
@@ -92,18 +92,19 @@ class SppagebuilderAddonImage_content extends SppagebuilderAddons{
 		$addon_id = '#sppb-addon-' . $this->addon->id;
 		$layout_path = JPATH_ROOT . '/components/com_sppagebuilder/layouts';
 		$css_path = new JLayoutFile('addon.css.button', $layout_path);
+		$settings = $this->addon->settings;
 		$css = '';
 
-		$padding = (isset($this->addon->settings->content_padding)) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->content_padding, 'padding') : '';
-		$padding_sm = (isset($this->addon->settings->content_padding_sm)) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->content_padding_sm, 'padding') : '';
-		$padding_xs = (isset($this->addon->settings->content_padding_xs)) ? SppagebuilderHelperSite::getPaddingMargin($this->addon->settings->content_padding_xs, 'padding') : '';
+		$padding = (isset($settings->content_padding)) ? SppagebuilderHelperSite::getPaddingMargin($settings->content_padding, 'padding') : '';
+		$padding_sm = (isset($settings->content_padding_sm)) ? SppagebuilderHelperSite::getPaddingMargin($settings->content_padding_sm, 'padding') : '';
+		$padding_xs = (isset($settings->content_padding_xs)) ? SppagebuilderHelperSite::getPaddingMargin($settings->content_padding_xs, 'padding') : '';
 
 		
 		$css .= (!empty($padding)) ? $addon_id .' .sppb-addon-image-content .sppb-content-holder{'.$padding.'}' : '';
 		$css .= (!empty($padding_sm)) ? '@media (min-width: 768px) and (max-width: 991px) {'.$addon_id.' .sppb-addon-image-content .sppb-content-holder{'.$padding_sm.'}}' : '';
 		$css .= (!empty($padding_xs)) ? '@media (max-width: 767px) {'.$addon_id.' .sppb-addon-image-content .sppb-content-holder{'.$padding_xs.'}}' : '';
 
-		$css .= $css_path->render(array('addon_id' => $addon_id, 'options' => $this->addon->settings, 'id' => 'btn-' . $this->addon->id));
+		$css .= $css_path->render(array('addon_id' => $addon_id, 'options' => $settings, 'id' => 'btn-' . $this->addon->id));
 
 		return $css;
 	}
@@ -147,7 +148,7 @@ class SppagebuilderAddonImage_content extends SppagebuilderAddons{
 				button_classes = button_classes + " " + data.button_block;
 			}
 
-			var button_fontstyle = data.button_fontstyle || "";
+			var button_fontstyle = data.button_font_style || "";
 
 			var padding = "";
 			var padding_sm = "";
@@ -181,7 +182,6 @@ class SppagebuilderAddonImage_content extends SppagebuilderAddons{
 						}).join(" ")
 					}
 				}
-
 			}
 		#>
 		<style type="text/css">
@@ -200,24 +200,34 @@ class SppagebuilderAddonImage_content extends SppagebuilderAddons{
 				<# if(typeof data.button_margin_top !== "undefined" && typeof data.button_margin_top.md !== "undefined"){ #>
 					margin-top: {{ data.button_margin_top.md }}px;
 				<# } #>
-				<# if(_.isArray(button_fontstyle)) { #>
-					<# if(button_fontstyle.indexOf("underline") !== -1){ #>
+				<# if(_.isObject(button_fontstyle)) { #>
+					<# if(button_fontstyle.underline == 1){ #>
 						text-decoration: underline;
 					<# } #>
-					<# if(button_fontstyle.indexOf("uppercase") !== -1){ #>
+					<# if(button_fontstyle.uppercase == 1){ #>
 						text-transform: uppercase;
 					<# } #>
-					<# if(button_fontstyle.indexOf("italic") !== -1){ #>
+					<# if(button_fontstyle.italic == 1){ #>
 						font-style: italic;
 					<# } #>
-					<# if(button_fontstyle.indexOf("lighter") !== -1){ #>
-						font-weight: lighter;
-					<# } else if(button_fontstyle.indexOf("normal") !== -1){#>
-						font-weight: normal;
-					<# } else if(button_fontstyle.indexOf("bold") !== -1){#>
-						font-weight: bold;
-					<# } else if(button_fontstyle.indexOf("bolder") !== -1){#>
-						font-weight: bolder;
+					<# if(button_fontstyle.weight == 100){ #>
+						font-weight: 100;
+					<# } else if(button_fontstyle.weight == 200){#>
+						font-weight: 200;
+					<# } else if(button_fontstyle.weight == 300){#>
+						font-weight: 300;
+					<# } else if(button_fontstyle.weight == 400){#>
+						font-weight: 400;
+					<# } else if(button_fontstyle.weight == 500){#>
+						font-weight: 500;
+					<# } else if(button_fontstyle.weight == 600){#>
+						font-weight: 600;
+					<# } else if(button_fontstyle.weight == 700){#>
+						font-weight: 700;
+					<# } else if(button_fontstyle.weight == 800){#>
+						font-weight: 800;
+					<# } else if(button_fontstyle.weight == 900){#>
+						font-weight: 900;
 					<# } #>
 				<# } #>
 			}
@@ -287,9 +297,11 @@ class SppagebuilderAddonImage_content extends SppagebuilderAddons{
 					<# } #>
 					<div class="sppb-col-sm-6 {{ content_class }}">
 						<div class="sppb-content-holder">
-							<# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-image-content-title sppb-addon-title">{{ data.title }}</{{ data.heading_selector }}><# } #>
-							<# if(data.text){ #><p class="sppb-image-content-text">{{{ data.text }}}</p><# } #>
-							<a href=\'{{ data.button_url }}\' target="{{ data.button_target }}" id="btn-{{ data.id }}" class="sppb-btn {{ button_classes }}">{{{ button_text }}}</a>
+                            <# if( !_.isEmpty( data.title ) ){ #><{{ data.heading_selector }} class="sppb-image-content-title sppb-addon-title sp-inline-editable-element" data-id={{data.id}} data-fieldName="title" contenteditable="true">{{ data.title }}</{{ data.heading_selector }}><# } #>
+                            <# if(data.text){ #><p id="addon-text-{{data.id}}" class="sppb-image-content-text sp-editable-content" data-id={{data.id}} data-fieldName="text">{{{ data.text }}}</p><# } #>
+						    <# if(button_text){ #>
+                                <a href=\'{{ data.button_url }}\' target="{{ data.button_target }}" id="btn-{{ data.id }}" class="sppb-btn {{ button_classes }}">{{{ button_text }}}</a>
+                            <# } #>
 						</div>
 					</div>
 				</div>

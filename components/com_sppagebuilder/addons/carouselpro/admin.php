@@ -2,11 +2,11 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2018 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
-defined ('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die('Restricted access');
 
 SpAddonsConfig::addonConfig(
 	array(
@@ -23,6 +23,15 @@ SpAddonsConfig::addonConfig(
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_ADMIN_LABEL'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_ADMIN_LABEL_DESC'),
 					'std'=> ''
+				),
+
+				'carousel_height'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_PRO_HEIGHT'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_PRO_HEIGHT_DESC'),
+					'max'=>2500,
+					'responsive'=>true,
+					'std'=>array('md'=>''),
 				),
 
 				'autoplay'=>array(
@@ -63,7 +72,7 @@ SpAddonsConfig::addonConfig(
 					),
 					'std'=>1,
 				),
-
+				//Arrow Controller
 				'arrows'=>array(
 					'type'=>'checkbox',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_SHOW_ARROWS'),
@@ -74,24 +83,203 @@ SpAddonsConfig::addonConfig(
 					),
 					'std'=>1,
 				),
+				'arrow_position'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_PRO_ARROWS_POSITION'),
+					'values'=>array(
+						'default'=>'Default',
+						'bottom-left'=> JText::_('COM_SPPAGEBUILDER_ADDON_BOTTOM_LEFT'),
+						'bottom-center'=> JText::_('COM_SPPAGEBUILDER_ADDON_BOTTOM_CENTER'),
+						'bottom-right'=> JText::_('COM_SPPAGEBUILDER_ADDON_BOTTOM_RIGHT'),
+					),
+					'std'=>'default',
+					'depends'=> array(
+						array('arrows', '=', 1),
+					)
+				),
+				'arrow_icon'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_PRO_ARROWS_ICON'),
+					'values'=>array(
+						'angle'=>'Angle',
+						'angle_dubble'=>'Angle Dubble',
+						'arrow'=>'Arrow',
+						'arrow_circle'=>'Arrow Circle',
+						'long_arrow'=>'Long Arrow',
+						'chevron'=>'Chevron',
+					),
+					'std'=>'bottom-left',
+					'depends'=> array(
+						array('arrows', '=', 1),
+					)
+				),
 
-				'class'=>array(
-					'type'=>'text',
-					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CLASS'),
-					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CLASS_DESC'),
-					'std'=>''
+				'arrow_style'=>array(
+					'type'=>'buttons',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TESTIMONIAL_PRO_ARROWS_STYLE'),
+					'std'=>'normal_arrow',
+					'values'=>array(
+						array(
+							'label' => 'Normal Arrow',
+							'value' => 'normal_arrow'
+						),
+						array(
+							'label' => 'Hover Arrow',
+							'value' => 'hover_arrow'
+						)
+					),
+					'depends'=>array(
+						array('arrows', '=', 1),
+					),
+				),
+				'arrow_height'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_HEIGHT'),
+					'std'=>'',
+					'max'=>200,
+					'min'=>10,
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				'arrow_width'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_WIDTH'),
+					'std'=>'',
+					'max'=>200,
+					'min'=>10,
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				'arrow_background'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR'),
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				'arrow_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR'),
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+					)
+				),
+				'arrow_font_size'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_FONT_SIZE'),
+					'max'=> 100,
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+					)
+				),
+				'arrow_border_width'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_WIDTH'),
+					'max'=> 20,
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				'arrow_border_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR'),
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				'arrow_border_radius'=>array(
+					'type'=>'slider',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_RADIUS'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_RADIUS_DESC'),
+					'max'=> 1000,
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				'arrow_margin'=>array(
+					'type'=>'margin',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_MARGIN'),
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'normal_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				//Arrow hover
+				'arrow_hover_background'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BACKGROUND_COLOR_HOVER'),
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'hover_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
+				),
+				'arrow_hover_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_COLOR_HOVER'),
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'hover_arrow'),
+					)
+				),
+				'arrow_hover_border_color'=>array(
+					'type'=>'color',
+					'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BORDER_COLOR_HOVER'),
+					'std'=>'',
+					'depends'=> array(
+						array('arrows', '=', 1),
+						array('arrow_style', '=', 'hover_arrow'),
+						array('arrow_position', '!=', 'default'),
+					)
 				),
 
 				// Repeatable Items
 				'sp_carouselpro_item'=>array(
 					'title'=> JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEMS'),
 					'attr'=>  array(
+						//Title
+						'title_separetor'=>array(
+							'type'=>'separator',
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_TITLE_OPTIONS'),
+						),
 
 						'title'=>array(
 							'type'=>'text',
 							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_TITLE'),
 							'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_TITLE_DESC'),
 							'std'=>'Carousel Item Title',
+						),
+
+						'title_color'=>array(
+							'type'=>'color',
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_TITLE_COLOR'),
+							'std'=>'#000',
 						),
 
 						'title_font_family'=>array(
@@ -101,7 +289,7 @@ SpAddonsConfig::addonConfig(
 							'selector'=> array(
 								'type'=>'font',
 								'font'=>'{{ VALUE }}',
-								'css'=>' h2 { font-family: {{ VALUE }}; }'
+								'css'=>' h2 { font-family: "{{ VALUE }}"; }'
 							)
 						),
 
@@ -121,10 +309,38 @@ SpAddonsConfig::addonConfig(
 							'responsive' => true
 						),
 
-						'title_color'=>array(
-							'type'=>'color',
-							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_TITLE_COLOR'),
-							'std'=>'#fff',
+						'title_fontstyle'=>array(
+							'type'=>'fontstyle',
+							'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_TITLE_FONT_STYLE'),
+						),
+						
+						'title_letterspace'=>array(
+							'type'=>'select',
+							'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LETTER_SPACING'),
+							'values'=>array(
+								'-10px'=> '-10px',
+								'-9px'=>  '-9px',
+								'-8px'=>  '-8px',
+								'-7px'=>  '-7px',
+								'-6px'=>  '-6px',
+								'-5px'=>  '-5px',
+								'-4px'=>  '-4px',
+								'-3px'=>  '-3px',
+								'-2px'=>  '-2px',
+								'-1px'=>  '-1px',
+								'0'=> 'Default',
+								'1px'=> '1px',
+								'2px'=> '2px',
+								'3px'=> '3px',
+								'4px'=> '4px',
+								'5px'=> '5px',
+								'6px'=>	'6px',
+								'7px'=>	'7px',
+								'8px'=>	'8px',
+								'9px'=>	'9px',
+								'10px'=> '10px'
+							),
+							'std'=>'0'
 						),
 
 						'title_margin'=>array(
@@ -133,7 +349,12 @@ SpAddonsConfig::addonConfig(
 							'std'=>array('md'=>'0px 0px 0px 0px', 'sm'=>'0px 0px 0px 0px', 'xs'=>'0px 0px 0px 0px'),
 							'responsive' => true
 						),
-
+						//Content 
+						'content_separetor'=>array(
+							'type'=>'separator',
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_OPTIONS'),
+						),
+						
 						'content'=>array(
 							'type'=>'editor',
 							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_CONTENT'),
@@ -143,12 +364,12 @@ SpAddonsConfig::addonConfig(
 
 						'content_font_family'=>array(
 							'type'=>'fonts',
-							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_CONTENT_FONT_FAMILY'),
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_FONT_FAMILY'),
 							'depends'=>array(array('content', '!=', '')),
 							'selector'=> array(
 								'type'=>'font',
 								'font'=>'{{ VALUE }}',
-								'css'=>' .sppb-carousel-pro-text .sppb-carousel-content { font-family: {{ VALUE }}; }'
+								'css'=>' .sppb-carousel-pro-text .sppb-carousel-content { font-family: "{{ VALUE }}"; }'
 							)
 						),
 
@@ -168,11 +389,32 @@ SpAddonsConfig::addonConfig(
 							'responsive' => true
 						),
 
+						'content_fontweight'=>array(
+							'type'=>'select',
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_FONTWEIGHT'),
+							'values'=>array(
+								100=>100,
+								200=>200,
+								300=>300,
+								400=>400,
+								500=>500,
+								600=>600,
+								700=>700,
+								800=>800,
+								900=>900,
+							),
+						),
+
 						'content_margin'=>array(
 							'type'=>'margin',
-							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ITEM_CONTENT_MARGIN'),
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CONTENT_MARGIN'),
 							'std'=>array('md'=>'0px 0px 0px 0px', 'sm'=>'0px 0px 0px 0px', 'xs'=>'0px 0px 0px 0px'),
 							'responsive' => true
+						),
+						//BG and Caption
+						'caption_separetor'=>array(
+							'type'=>'separator',
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_BG_CAPTION_OPTIONS'),
 						),
 
 						'bg'=>array(
@@ -180,7 +422,7 @@ SpAddonsConfig::addonConfig(
 							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ADVANCED_ITEM_BACKGROUND_IMAGE'),
 							'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ADVANCED_ITEM_BACKGROUND_IMAGE_DESC'),
 						),
-
+						
 						'image'=>array(
 							'type'=>'media',
 							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ADVANCED_ITEM_IMAGE'),
@@ -194,11 +436,47 @@ SpAddonsConfig::addonConfig(
 						),
 
 						//Button
+						'btn_separetor'=>array(
+							'type'=>'separator',
+							'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_BUTTON_OPTIONS'),
+						),
+
 						'button_text'=>array(
 							'type'=>'text',
 							'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_TEXT'),
 							'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_TEXT_DESC'),
 							'std'=>'Button Text',
+						),
+
+						'button_type'=>array(
+							'type'=>'select',
+							'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_STYLE'),
+							'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_STYLE_DESC'),
+							'values'=>array(
+								'default'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_DEFAULT'),
+								'primary'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PRIMARY'),
+								'success'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_SUCCESS'),
+								'info'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_INFO'),
+								'warning'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_WARNING'),
+								'danger'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_DANGER'),
+								'link'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LINK'),
+								'custom'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_CUSTOM'),
+							),
+							'std'=>'default',
+							'depends'=> array(
+								array('button_text', '!=', ''),
+							)
+						),
+
+						'fontsize' => array(
+							'type' => 'slider',
+							'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_FONT_SIZE'),
+							'std' => array('md' => 16),
+							'responsive' => true,
+							'max' => 400,
+							'depends' => array(
+								array('button_type', '=', 'custom'),
+							)
 						),
 
 						'button_font_style'=>array(
@@ -251,26 +529,6 @@ SpAddonsConfig::addonConfig(
 								''=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET_SAME_WINDOW'),
 								'_blank'=>JText::_('COM_SPPAGEBUILDER_ADDON_GLOBAL_TARGET_NEW_WINDOW'),
 							),
-							'depends'=> array(
-								array('button_text', '!=', ''),
-							)
-						),
-
-						'button_type'=>array(
-							'type'=>'select',
-							'title'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_STYLE'),
-							'desc'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_BUTTON_STYLE_DESC'),
-							'values'=>array(
-								'default'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_DEFAULT'),
-								'primary'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_PRIMARY'),
-								'success'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_SUCCESS'),
-								'info'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_INFO'),
-								'warning'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_WARNING'),
-								'danger'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_DANGER'),
-								'link'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_LINK'),
-								'custom'=>JText::_('COM_SPPAGEBUILDER_GLOBAL_CUSTOM'),
-							),
-							'std'=>'default',
 							'depends'=> array(
 								array('button_text', '!=', ''),
 							)
@@ -354,6 +612,18 @@ SpAddonsConfig::addonConfig(
 								array('button_text', '!=', ''),
 							)
 						),
+						
+						'button_padding' => array(
+							'type' => 'padding',
+							'title' => JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING'),
+							'desc' => JText::_('COM_SPPAGEBUILDER_GLOBAL_PADDING_DESC'),
+							'std' => '',
+							'depends' => array(
+								array('button_type', '=', 'custom'),
+								array('button_status', '=', 'normal'),
+							),
+							'responsive'=>true,
+						),
 
 						'button_background_color_hover'=>array(
 							'type'=>'color',
@@ -410,6 +680,7 @@ SpAddonsConfig::addonConfig(
 							),
 							'depends'=> array(
 								array('button_text', '!=', ''),
+								array('button_type', '!=', 'custom'),
 							)
 						),
 
@@ -462,6 +733,47 @@ SpAddonsConfig::addonConfig(
 						),
 
 					),
+				),
+				//Container Column
+				'full_container'=>array(
+					'type'=>'checkbox',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_NO_CONTAINER'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_NO_CONTAINER_DESC'),
+					'std'=>0,
+				),
+
+				'content_column'=>array(
+					'type'=>'select',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_CONTENT_COLUMN'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_CONTENT_COLUMN_DESC'),
+					'values'=>array(
+						1=>1,
+						2=>2,
+						3=>3,
+						4=>4,
+						5=>5,
+						6=>6,
+						7=>7,
+						8=>8,
+						9=>9,
+						10=>10,
+						11=>11,
+						12=>12,
+					),
+				),
+
+				'item_padding'=>array(
+					'type'=>'padding',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CAROUSEL_ADVANCED_ITEM_PADDING'),
+					'std'=>array('md'=>'', 'sm'=>'', 'xs'=>''),
+					'responsive' => true
+				),
+
+				'class'=>array(
+					'type'=>'text',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_CLASS'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_CLASS_DESC'),
+					'std'=>''
 				),
 			),
 		),

@@ -45,6 +45,7 @@ structure:
     attributes:
       boxed: ''
       class: ''
+      variations: ''
   intro:
     type: section
     attributes:
@@ -100,60 +101,74 @@ content:
       autoplaySpeed: '4000'
       items:
         -
+          class: ''
           image: 'gantry-media://intro/000.jpg'
           title: ''
           desc: ''
           link: ''
           linktext: ''
           buttonclass: button-outline
+          disable: '0'
           name: '1'
         -
+          class: ''
           image: 'gantry-media://intro/001.jpg'
           title: ''
           desc: ''
           link: ''
           linktext: ''
           buttonclass: button-outline
+          disable: '0'
           name: '2'
         -
+          class: ''
           image: 'gantry-media://intro/002.jpg'
           title: ''
           desc: ''
           link: ''
           linktext: ''
           buttonclass: button-outline
+          disable: '0'
           name: '3'
         -
+          class: ''
           image: 'gantry-media://intro/003.jpg'
           title: ''
           desc: ''
           link: ''
           linktext: ''
           buttonclass: button-outline
+          disable: '0'
           name: '4'
         -
+          class: ''
           image: 'gantry-media://intro/004.jpg'
           title: ''
           desc: ''
           link: ''
           linktext: ''
           buttonclass: button-outline
+          disable: '0'
           name: '5'
         -
+          class: ''
           image: 'gantry-media://intro/005.jpg'
           title: ''
           desc: ''
           link: ''
           linktext: ''
           buttonclass: button-outline
+          disable: '0'
           name: '6'
         -
+          class: ''
           image: 'gantry-media://intro/006.jpg'
           title: ''
           desc: ''
           link: ''
           linktext: ''
           buttonclass: button-outline
+          disable: '0'
           name: '7'
   custom-5807:
     title: Intro
@@ -212,7 +227,7 @@ content:
     attributes:
       url: ''
       target: _self
-      image: 'gantry-media://manutenção-veicular.png'
+      image: 'gantry-media://445646.jpg'
       link: '0'
       svg: ''
       class: ''

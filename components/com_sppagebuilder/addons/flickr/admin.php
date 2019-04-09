@@ -57,7 +57,7 @@ SpAddonsConfig::addonConfig(
 					'selector'=> array(
 						'type'=>'font',
 						'font'=>'{{ VALUE }}',
-						'css'=>'.sppb-addon-title { font-family: {{ VALUE }}; }'
+						'css'=>'.sppb-addon-title { font-family: "{{ VALUE }}"; }'
 					)
 				),
 
@@ -142,6 +142,13 @@ SpAddonsConfig::addonConfig(
 					'type'=>'text',
 					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FLICKR_ID'),
 					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_FLICKR_ID_DESC'),
+					'std'=>'',
+				),
+
+				'api'=>array(
+					'type'=>'text',
+					'title'=>JText::_('COM_SPPAGEBUILDER_ADDON_FLICKR_API'),
+					'desc'=>JText::_('COM_SPPAGEBUILDER_ADDON_FLICKR_API_DESC'),
 					'std'=>'',
 				),
 

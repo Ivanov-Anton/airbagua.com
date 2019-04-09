@@ -3,7 +3,7 @@
 /**
 * @package SP Page Builder
 * @author JoomShaper http://www.joomshaper.com
-* @copyright Copyright (c) 2010 - 2016 JoomShaper
+* @copyright Copyright (c) 2010 - 2019 JoomShaper
 * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
@@ -12,17 +12,17 @@ defined('_JEXEC') or die('Restricted access');
 class SppagebuilderAddonHeading extends SppagebuilderAddons {
 
     public function render() {
-
-        $class = (isset($this->addon->settings->class) && $this->addon->settings->class) ? ' ' . $this->addon->settings->class : '';
-        $class .= (isset($this->addon->settings->alignment) && $this->addon->settings->alignment) ? ' ' . $this->addon->settings->alignment : ' sppb-text-center';
-        $title = (isset($this->addon->settings->title) && $this->addon->settings->title) ? $this->addon->settings->title : '';
-        $heading_selector = (isset($this->addon->settings->heading_selector) && $this->addon->settings->heading_selector) ? $this->addon->settings->heading_selector : 'h2';
-        $use_link = (isset($this->addon->settings->use_link) && $this->addon->settings->use_link) ? $this->addon->settings->use_link : false;
-        $title_link = ($use_link) ? ((isset($this->addon->settings->title_link) && $this->addon->settings->title_link) ? $this->addon->settings->title_link : '') : false;
-        $link_target = (isset($this->addon->settings->link_new_tab) && $this->addon->settings->link_new_tab) ? 'target="_blank"' : '';
-        $title_icon = (isset($this->addon->settings->title_icon) && $this->addon->settings->title_icon) ? $this->addon->settings->title_icon : '';
-        $title_icon_position = (isset($this->addon->settings->title_icon_position) && $this->addon->settings->title_icon_position) ? $this->addon->settings->title_icon_position : 'before';
-        $title_icon_color = (isset($this->addon->settings->title_icon_color) && $this->addon->settings->title_icon_color) ? $this->addon->settings->title_icon_color : '';
+        $settings = $this->addon->settings;
+        $class = (isset($settings->class) && $settings->class) ? ' ' . $settings->class : '';
+        $class .= (isset($settings->alignment) && $settings->alignment) ? ' ' . $settings->alignment : ' sppb-text-center';
+        $title = (isset($settings->title) && $settings->title) ? $settings->title : '';
+        $heading_selector = (isset($settings->heading_selector) && $settings->heading_selector) ? $settings->heading_selector : 'h2';
+        $use_link = (isset($settings->use_link) && $settings->use_link) ? $settings->use_link : false;
+        $title_link = ($use_link) ? ((isset($settings->title_link) && $settings->title_link) ? $settings->title_link : '') : false;
+        $link_target = (isset($settings->link_new_tab) && $settings->link_new_tab) ? 'rel="noopener noreferrer" target="_blank"' : '';
+        $title_icon = (isset($settings->title_icon) && $settings->title_icon) ? $settings->title_icon : '';
+        $title_icon_position = (isset($settings->title_icon_position) && $settings->title_icon_position) ? $settings->title_icon_position : 'before';
+        $title_icon_color = (isset($settings->title_icon_color) && $settings->title_icon_color) ? $settings->title_icon_color : '';
 
         $output = '';
         if($title) {
@@ -30,11 +30,11 @@ class SppagebuilderAddonHeading extends SppagebuilderAddons {
             $output .= ($title_link) ? '<a '. $link_target .' href="'. $title_link .'">' : '';
             $output .= '<'.$heading_selector.' class="sppb-addon-title">';
             if($title_icon && $title_icon_position == 'before') {
-                $output .= '<span class="fa '. $title_icon . ' sppb-addon-title-icon"></span> ';
+                $output .= '<span class="fa '. $title_icon . ' sppb-addon-title-icon" aria-hidden="true"></span> ';
             }
             $output .= nl2br($title);
             if($title_icon && $title_icon_position == 'after') {
-                $output .= ' <span class="fa '. $title_icon . ' sppb-addon-title-icon"></span>';
+                $output .= ' <span class="fa '. $title_icon . ' sppb-addon-title-icon" aria-hidden="true"></span>';
             }
             $output .= '</'.$heading_selector.'>';
             $output .= ($title_link) ? '</a>' : '';
@@ -46,36 +46,36 @@ class SppagebuilderAddonHeading extends SppagebuilderAddons {
 
     public function css() {
         $addon_id = '#sppb-addon-' . $this->addon->id;
+        $settings = $this->addon->settings;
 
         $style = '';
         $style_sm = '';
         $style_xs = '';
 
-        $style .= (isset($this->addon->settings->title_margin) && $this->addon->settings->title_margin) ? 'margin: ' . $this->addon->settings->title_margin  . '; ' : '';
-        $style_sm .= (isset($this->addon->settings->title_margin_sm) && $this->addon->settings->title_margin_sm) ? 'margin: ' . $this->addon->settings->title_margin_sm  . '; ' : '';
-        $style_xs .= (isset($this->addon->settings->title_margin_xs) && $this->addon->settings->title_margin_xs) ? 'margin: ' . $this->addon->settings->title_margin_xs  . '; ' : '';
+        $style .= (isset($settings->title_margin) && trim($settings->title_margin)) ? 'margin: ' . $settings->title_margin  . '; ' : '';
+        $style .= (isset($settings->title_text_transform) && trim($settings->title_text_transform)) ? 'text-transform: ' . $settings->title_text_transform  . '; ' : '';
+        $style_sm .= (isset($settings->title_margin_sm) && trim($settings->title_margin_sm)) ? 'margin: ' . $settings->title_margin_sm  . '; ' : '';
+        $style_xs .= (isset($settings->title_margin_xs) && trim($settings->title_margin_xs)) ? 'margin: ' . $settings->title_margin_xs  . '; ' : '';
 
-        $style .= (isset($this->addon->settings->title_padding) && $this->addon->settings->title_padding) ? 'padding: ' . $this->addon->settings->title_padding  . '; ' : '';
-        $style_sm .= (isset($this->addon->settings->title_padding_sm) && $this->addon->settings->title_padding_sm) ? 'padding: ' . $this->addon->settings->title_padding_sm  . '; ' : '';
-        $style_xs .= (isset($this->addon->settings->title_padding_xs) && $this->addon->settings->title_padding_xs) ? 'padding: ' . $this->addon->settings->title_padding_xs  . '; ' : '';
+        $style .= (isset($settings->title_padding) && trim($settings->title_padding)) ? 'padding: ' . $settings->title_padding  . '; ' : '';
+        $style_sm .= (isset($settings->title_padding_sm) && trim($settings->title_padding_sm)) ? 'padding: ' . $settings->title_padding_sm  . '; ' : '';
+        $style_xs .= (isset($settings->title_padding_xs) && trim($settings->title_padding_xs)) ? 'padding: ' . $settings->title_padding_xs  . '; ' : '';
 
-        $heading_selector = (isset($this->addon->settings->heading_selector) && $this->addon->settings->heading_selector) ? $this->addon->settings->heading_selector : 'h2';
+        $heading_selector = (isset($settings->heading_selector) && $settings->heading_selector) ? $settings->heading_selector : 'h2';
 
-        $title_icon = (isset($this->addon->settings->title_icon) && $this->addon->settings->title_icon) ? $this->addon->settings->title_icon : '';
-        $title_icon_color = (isset($this->addon->settings->title_icon_color) && $this->addon->settings->title_icon_color) ? $this->addon->settings->title_icon_color : '';
+        $title_icon = (isset($settings->title_icon) && $settings->title_icon) ? $settings->title_icon : '';
+        $title_icon_color = (isset($settings->title_icon_color) && $settings->title_icon_color) ? $settings->title_icon_color : '';
 
-        if(isset($this->addon->settings->title_text_shadow) && is_object($this->addon->settings->title_text_shadow)){
-            $ho = (isset($this->addon->settings->title_text_shadow->ho) && $this->addon->settings->title_text_shadow->ho != '') ? $this->addon->settings->title_text_shadow->ho.'px' : '0px';
-            $vo = (isset($this->addon->settings->title_text_shadow->vo) && $this->addon->settings->title_text_shadow->vo != '') ? $this->addon->settings->title_text_shadow->vo.'px' : '0px';
-            $blur = (isset($this->addon->settings->title_text_shadow->blur) && $this->addon->settings->title_text_shadow->blur != '') ? $this->addon->settings->title_text_shadow->blur.'px' : '0px';
-            $color = (isset($this->addon->settings->title_text_shadow->color) && $this->addon->settings->title_text_shadow->color != '') ? $this->addon->settings->title_text_shadow->color : '';
+        if(isset($settings->title_text_shadow) && is_object($settings->title_text_shadow)){
+            $ho = (isset($settings->title_text_shadow->ho) && $settings->title_text_shadow->ho != '') ? $settings->title_text_shadow->ho.'px' : '0px';
+            $vo = (isset($settings->title_text_shadow->vo) && $settings->title_text_shadow->vo != '') ? $settings->title_text_shadow->vo.'px' : '0px';
+            $blur = (isset($settings->title_text_shadow->blur) && $settings->title_text_shadow->blur != '') ? $settings->title_text_shadow->blur.'px' : '0px';
+            $color = (isset($settings->title_text_shadow->color) && $settings->title_text_shadow->color != '') ? $settings->title_text_shadow->color : '';
 
             if(!empty($color)){
                 $style .= "text-shadow: ${ho} ${vo} ${blur} ${color};";
             }
         }
-
-        $style .= (isset($this->addon->settings->title_text_transform) && $this->addon->settings->title_text_transform) ? 'text-transform: ' . $this->addon->settings->title_text_transform  . '; ' : '';
 
         $css = '';
         if ($style) {
@@ -228,12 +228,15 @@ class SppagebuilderAddonHeading extends SppagebuilderAddons {
             }
         </style>
         <div class="sppb-addon sppb-addon-header {{ data.class }} {{ data.alignment }}">
-            <# if(data.use_link && data.title_link){ #><a {{ link_target }} href=\'{{ data.title_link }}\'><# } #>
-                <{{ data.heading_selector }} class="sppb-addon-title">
+            <#
+            let heading_selector = data.heading_selector || "h2";
+            if(data.use_link && data.title_link){ #><a {{ link_target }} href=\'{{ data.title_link }}\'><# }
+            #>
+                <{{ heading_selector }} class="sppb-addon-title">
                 <# if(data.title_icon && data.title_icon_position == "before"){ #><span class="fa {{ data.title_icon }} sppb-addon-title-icon"></span> <# } #>
-                {{{ data.title }}}
+                <span class="sp-inline-editable-element" data-id={{data.id}} data-fieldName="title" contenteditable="true">{{{ data.title }}}</span>
                 <# if(data.title_icon && data.title_icon_position == "after"){ #> <span class="fa {{ data.title_icon }} sppb-addon-title-icon"></span><# } #>
-                </{{ data.heading_selector }}>
+                </{{ heading_selector }}>
             <# if(data.use_link && data.title_link){ #></a><# } #>
         </div>
         ';

@@ -2,16 +2,26 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 //no direct accees
 defined ('_JEXEC') or die ('Restricted access');
+jimport('joomla.filesystem.file');
 
 class SppagebuilderControllerPage extends JControllerForm {
 
 	public function __construct($config = array()) {
 		parent::__construct($config);
+
+		// check have access
+		$user = JFactory::getUser();
+		$authorised = $user->authorise('core.edit', 'com_sppagebuilder');
+		if (!$authorised) {
+			die('Restricted Access');
+		}
+		// Check CSRF
+		\JSession::checkToken() or die('Restricted Access');
 	}
 
 	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
@@ -37,7 +47,7 @@ class SppagebuilderControllerPage extends JControllerForm {
 		$context  = 'com_sppagebuilder.edit.page';
 		$recordId = $data['id'];
 		$output = array();
-
+		
 		//Authorized
 		if (empty($recordId)) {
 			$authorised = $user->authorise('core.create', 'com_sppagebuilder') || (count((array) $user->getAuthorisedCategories('com_sppagebuilder', 'core.create')));
@@ -87,9 +97,14 @@ class SppagebuilderControllerPage extends JControllerForm {
 			die();
 		}
 
+		if($itemOld = $model->getPageItem($recordId)){
+			if($itemOld->extension == 'com_content' && $itemOld->extension_view == 'article' && $itemOld->view_id){
+				$data['catid'] = $itemOld->catid;
+			}
+		}
+
 		// Attempt to save the data.
 		if (!$model->save($data)) {
-
 			// Save the data in the session.
 			$app->setUserState('com_sppagebuilder.edit.page.data', $data);
 
@@ -122,6 +137,19 @@ class SppagebuilderControllerPage extends JControllerForm {
 				$this->holdEditId($context, $recordId);
 				$app->setUserState('com_sppagebuilder.edit.page.data', null);
 
+				// Convert json to readable article text
+				$oldPage = $model->getItem($recordId);
+				if($oldPage->extension == 'com_content' && $oldPage->extension_view == 'article') {
+					$model->addArticleFullText($oldPage->view_id, $oldPage->text);
+				}
+
+				// Delete generated CSS file
+				$css_folder_path = JPATH_ROOT . '/media/com_sppagebuilder/css';
+				$css_file_path = $css_folder_path . '/page-'. $recordId .'.css';
+				if(file_exists($css_file_path)) {
+					JFile::delete($css_file_path);
+				}
+
 				// Redirect back to the edit screen.
 				$output['redirect'] = $link . JRoute::_('index.php?option=com_sppagebuilder&view=form&layout=edit&tmpl=component&id=' . $recordId . '&Itemid=' . $Itemid);
 				$output['id'] = $recordId;
@@ -135,13 +163,6 @@ class SppagebuilderControllerPage extends JControllerForm {
 				// Redirect to the list screen.
 				$output['redirect'] = $link . JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
 				break;
-		}
-
-		if(isset($output['id']) && $output['id']){
-			$css_file_path = JPATH_ROOT . "/media/sppagebuilder/css/page-{$output['id']}.css";
-			if( file_exists( $css_file_path ) ) {
-				unlink( $css_file_path );
-			}
 		}
 
 		echo json_encode($output);
@@ -212,6 +233,12 @@ class SppagebuilderControllerPage extends JControllerForm {
 		die($model->deleteAddon($id));
 	}
 
+	public function myPages() {
+		$model = $this->getModel('Page');
+		$model->getMyPages();
+		die();
+	}
+
 	public function cancel($key = 'id') {
 		parent::cancel($key);
 		$return_url = JFactory::getApplication()->input->get('return_page',null,'base64');
@@ -219,4 +246,157 @@ class SppagebuilderControllerPage extends JControllerForm {
 		$this->setRedirect(base64_decode($return_url));
 	}
 
+	public function addToMenu() {
+		$output = array();
+
+		$data = $this->input->post->get('jform', array(), 'array');
+		$pageId = (int) $this->input->get->get('pageId', 0, 'INT');
+
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
+		$formModel = $this->getModel('Form');
+		$model = $this->getModel('Item', 'MenusModel');
+
+		//Check menu
+		$menuId = (isset($data['menuid']) && $data['menuid']) ? $data['menuid'] : 0;
+		$menutitle = (isset($data['menutitle']) && $data['menutitle']) ? $data['menutitle'] : '';
+		$menualias = (isset($data['menualias']) && $data['menualias']) ? $data['menualias'] : JFilterOutput::stringURLSafe($menutitle);
+		$menutype = (isset($data['menutype']) && $data['menutype']) ? $data['menutype'] : '';
+		$menuparent_id = (isset($data['menuparent_id']) && $data['menuparent_id']) ? $data['menuparent_id'] : 0;
+		$menuordering = (isset($data['menuordering']) && $data['menuordering']) ? $data['menuordering'] : -2;
+		$link = 'index.php?option=com_sppagebuilder&view=page&id=' . (int) $pageId;
+		$component_id = JComponentHelper::getComponent('com_sppagebuilder')->id;
+
+		$menu = $formModel->getMenuById($menuId);
+		$home = (isset($menu->home) && $menu->home) ? $menu->home : 0;
+		
+		$menuData = array(
+			'id' => (int) $menuId,
+			'link'=> $link,
+			'parent_id' => (int) $menuparent_id, 
+			'menutype' => htmlspecialchars($menutype),
+			'title' => htmlspecialchars($menutitle),
+			'alias' => htmlspecialchars($menualias),
+			'type' => 'component',
+			'published' => 1,
+			'language' => '*',
+			'component_id' => $component_id,
+			'menuordering' => (int) $menuordering,
+			'home' => (int) $home
+		);
+
+		$message = ($menuId) ? 'Menu successfully updated' : 'Added to a new menu';
+
+		if($model->save($menuData)) {
+			$menu = $formModel->getMenuByAlias($menualias);
+			$menuId = $menu->id;
+			$output['status'] = true;
+			$output['alias'] = $menualias;
+			$output['menuid'] = $menuId;
+			$output['success'] = $message;
+
+			$Itemid = $formModel->getMenuByPageId($pageId);
+			$menuItemId = 0;
+			if(isset($Itemid->id) && $Itemid->id) {
+				$menuItemId = '&Itemid=' . $Itemid->id;
+			}
+			$root = JURI::base();
+			$root = new JURI($root);
+			$link = $root->getScheme() . '://' . $root->getHost();
+			$output['redirect'] = $link . JRoute::_('index.php?option=com_sppagebuilder&view=form&layout=edit&tmpl=component&id=' . $pageId . $menuItemId);
+		} else {
+			$output['status'] = false;
+			$output['error'] = $model->getError();
+		}
+
+		die(json_encode($output));
+	}
+
+	public function getMenuParentItem() {
+
+		JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_menus/models');
+		$app = JFactory::getApplication();
+
+		$results  = array();
+		$menutype = $this->input->get->get('menutype', '');
+		$parent_id = $this->input->get->get('parent_id', 0);
+
+		if ($menutype) {
+			$model = $this->getModel('Items', 'MenusModel', array());
+			$model->getState();
+			$model->setState('filter.menutype', $menutype);
+			$model->setState('list.select', 'a.id, a.title, a.level');
+			$model->setState('list.start', '0');
+			$model->setState('list.limit', '0');
+
+			$results = $model->getItems();
+
+			for ($i = 0, $n = count($results); $i < $n; $i++) {
+				$results[$i]->title = str_repeat(' - ', $results[$i]->level) . $results[$i]->title;
+			}
+		}
+
+		echo json_encode($results);
+
+		$app->close();
+	}
+
+	private function saveMenu($menuId = 0, $pageId, $menutitle, $menualias, $menutype, $menuparent_id, $menuordering) {
+
+		
+	}
+
+	public function createNewPage() {
+		$output = array();
+		$app = JFactory::getApplication();
+
+		$user = JFactory::getUser();
+		$authorised = $user->authorise('core.create', 'com_sppagebuilder');
+		
+		if (!$authorised) {
+			$output['status'] = false;
+			$output['message'] = JText::_('JERROR_ALERTNOAUTHOR');
+			die(json_encode($output));
+		}
+
+		$title = trim(htmlspecialchars($this->input->post->get('title', '', 'STRING')));
+		$model = $this->getModel('Form');
+		$id = $model->createNewPage($title);
+
+		$root = JURI::base();
+		$root = new JURI($root);
+		$link = $root->getScheme() . '://' . $root->getHost();
+		$redirect = $link . JRoute::_('index.php?option=com_sppagebuilder&view=form&layout=edit&tmpl=component&id=' . $id);
+
+		$output['status'] = true;
+		$output['message'] = JText::_('Page created successfully.');
+		$output['redirect'] = $redirect;
+		die(json_encode($output));
+	}
+
+	public function deletePage() {
+		$output = array();
+		$app = JFactory::getApplication();
+
+		$user = JFactory::getUser();
+		$authorised = $user->authorise('core.delete', 'com_sppagebuilder');
+		
+		if (!$authorised) {
+			$output['status'] = false;
+			$output['message'] = JText::_('JERROR_ALERTNOAUTHOR');
+			die(json_encode($output));
+		}
+
+		$pageid = (int) $this->input->post->get('pageid', '', 'INT');
+
+		$model = $this->getModel('Form');
+		$result = $model->deletePage($pageid);
+
+		if(!$result) {
+			$output['message'] = JText::_('Unable to delete this page.');
+		}
+
+		$output['status'] = $result;
+		die(json_encode($output));
+	}
 }

@@ -27,7 +27,7 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
                     $class .= (isset($value->block) && $value->block) ? ' ' . $value->block : '';
                     $class .= (isset($value->shape) && $value->shape) ? ' sppb-btn-' . $value->shape : ' sppb-btn-rounded';
                     $class .= (isset($value->appearance) && $value->appearance) ? ' sppb-btn-' . $value->appearance : '';
-                    $attribs = (isset($value->target) && $value->target) ? ' target="' . $value->target . '"' : '';
+                    $attribs = (isset($value->target) && $value->target) ? ' rel="noopener noreferrer" target="' . $value->target . '"' : '';
                     $attribs .= (isset($value->url) && $value->url) ? ' href="' . $value->url . '"' : '';
                     $attribs .= ' id="btn-' . ($this->addon->id + $key) . '"';
                     $text = (isset($value->title) && $value->title) ? $value->title : '';
@@ -35,9 +35,9 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
                     $icon_position = (isset($value->icon_position) && $value->icon_position) ? $value->icon_position : 'left';
 
                     if ($icon_position == 'left') {
-                        $text = ($icon) ? '<i class="fa ' . $icon . '"></i> ' . $text : $text;
+                        $text = ($icon) ? '<i class="fa ' . $icon . '" aria-hidden="true"></i> ' . $text : $text;
                     } else {
-                        $text = ($icon) ? $text . ' <i class="fa ' . $icon . '"></i>' : $text;
+                        $text = ($icon) ? $text . ' <i class="fa ' . $icon . '" aria-hidden="true"></i>' : $text;
                     }
 
                     $output .= '<a' . $attribs . ' class="sppb-btn ' . $class . '">' . $text . '</a>';
@@ -110,7 +110,16 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
                     $options->button_padding = (isset($value->button_padding) && $value->button_padding) ? $value->button_padding : '';
                     $options->button_padding_sm = (isset($value->button_padding_sm) && $value->button_padding_sm) ? $value->button_padding_sm : '';
                     $options->button_padding_xs = (isset($value->button_padding_xs) && $value->button_padding_xs) ? $value->button_padding_xs : '';
-                    $options->fontsize = (isset($value->fontsize) && $value->fontsize) ? $value->fontsize : '';
+					$options->fontsize = (isset($value->fontsize) && $value->fontsize) ? $value->fontsize : '';
+					//Button Type Link
+					$options->link_button_color = (isset($value->link_button_color) && $value->link_button_color) ? $value->link_button_color : '';
+					$options->link_border_color = (isset($value->link_border_color) && $value->link_border_color) ? $value->link_border_color : '';
+					$options->link_button_border_width = (isset($value->link_button_border_width) && $value->link_button_border_width) ? $value->link_button_border_width : '';
+					$options->link_button_padding_bottom = (isset($value->link_button_padding_bottom) && gettype($value->link_button_padding_bottom)=='string') ? $value->link_button_padding_bottom : '';
+					//Link Hover
+					$options->link_button_hover_color = (isset($value->link_button_hover_color) && $value->link_button_hover_color) ? $value->link_button_hover_color : '';
+					$options->link_button_border_hover_color = (isset($value->link_button_border_hover_color) && $value->link_button_border_hover_color) ? $value->link_button_border_hover_color : '';
+					
                     $options->fontsize_sm = (isset($value->fontsize_sm) && $value->fontsize_sm) ? $value->fontsize_sm : '';
                     $options->fontsize_xs = (isset($value->fontsize_xs) && $value->fontsize_xs) ? $value->fontsize_xs : '';
                     $options->button_font_family = (isset($value->font_family) && $value->font_family) ? $value->font_family : '';
@@ -134,10 +143,6 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
                 }
             }
         }
-
-        // echo '<pre>';
-        // print_r($css);
-        // echo '</pre>';
 
         return $css;
     }
@@ -176,11 +181,10 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 					let font_size = "";
 					let font_size_sm = "";
 					let font_size_xs = "";
-
 					if(button.button_padding){
 						if(_.isObject(button.button_padding)){
-							if(button.button_padding.md.trim() !== ""){
-								button_padding = button.button_padding.md.split(" ").map(item => {
+							if(_.trim(button.button_padding.md) !== ""){
+								button_padding = _.split(button.button_padding.md, " ").map(item => {
 									if(_.isEmpty(item)){
 										return "0";
 									}
@@ -188,8 +192,8 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 								}).join(" ")
 							}
 
-							if(button.button_padding.sm.trim() !== ""){
-								button_padding_sm = button.button_padding.sm.split(" ").map(item => {
+							if(_.trim(button.button_padding.sm) !== ""){
+								button_padding_sm = _.split(button.button_padding.sm, " ").map(item => {
 									if(_.isEmpty(item)){
 										return "0";
 									}
@@ -197,8 +201,8 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 								}).join(" ")
 							}
 
-							if(button.button_padding.xs.trim() !== ""){
-								button_padding_xs = button.button_padding.xs.split(" ").map(item => {
+							if(_.trim(button.button_padding.xs) !== ""){
+								button_padding_xs = _.split(button.button_padding.xs, " ").map(item => {
 									if(_.isEmpty(item)){
 										return "0";
 									}
@@ -206,7 +210,7 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 								}).join(" ")
 							}
 						} else {
-							button_padding = button.button_padding.split(" ").map(item => {
+							button_padding = _.split(button.button_padding, " ").map(item => {
 								if(_.isEmpty(item)){
 									return "0";
 								}
@@ -215,21 +219,21 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 						}
 
 					}
-                                        if(_.isObject(button.fontsize)){
-                                            font_size += \'font-size:\'+ button.fontsize.md + \'px;\';
-                                        } else {
-                                            font_size += \'font-size:\'+ button.fontsize + \'px;\';
-                                        }
-                                        if(_.isObject(button.fontsize)){
-                                            font_size_sm += \'font-size:\'+ button.fontsize.sm + \'px;\';
-                                        } else {
-                                            font_size_sm += \'font-size:\'+ button.fontsize + \'px;\';
-                                        }
-                                        if(_.isObject(button.fontsize)){
-                                            font_size_xs += \'font-size:\'+ button.fontsize.xs + \'px;\';
-                                        } else {
-                                            font_size_xs += \'font-size:\'+ button.fontsize + \'px;\';
-                                        }
+					if(_.isObject(button.fontsize)){
+						font_size += \'font-size:\'+ button.fontsize.md + \'px;\';
+					} else {
+						font_size += \'font-size:\'+ button.fontsize + \'px;\';
+					}
+					if(_.isObject(button.fontsize)){
+						font_size_sm += \'font-size:\'+ button.fontsize.sm + \'px;\';
+					} else {
+						font_size_sm += \'font-size:\'+ button.fontsize + \'px;\';
+					}
+					if(_.isObject(button.fontsize)){
+						font_size_xs += \'font-size:\'+ button.fontsize.xs + \'px;\';
+					} else {
+						font_size_xs += \'font-size:\'+ button.fontsize + \'px;\';
+					}
 				#>
 				#sppb-addon-{{ addonId }} #btn-{{ addonId }}{{ key }}.sppb-btn-{{ button.type }}{
 					letter-spacing: {{ button.letterspace }};
@@ -281,13 +285,14 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 					#sppb-addon-{{ addonId }} #btn-{{ addonId }}{{ key }}.sppb-btn-custom{
 						color: {{ button.color }};
 						padding: {{ button_padding }};
-                                                {{font_size}}
+						{{font_size}}
 						<# if(button.appearance == "outline"){ #>
-							border-color: {{ button.background_color }}
+							border-color: {{ button.background_color }};
+							background-color: transparent;
 						<# } else if(button.appearance == "3d"){ #>
 							border-bottom-color: {{ button.background_color_hover }};
 							background-color: {{ button.background_color }};
-						<# } else if(button.appearance == "gradient"){ #>
+						<# } else if(button.appearance == "gradient" && _.isObject(button.background_gradient)){ #>
 							border: none;
 							<# if(typeof button.background_gradient.type !== "undefined" && button.background_gradient.type == "radial"){ #>
 								background-image: radial-gradient(at {{ button.background_gradient.radialPos || "center center"}}, {{ button.background_gradient.color }} {{ button.background_gradient.pos || 0 }}%, {{ button.background_gradient.color2 }} {{ button.background_gradient.pos2 || 100 }}%);
@@ -303,8 +308,8 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 						color: {{ button.color_hover }};
 						background-color: {{ button.background_color_hover }};
 						<# if(button.appearance == "outline"){ #>
-							border-color: {{ button.background_color_hover }}
-						<# } else if(button.appearance == "gradient"){ #>
+							border-color: {{ button.background_color_hover }};
+						<# } else if(button.appearance == "gradient" && _.isObject(button.background_gradient_hover)){ #>
 							<# if(typeof button.background_gradient_hover.type !== "undefined" && button.background_gradient_hover.type == "radial"){ #>
 								background-image: radial-gradient(at {{ button.background_gradient_hover.radialPos || "center center"}}, {{ button.background_gradient_hover.color }} {{ button.background_gradient_hover.pos || 0 }}%, {{ button.background_gradient_hover.color2 }} {{ button.background_gradient_hover.pos2 || 100 }}%);
 							<# } else { #>
@@ -314,16 +319,33 @@ class SppagebuilderAddonButton_group extends SppagebuilderAddons {
 					}
 					@media (min-width: 768px) and (max-width: 991px) {
 						#sppb-addon-{{ addonId }} #btn-{{ addonId }}{{ key }}.sppb-btn-custom{
-                                                    padding: {{ button_padding_sm }};
-                                                    {{font_size_sm}}
+							padding: {{ button_padding_sm }};
+							{{font_size_sm}}
 						}
 					}
 					@media (max-width: 767px) {
 						#sppb-addon-{{ addonId }} #btn-{{ addonId }}{{ key }}.sppb-btn-custom{
-                                                    padding: {{ button_padding_xs }};
-                                                    {{font_size_xs}}
+							padding: {{ button_padding_xs }};
+							{{font_size_xs}}
 						}
 					}
+				<# } #>
+				<# if(button.type == "link"){ #>
+					#sppb-addon-{{ addonId }} #btn-{{ addonId }}{{ key }}.sppb-btn-link{
+						color: {{button.link_button_color}};
+						border-color: {{button.link_border_color}};
+						border-width: 0 0 {{button.link_button_border_width}}px 0;
+						padding: 0 0 {{button.link_button_padding_bottom}}px 0;
+						text-decoration: none;
+						border-radius: 0;
+					}
+					<# if(button.link_button_status == "hover") { #>
+						#sppb-addon-{{ addonId }} #btn-{{ addonId }}{{ key }}.sppb-btn-link:hover,
+						#sppb-addon-{{ addonId }} #btn-{{ addonId }}{{ key }}.sppb-btn-link:focus{
+							color: {{button.link_button_hover_color}};
+							border-color: {{button.link_button_border_hover_color}};
+						}
+					<# } #>
 				<# } #>
 			<# }); #>
 

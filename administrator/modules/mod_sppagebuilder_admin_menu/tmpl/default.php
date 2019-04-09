@@ -2,7 +2,7 @@
 /**
  * @package SP Page Builder
  * @author JoomShaper http://www.joomshaper.com
- * @copyright Copyright (c) 2010 - 2017 JoomShaper
+ * @copyright Copyright (c) 2010 - 2019 JoomShaper
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
 */
 
@@ -53,7 +53,7 @@ if ($user->authorise('core.manage', 'com_sppagebuilder')) { ?>
 			</li>
 
 			<li>
-				<a href="<?php echo JRoute::_('https://www.joomshaper.com/documentation/joomla-extensions/sp-page-builder-2-x'); ?>" target="_blank">
+				<a href="<?php echo JRoute::_('https://www.joomshaper.com/documentation/sp-page-builder/sp-page-builder-3'); ?>" target="_blank">
 					<?php echo JText::_('MOD_MENU_COM_SPPAGEBUILDER_DOC');?>
 				</a>
 			</li>
